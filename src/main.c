@@ -1,7 +1,13 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-int main() {
+int main(int argc, char *argv[]) {
 
-    printf("Beginning of matruss project");
+    if (argc < 1) {
+        printf(" put matrix size");
+    }
+    int matrix[n]
+
+    return 0;
 
 }
