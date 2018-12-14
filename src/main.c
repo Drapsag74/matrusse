@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N = 1000
+#define sizeRow = 100
 
 int main(int argc, char *argv[]) {
 
@@ -15,8 +15,11 @@ int main(int argc, char *argv[]) {
 
 }
 
-int addRowFromTable(long long int * C,int row1, int row2) {
-    for (int i = 0; i < N; i++) {
-
+int addRowFromTable(long long int * C, int indexRowC, long long int * T, int indexRowT) {
+    long long int * rowC = C + indexRowC*sizeRow;
+    long long int * rowT = T + indexRowT*sizeRow;
+    for(int j=0; j<sizeRow/sizeof(long long int);j++){
+        rowC[j] ^= rowT[j];
     }
 }
+
