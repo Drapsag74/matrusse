@@ -3,26 +3,36 @@
 #include <stdlib.h>
 
 
-Matrice* aleaMatrixBinaire(int m,int n) {
+Matrice *aleaMatrixBinaire(int m, int n) {
+
+    printf("Creating a matrix of size %dx%d\n", m,n);
+    Matrice *matrice = malloc(sizeof(Matrice));
+    int nbColonne = n / (sizeof(long long int) * 8);
+
+    if (nbColonne * sizeof(long long int) * 8 == n) {
+        matrice->matrice = malloc(nbColonne * sizeof(long long int) * m);
+        matrice->m = m;
+        matrice->n = nbColonne;
+    } else {
+        matrice->matrice = malloc((nbColonne + 1) * sizeof(long long int) * m);
+        matrice->m = m;
+        matrice->n = nbColonne + 1;
+    }
+    for (int i = 0; i < matrice->m * matrice->n; i++) {
+        matrice->matrice[i] = rand();
+    }
+    return matrice;
+
+}
 
 
-  Matrice *matrice = malloc(sizeof(Matrice));
-  int nbColonne=m/(sizeof(long long int)*8);
-  printf("%d",nbColonne);
-
-  if(nbColonne*sizeof(long long int)*8==m){
-    matrice->matrice = malloc(nbColonne*sizeof(long long int)*n);
-    matrice->m=nbColonne;
-    matrice->n=n;
-  }else{
-    matrice->matrice = malloc((nbColonne+1)*sizeof(long long int)*n);
-    matrice->m=nbColonne+1;
-    matrice->n=n;
-  }
-  for (int i=0;i<(m/sizeof(long long int))/8*n;i++) {
-    printf("r");
-    matrice->matrice[i]=rand();
-  }
-  return matrice;
-
+void showMatrix(Matrice * M, unsigned int start, unsigned int end) {
+    unsigned int k = 1;
+    for (int i = start; i < end; i++) {
+        printf("k = %d : %llu;", k, M->matrice[i]);
+        if((k)%M->n == 0) {
+            printf("\n");
+        }
+        k++;
+    }
 }

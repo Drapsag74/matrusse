@@ -9,6 +9,6 @@ struct Matrice{
 };
 
 Matrice * aleaMatrixBinaire(int m,int n);
-
+void showMatrix(Matrice * M, unsigned int start, unsigned int end);
 
 #endif
