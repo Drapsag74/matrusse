@@ -3,9 +3,9 @@
 
 typedef struct Matrice Matrice;
 struct Matrice{
-  long long int * matrice;
-  int m;
-  int n;
+  long long int * value;
+  int m; //number of row
+  int n; //number of columns
 };
 
 Matrice * aleaMatrixBinaire(int m,int n);

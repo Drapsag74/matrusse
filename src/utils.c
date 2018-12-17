@@ -10,16 +10,16 @@ Matrice *aleaMatrixBinaire(int m, int n) {
     int nbColonne = n / (sizeof(long long int) * 8);
 
     if (nbColonne * sizeof(long long int) * 8 == n) {
-        matrice->matrice = malloc(nbColonne * sizeof(long long int) * m);
+        matrice->value = malloc(nbColonne * sizeof(long long int) * m);
         matrice->m = m;
         matrice->n = nbColonne;
     } else {
-        matrice->matrice = malloc((nbColonne + 1) * sizeof(long long int) * m);
+        matrice->value = malloc((nbColonne + 1) * sizeof(long long int) * m);
         matrice->m = m;
         matrice->n = nbColonne + 1;
     }
     for (int i = 0; i < matrice->m * matrice->n; i++) {
-        matrice->matrice[i] = rand();
+        matrice->value[i] = rand();
     }
     return matrice;
 
@@ -29,7 +29,7 @@ Matrice *aleaMatrixBinaire(int m, int n) {
 void showMatrix(Matrice * M, unsigned int start, unsigned int end) {
     unsigned int k = 1;
     for (int i = start; i < end; i++) {
-        printf("k = %d : %llu;", k, M->matrice[i]);
+        printf("k = %d : %llu;", k, M->value[i]);
         if((k)%M->n == 0) {
             printf("\n");
         }

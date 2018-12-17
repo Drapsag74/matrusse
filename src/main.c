@@ -6,9 +6,6 @@
 
 int main(int argc, char *argv[]) {
 
-    //if (argc < 1) {
-    //    printf(" put matrix size");
-    //}
     printf("Running test \n");
     Matrice * A = aleaMatrixBinaire(sizeRow, sizeRow);
     printf("m=%d, n=%d\n", A->m, A->n);
@@ -19,9 +16,9 @@ int main(int argc, char *argv[]) {
 
 }
 
-void addRowFromTable(Matrice * C, int indexRowC, long long int * T, int indexRowT) {
-    long long int * rowC = C->matrice + indexRowC*sizeRow;
-    long long int * rowT = T + indexRowT*sizeRow;
+void addRowFromTable(Matrice * C, int indexRowC, Matrice * T, int indexRowT) {
+    long long int * rowC = C->value + indexRowC*C->n;
+    long long int * rowT = T->value + indexRowT*T->n;
     for(int j = 0; j < C->n; j++){
         rowC[j] ^= rowT[j];
     }
@@ -29,8 +26,31 @@ void addRowFromTable(Matrice * C, int indexRowC, long long int * T, int indexRow
 
 long long int readBits(Matrice * A, int indexRow, int indexColumns, int k) {
     long long int id = 0;
-    for (int i = 0; i < k; i++) {
-        id ^= A->matrice[A->n*indexRow+indexColumns + i] << (k-i-1);
+    char * K = A->value + A->n*indexRow+indexColumns;
+    for (int i = 0; i < k/8; i++) {
+        id += K[i] << 8;
     }
     return id;
+}
+
+long long int readBits(Matrice * A, int indexRow, int indexColumns, int k) {
+    long long int id = 0;
+    char * K = A->value + A->n*indexRow+indexColumns;
+    for (int i = 0; i < k/8; i++) {
+        id += K[i] << 8;
+    }
+    return id;
+}
+
+long long int * MakeTable(Matrice * A, Matrice * B, int k){
+    long long int * T = malloc((A->n*sizeof(*A->value))<<k);
+    return T;
+}
+
+Matrice MethodeOfTheFourRussians(Matrice * A, Matrice * B, int k){
+
+    for (int i = 0; i < A->m; i++) {
+        id += K[i] << 8;
+    }
+
 }
