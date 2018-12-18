@@ -3,10 +3,10 @@
 #include <stdlib.h>
 
 
-Matrice *aleaMatrixBinaire(int m, int n) {
+matrix_t * aleaMatrixBinaire(int m, int n) {
 
     printf("Creating a matrix of size %dx%d\n", m,n);
-    Matrice *matrice = malloc(sizeof(Matrice));
+    matrix_t *matrice = malloc(sizeof(matrix_t));
     int nbColonne = n / (sizeof(long long int) * 8);
 
     if (nbColonne * sizeof(long long int) * 8 == n) {
@@ -26,13 +26,17 @@ Matrice *aleaMatrixBinaire(int m, int n) {
 }
 
 
-void showMatrix(Matrice * M, unsigned int start, unsigned int end) {
+void showMatrix(matrix_t * M, unsigned int start, unsigned int end) {
     unsigned int k = 1;
     for (int i = start; i < end; i++) {
-        printf("k = %d : %llu;", k, M->value[i]);
-        if((k)%M->n == 0) {
+        //printf("k = %d : %llu;", k, M->value[i]);
+        if ((k) % M->n == 0) {
             printf("\n");
         }
         k++;
     }
+}
+
+int64_t readInt64_t(matrix_t * A, int indexRow, int indexColumns) {
+    return A->value[A->n*indexRow+indexColumns];
 }
