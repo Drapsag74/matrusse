@@ -10,6 +10,7 @@
 int main(int argc, char *argv[]) {
     struct matrix_t * m= aleaMatrixBinaire(10,70);
     showMatrix(m);
+    printf("%8"PRIx64" ",readInt64_t(m,1,1));
     /*
     printf("Running test \n");
     matrix_t * A = aleaMatrixBinaire(sizeRow, sizeRow);

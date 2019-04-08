@@ -20,7 +20,9 @@ matrix_t * aleaMatrixBinaire(int m,int n);
 void showMatrix(matrix_t * M/*, unsigned int start, unsigned int end*/);
 
 //...
-int64_t readInt64_t(matrix_t * A, int indexRow, int indexColumns);
+//int64_t readInt64_t(matrix_t * A, int indexRow, int indexColumns);
+
+int64_t readInt64_t(matrix_t * matrice,long int indexRow,long int indexColumn);
 
 int64_t random_64();
 

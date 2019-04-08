@@ -61,12 +61,16 @@ void showMatrix(matrix_t * M/*, unsigned int start, unsigned int end*/) {
     }
 }
 
+int64_t readInt64_t(matrix_t * matrice,long int indexRow,long int indexColumns){
+    return matrice->value[indexRow*matrice->nbColonneInt+indexColumns];
+}
+
 int64_t random_64() {
     int64_t random=rand();
     random=random<<32;
     return  random+rand();
 }
 
-int64_t readInt64_t(matrix_t * A, int indexRow, int indexColumns) {
+/*int64_t readInt64_t(matrix_t * A, int indexRow, int indexColumns) {
     return A->value[A->n*indexRow+indexColumns];
-}
+}*/
