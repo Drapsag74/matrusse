@@ -8,7 +8,7 @@
 #define sizeRow 128
 
 int main(int argc, char *argv[]) {
-    struct matrix_t * m= aleaMatrixBinaire(10,128);
+    struct matrix_t * m= aleaMatrixBinaire(10,256);
     showMatrix(m);
     /*
     printf("Running test \n");

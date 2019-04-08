@@ -8,6 +8,7 @@
 typedef struct matrix_t matrix_t;
 struct matrix_t{
   int64_t * value;
+  int nbColonneInt;
   int m; //number of row
   int n; //number of columns
 };
