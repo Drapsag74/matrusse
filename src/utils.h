@@ -1,6 +1,9 @@
 #ifndef _utils_h  /* Include guard */
 #define _utils_h
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
+#include <inttypes.h>
 
 typedef struct matrix_t matrix_t;
 struct matrix_t{

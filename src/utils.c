@@ -1,10 +1,9 @@
 #include "utils.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 
 matrix_t * aleaMatrixBinaire(int m, int n) {
 
+    //TODO use inttype PRId64
     printf("Creating a matrix of size %dx%d\n", m,n);
     matrix_t *matrice = malloc(sizeof(matrix_t));
     int nbColonne = n / (sizeof(long long int) * 8);
@@ -29,6 +28,7 @@ matrix_t * aleaMatrixBinaire(int m, int n) {
 void showMatrix(matrix_t * M, unsigned int start, unsigned int end) {
     unsigned int k = 1;
     for (int i = start; i < end; i++) {
+        //TODO show matrix beautifully, USE inttypes macro PRId64
         //printf("k = %d : %llu;", k, M->value[i]);
         if ((k) % M->n == 0) {
             printf("\n");

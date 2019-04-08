@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <inttypes.h>
 #include "utils.h"
 
 
@@ -30,9 +32,10 @@ int64_t * createTable(matrix_t * B, int k){
 }
 
 int64_t * fillTable(int64_t * T, matrix_t * B, int k){
-    int p = 1 << k;
+    int64_t p = 1 << k;
     for(int i = 0; i < p; i++) {
-        printf("%d,",(i^(i>>1)));
+        printf(PRId64",",(i^(i>>1)));
+
         //1) calculer la table de gray (T) au fur et a mesure de la boucle grace a la formule ci-dessus
         //2) Trouver que le bit qui change par rapport au code precedent pour savoir quelle ligne de la matrice additionner
         //3) Mettre le résultat de l'addition dans la table T
