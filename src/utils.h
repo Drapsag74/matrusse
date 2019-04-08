@@ -22,4 +22,6 @@ void showMatrix(matrix_t * M/*, unsigned int start, unsigned int end*/);
 //...
 int64_t readInt64_t(matrix_t * A, int indexRow, int indexColumns);
 
+int64_t random_64();
+
 #endif

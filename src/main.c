@@ -3,12 +3,12 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include "utils.h"
-
+#include <math.h>
 
 #define sizeRow 128
 
 int main(int argc, char *argv[]) {
-    struct matrix_t * m= aleaMatrixBinaire(10,256);
+    struct matrix_t * m= aleaMatrixBinaire(10,70);
     showMatrix(m);
     /*
     printf("Running test \n");
