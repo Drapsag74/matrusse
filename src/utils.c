@@ -46,7 +46,7 @@ void showMatrix(matrix_t * M/*, unsigned int start, unsigned int end*/) {
     for (int i = 0; i < M->m*M->nbColonneInt; i++) {
         //TODO show matrix beautifully, USE inttypes macro PRId64
         //printf("k = %d : %llu;", k, M->value[i]);
-        printf("%8"PRIx64" ",M->value[i]);
+        printf("%16"PRIx64" ",M->value[i]);
         //printf(" %d et %d",(i+1)%(M->n/64+1),M->n/64);
         if((i+1)%(M->nbColonneInt)==0){
             printf("]\n");
