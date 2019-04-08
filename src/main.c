@@ -8,13 +8,15 @@
 #define sizeRow 128
 
 int main(int argc, char *argv[]) {
-
+    struct matrix_t * m= aleaMatrixBinaire(10,128);
+    showMatrix(m);
+    /*
     printf("Running test \n");
     matrix_t * A = aleaMatrixBinaire(sizeRow, sizeRow);
     printf("m=%d, n=%d\n", A->m, A->n);
 
     showMatrix(A, 0, (int)A->m * A->n);
-    readInt64_t(A,3,3);
+    readInt64_t(A,3,3);*/
     return 0;
 
 }

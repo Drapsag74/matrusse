@@ -16,7 +16,7 @@ struct matrix_t{
 matrix_t * aleaMatrixBinaire(int m,int n);
 
 //...
-void showMatrix(matrix_t * M, unsigned int start, unsigned int end);
+void showMatrix(matrix_t * M/*, unsigned int start, unsigned int end*/);
 
 //...
 int64_t readInt64_t(matrix_t * A, int indexRow, int indexColumns);
