@@ -44,9 +44,9 @@ int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumn);
  * @param indexRow - The index of the row of the first bits take
  * @param indexColumn - The index of the column (in int64_t not in bits) of the first bit take
  * @param nbBits - The numbers of bits who need to take
- * @return int16_t - the nbBits selected
+ * @return int64_t - the nbBits selected
  */
-int16_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits);
+int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits);
 
 /**
  *

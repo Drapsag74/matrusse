@@ -9,16 +9,16 @@ matrix_t * aleaMatrixBinaire(long int m,long int n) {
     matrice->m = m;
     matrice->n = n ;
 
-    if (matrice->nbColonneInt * sizeof(long long int) * 8 == n) {
+    if (matrice->nbColonneInt * sizeof(long long int) * 8 == n) {//The number of Column is a multiple of 64
         matrice->value = malloc(matrice->nbColonneInt * sizeof(long long int) * m);
         for (int i = 0; i < m * matrice->nbColonneInt; i++) {
             matrice->value[i] = random_64();
         }
-    } else {
+    } else {//The number of column isn't a multiple of 64
         matrice->nbColonneInt++;
         int64_t mask=0;
         int64_t tmp;
-        for(int i=0;i<matrice->n%64;i++){
+        for(int i=0;i<matrice->n%64;i++){//Creation of a mask to make the good size of last int64_t if a line
             tmp=1;
             tmp=tmp<<63-i;
             mask+=tmp;
@@ -55,11 +55,11 @@ int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumns){
     return m->value[indexRow*m->nbColonneInt+indexColumns];
 }
 
-int16_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits){
+int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits){
     int64_t ret=0;
     int64_t mask=0;
     long int debut=indexColumn/64;
-    if(debut==(indexColumn+nbBits)/64){
+    if(debut==(indexColumn+nbBits)/64){//if the number of column is a multiple of 64
         ret =readInt64_t(m,indexRow,debut);
         int emplacement=indexColumn%64;
         for(int i=emplacement;i<emplacement+nbBits;i++){
@@ -69,10 +69,11 @@ int16_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits)
         }
         ret=ret&mask;
         ret=ret>>64-emplacement-nbBits;
-    }else{
+    }else{//if the number of column isn't a multiple of 64 (the bits are in two int64_t different)
+        //First int64_t---------------------------------------------------------------------------
         int64_t ret2=readInt64_t(m,indexRow,debut);
         int emplacement=indexColumn%64;
-        for(int i=emplacement;i<64;i++){
+        for(int i=emplacement;i<64;i++){//creation of the first mask
             int64_t tmp=1;
             tmp=tmp<<63-i;
             mask+=tmp;
@@ -80,9 +81,10 @@ int16_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits)
         ret2=ret2&mask;
         ret2=ret2<<(emplacement+nbBits)%64;
 
+        //Second int64_t--------------------------------------------------------------------------
         int64_t ret3=readInt64_t(m,indexRow,debut+1);
         mask=0;
-        for(int i=0;i<(emplacement+nbBits)%64;i++){
+        for(int i=0;i<(emplacement+nbBits)%64;i++){//creation of the second mask
             int64_t tmp=1;
             tmp=tmp<<63-i;
             mask+=tmp;
@@ -90,9 +92,9 @@ int16_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits)
         ret3=ret3&mask;
         ret3=ret3>>64-(emplacement+nbBits)%64;
 
-        ret=ret2^ret3;
+        ret=ret2^ret3;//concatenation of the two int64_t
     }
-    return (int16_t)ret;
+    return ret;
 }
 
 int64_t random_64() {
