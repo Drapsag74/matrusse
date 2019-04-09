@@ -3,7 +3,6 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include "utils.h"
-#include <math.h>
 
 #define sizeRow 128
 
@@ -11,6 +10,7 @@ int main(int argc, char *argv[]) {
     struct matrix_t * m= aleaMatrixBinaire(10,128);
     showMatrix(m);
     printf("dddddd\n");
+    printf("%16"PRIx64" ",readInt64_t(m,0,0));
     printf("%16"PRIx64" ",extract(m,4,56,8));
     /*
     printf("Running test \n");
