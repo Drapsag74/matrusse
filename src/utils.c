@@ -1,9 +1,7 @@
 #include "utils.h"
 
 
-matrix_t * aleaMatrixBinaire(int m, int n) {
-
-    //TODO use inttype PRId64
+matrix_t * aleaMatrixBinaire(long int m,long int n) {
     printf("Creating a matrix of size %dx%d\n", m,n);
     matrix_t *matrice = malloc(sizeof(matrix_t));
     matrice->nbColonneInt=n / (sizeof(long long int) * 8);
@@ -40,25 +38,61 @@ matrix_t * aleaMatrixBinaire(int m, int n) {
 }
 
 
-void showMatrix(matrix_t * M/*, unsigned int start, unsigned int end*/) {
-    //unsigned int k = 1;
+void showMatrix(matrix_t * m) {
     printf("[");
-    for (int i = 0; i < M->m*M->nbColonneInt; i++) {
-        //TODO show matrix beautifully, USE inttypes macro PRId64
-        //printf("k = %d : %llu;", k, M->value[i]);
-        printf("%8"PRIx64" ",M->value[i]);
-        //printf(" %d et %d",(i+1)%(M->n/64+1),M->n/64);
-        if((i+1)%(M->nbColonneInt)==0){
+    for (int i = 0; i < m->m*m->nbColonneInt; i++) {
+        printf("%16"PRIx64" ",m->value[i]);
+        if((i+1)%(m->nbColonneInt)==0){
             printf("]\n");
-            if(i < M->m*M->nbColonneInt-1){
+            if(i < m->m*m->nbColonneInt-1){
                 printf("[");
             }
-        }/*
-        if ((k) % M->n == 0) {
-            printf("\n");
-        }*/
-        //k++;
+        }
     }
+}
+
+int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumns){
+    return m->value[indexRow*m->nbColonneInt+indexColumns];
+}
+
+int16_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits){
+    int64_t ret=0;
+    int64_t mask=0;
+    long int debut=indexColumn/64;
+    if(debut==(indexColumn+nbBits)/64){
+        ret =readInt64_t(m,indexRow,debut);
+        int emplacement=indexColumn%64;
+        for(int i=emplacement;i<emplacement+nbBits;i++){
+            int64_t tmp=1;
+            tmp=tmp<<63-i;
+            mask+=tmp;
+        }
+        ret=ret&mask;
+        ret=ret>>64-emplacement-nbBits;
+    }else{
+        int64_t ret2=readInt64_t(m,indexRow,debut);
+        int emplacement=indexColumn%64;
+        for(int i=emplacement;i<64;i++){
+            int64_t tmp=1;
+            tmp=tmp<<63-i;
+            mask+=tmp;
+        }
+        ret2=ret2&mask;
+        ret2=ret2<<(emplacement+nbBits)%64;
+
+        int64_t ret3=readInt64_t(m,indexRow,debut+1);
+        mask=0;
+        for(int i=0;i<(emplacement+nbBits)%64;i++){
+            int64_t tmp=1;
+            tmp=tmp<<63-i;
+            mask+=tmp;
+        }
+        ret3=ret3&mask;
+        ret3=ret3>>64-(emplacement+nbBits)%64;
+
+        ret=ret2^ret3;
+    }
+    return (int16_t)ret;
 }
 
 int64_t random_64() {
@@ -67,6 +101,3 @@ int64_t random_64() {
     return  random+rand();
 }
 
-int64_t readInt64_t(matrix_t * A, int indexRow, int indexColumns) {
-    return A->value[A->n*indexRow+indexColumns];
-}

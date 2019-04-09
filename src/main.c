@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include "utils.h"
-
+#include <math.h>
 
 #define sizeRow 128
 
