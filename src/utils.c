@@ -98,6 +98,17 @@ int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits)
     return ret;
 }
 
+long int getNbRow(matrix_t * m){
+    return m->m;
+}
+long int getNbColumn(matrix_t * m){
+    return m->nbColonneInt;
+}
+
+int64_t * getRow(matrix_t * m,long int indexRow){
+    return m->value[indexRow*m->nbColonneInt];
+}
+
 int64_t random_64() {
     int64_t random=rand();
     random=random<<32;

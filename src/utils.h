@@ -50,6 +50,27 @@ int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits)
 
 /**
  *
+ * @param m - The matrix
+ * @return The number of row of the matrix
+ */
+long int getNbRow(matrix_t * m);
+
+/**
+ *
+ * @param m - The matrix
+ * @return - The number
+ */
+long int getNbColumn(matrix_t * m);
+/**
+ *
+ * @param m - The matrix
+ * @param indexRow - The index of the row return
+ * @return return a pointer of the first element of row
+ */
+int64_t * getRow(matrix_t * m,long int indexRow);
+
+/**
+ *
  * @return a random int64_t
  */
 int64_t random_64();
