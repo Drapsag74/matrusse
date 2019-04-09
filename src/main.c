@@ -4,7 +4,7 @@
 #include <inttypes.h>
 #include <time.h>
 
-#include "utils.h"
+#include "matrix.h"
 #include "fourRussianAlgorithm.h"
 
 #define sizeRow 128
