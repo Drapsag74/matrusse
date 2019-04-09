@@ -1,5 +1,5 @@
-#ifndef _utils_h  /* Include guard */
-#define _utils_h
+#ifndef _matrix_h  /* Include guard */
+#define _matrix_h
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>

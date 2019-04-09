@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <inttypes.h>
-#include "utils.h"
+#include "matrix.h"
 
 /**
  * 4 russian method
