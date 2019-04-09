@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <inttypes.h>
-#include "utils.h"
+#include "matrix.h"
 #include <math.h>
 
 #define sizeRow 128
@@ -47,6 +47,7 @@ void fillTable2(int64_t * T, matrix_t * B, int k, int k_){
 int main(int argc, char *argv[]) {
     struct matrix_t * m= aleaMatrixBinaire(10,70);
     showMatrix(m);
+
     /*
     printf("Running test \n");
     matrix_t * A = aleaMatrixBinaire(sizeRow, sizeRow);
