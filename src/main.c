@@ -3,9 +3,46 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include "utils.h"
-#include <math.h>
+
 
 #define sizeRow 128
+
+void addRowFromTable(matrix_t * C, int indexRowC, matrix_t * T, int indexRowT) {
+    int64_t * rowC = C->value[indexRowC*C->n];
+    int64_t * rowT = T->value[indexRowT*T->n];
+    for(int i = 0; i < C->n; i++){
+        rowC[i] ^= rowT[i];
+    }
+}
+
+int64_t * createTable(matrix_t * B, int k){
+    int64_t * T = malloc(((B->nbColonneInt)*sizeof(B->value[0]))<<k);
+}
+
+//note : k_ sert à stocker la valeur initiale de k
+void fillTable2(int64_t * T, matrix_t * B, int k, int k_){
+    if(k==0)
+    {
+        for(int i=0;i<B->nbColonneInt;i++)
+        {
+            T[i]=0;
+        }
+    }
+    else
+    {
+        fillTable(T,B,k-1,k_);
+        int temp=1<<k-1;
+        for(int i=0;i<temp;i++)
+        {
+            //printf("\n%d\n",i);
+            for(int j=0;j<B->nbColonneInt;j++)
+            {
+                //printf("%d ",j):
+                T[(temp+i)*(B->nbColonneInt)+j]=T[i*(B->nbColonneInt)+j]^(B->value[(k_-k)*(B->nbColonneInt)+j]);
+            }
+        }
+    }
+}
 
 int main(int argc, char *argv[]) {
     struct matrix_t * m= aleaMatrixBinaire(10,70);
