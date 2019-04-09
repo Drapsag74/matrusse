@@ -30,7 +30,7 @@ void fillTable2(int64_t * T, matrix_t * B, int k, int k_){
     }
     else
     {
-        fillTable(T,B,k-1,k_);
+        fillTable2(T,B,k-1,k_);
         int temp=1<<k-1;
         for(int i=0;i<temp;i++)
         {
@@ -58,17 +58,7 @@ int main(int argc, char *argv[]) {
 
 }
 
-void addRowFromTable(matrix_t * C, int indexRowC, matrix_t * T, int indexRowT) {
-    int64_t * rowC = C->value[indexRowC*C->n];
-    int64_t * rowT = T->value[indexRowT*T->n];
-    for(int i = 0; i < C->n; i++){
-        rowC[i] ^= rowT[i];
-    }
-}
 
-int64_t * createTable(matrix_t * B, int k){
-    int64_t * T = malloc((B->n*sizeof(B->value[0]))<<k);
-}
 
 int64_t * fillTable(int64_t * T, matrix_t * B, int k){
     int64_t p = 1 << k;

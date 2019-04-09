@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "time.h"
 
 
 matrix_t * aleaMatrixBinaire(long int m,long int n) {
