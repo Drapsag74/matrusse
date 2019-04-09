@@ -3,7 +3,13 @@
 #include "unistd.h"
 #include "time.h"
 
-
+/**
+ * /
+ * @param A Matrix in dimension nxp
+ * @param B Matrix in dimension pxn
+ * @param M Matrix (AxB)
+ * @return a boolean (1==true / 0==false) if the diagonal of M is true
+ */
 int64_t testDiag(matrix_t * A, matrix_t * B, matrix_t * M){
     int8_t b = 1;
     for(int64_t i = 0; i<(A->m); i++){
@@ -20,6 +26,14 @@ int64_t testDiag(matrix_t * A, matrix_t * B, matrix_t * M){
     return b;
 }
 
+/**
+ *
+ * @param A Matrix in dimension nxp
+ * @param B Matrix in dimension pxn
+ * @param M Matrix (AxB)
+ * @param a an integer
+ * @return a boolean (1==true / 0==false) if the multiplication is true (with probability (1/2)^a)
+ */
 int64_t testMonteCarlo(matrix_t * A, matrix_t * B, matrix_t * M,int64_t a) {
     int64_t b = 1;
     time_t t;
