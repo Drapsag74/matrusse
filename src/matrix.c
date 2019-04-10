@@ -47,6 +47,7 @@ matrix_t * nullMatrix(long int m,long int n) {
         matrice->value = malloc(matrice->nbColonneInt * sizeof(long long int) * m);
     }else{
         matrice->nbColonneInt++;
+        matrice->value = malloc(matrice->nbColonneInt * sizeof(long long int) * m);
     }
     for (int i = 0; i < m * matrice->nbColonneInt; i++) {
         matrice->value[i] = 0;
@@ -86,7 +87,10 @@ int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumns){
     return m->value[indexRow*m->nbColonneInt+indexColumns];
 }
 
-/*int64_t readInt128i(matrix_t * m,long int indexRow,long int indexColumn){
+/*__m128i readInt128i(matrix_t * m,long int indexRow,long int indexColumn){
+    if(indexColumn*2+1<=m->nbColonneInt){
+        return _mm_set_epi64()
+    }
     return
 }*/
 
