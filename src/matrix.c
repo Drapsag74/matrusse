@@ -1,9 +1,8 @@
 #include "matrix.h"
 #include "time.h"
-
+#include <emmintrin.h>
 
 matrix_t * aleaMatrixBinaire(long int m,long int n) {
-    //test
     printf("Creating a matrix of size %dx%d\n", m,n);
     matrix_t *matrice = malloc(sizeof(matrix_t));
     matrice->nbColonneInt=n / (sizeof(long long int) * 8);
@@ -38,6 +37,23 @@ matrix_t * aleaMatrixBinaire(long int m,long int n) {
     return matrice;
 
 }
+matrix_t * nullMatrix(long int m,long int n) {
+    printf("Creating a matrix of size %dx%d\n", m,n);
+    matrix_t *matrice = malloc(sizeof(matrix_t));
+    matrice->nbColonneInt=n / (sizeof(long long int) * 8);
+    matrice->m = m;
+    matrice->n = n ;
+
+    if (matrice->nbColonneInt * sizeof(long long int) * 8 == n) {
+        matrice->value = malloc(matrice->nbColonneInt * sizeof(long long int) * m);
+    }else{
+        matrice->nbColonneInt++;
+    }
+    for (int i = 0; i < m * matrice->nbColonneInt; i++) {
+        matrice->value[i] = 0;
+    }
+    return matrice;
+}
 
 
 void showMatrix(matrix_t * m) {
@@ -56,6 +72,10 @@ void showMatrix(matrix_t * m) {
 int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumns){
     return m->value[indexRow*m->nbColonneInt+indexColumns];
 }
+
+/*int64_t readInt128i(matrix_t * m,long int indexRow,long int indexColumn){
+    return
+}*/
 
 int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits){
     int64_t ret=0;

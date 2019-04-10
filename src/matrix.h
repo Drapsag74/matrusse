@@ -22,6 +22,8 @@ struct matrix_t{
  */
 matrix_t * aleaMatrixBinaire(long int m,long int n);
 
+matrix_t * nullMatrix(long int m,long int n);
+
 /**
  *
  * @param m
@@ -37,6 +39,8 @@ void showMatrix(matrix_t * m);
  * @return The int64_t in position (indexRow,indexColumn)
  */
 int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumn);
+
+//int64_t readInt128i(matrix_t * m,long int indexRow,long int indexColumn);
 
 /**
  *
