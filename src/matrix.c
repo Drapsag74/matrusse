@@ -6,7 +6,6 @@ matrix_t * aleaMatrixBinaire(long int m,long int n) {
     printf("Creating a matrix of size %dx%d\n", m,n);
     matrix_t *matrice = malloc(sizeof(matrix_t));
     matrice->nbColonneInt=n / (sizeof(long long int) * 8);
-    int nbInt=0;
     matrice->m = m;
     matrice->n = n ;
 
@@ -128,6 +127,15 @@ long int getNbColumn(matrix_t * m){
 
 int64_t * getRow(matrix_t * m,long int indexRow){
     return m->value[indexRow*m->nbColonneInt];
+}
+
+matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow){
+    matrix_t * matrice = malloc(sizeof(matrix_t));
+    matrice->m = indexLastRow-indexFirstRow+1;
+    matrice->n = m->n ;
+    matrice->nbColonneInt=m->nbColonneInt;
+    matrice->value=m->value+indexFirstRow*m->nbColonneInt;
+    return matrice;
 }
 
 int64_t random_64() {

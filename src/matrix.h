@@ -16,12 +16,18 @@ struct matrix_t{
 //...
 /**
  *
- * @param m
- * @param n
+ * @param m - The number of row
+ * @param n - The number of column
  * @return struct matrix_t of size (m,n)
  */
 matrix_t * aleaMatrixBinaire(long int m,long int n);
 
+/**
+ *
+ * @param m - The number of row
+ * @param n - The number of column
+ * @return a matrix whise all bits = 0
+ */
 matrix_t * nullMatrix(long int m,long int n);
 
 /**
@@ -72,6 +78,8 @@ long int getNbColumn(matrix_t * m);
  * @return return a pointer of the first element of row
  */
 int64_t * getRow(matrix_t * m,long int indexRow);
+
+matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow);
 
 /**
  *
