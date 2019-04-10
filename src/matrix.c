@@ -59,9 +59,10 @@ matrix_t * identiterMatrix(long int m){
     int64_t * tmp;
     int64_t mask;
     for(int i=0;i<=matrice->m;i++){
-        tmp=getRow(matrice,i-1);
+        tmp=getRow(matrice,i);
         mask=1;
-        mask=mask<<64-(i%64);
+        mask=mask<<63-(i%64);
+
         tmp[i/64]=mask;
     }
     return matrice;
