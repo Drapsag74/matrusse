@@ -4,12 +4,6 @@
 
 #include "fourRussianAlgorithm.h"
 
-matrix_t *  MethodFourRussianMultiplication(matrix_t * A, matrix_t * B, int32_t k) {
-    matrix_t * C = malloc(sizeof(matrix_t));
-
-    return C;
-}
-
 void addRowFromTable(matrix_t * C, int indexRowC, matrix_t * T, int indexRowT) {
     int64_t * rowC = C->value + indexRowC*C->n;
     int64_t * rowT = T->value + indexRowT*T->n;
@@ -88,4 +82,27 @@ void showT(int64_t * T, int64_t size, int64_t k) {
         printf("]");
         printf("\n");
     }
+}
+
+matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
+{
+    matrix_t * result=nullMatrix(A->m,B->n);
+    int64_t * T=createTable(B,k);
+    matrix_t * B_;
+    for(int i=0;i<A->n/k;i++)
+    {
+        B_=getBloc(B,i*k,(i+1)*k-1);
+        fillTable2(T,B_,k,k);
+        for(int j=0;j<A->m;j++)
+        {
+            int64_t index=extract(A,j,k*i,k);
+            for(int k=0;k<B->nbColonneInt;k++)
+            {
+                result->value[j*B->nbColonneInt+k]=readInt64_t(result,j,k)^T[index*B->nbColonneInt+k];
+            }
+        }
+        freeBloc(B_);
+    }
+    free(T);
+    return result;
 }

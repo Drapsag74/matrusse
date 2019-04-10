@@ -9,14 +9,6 @@
 #include <inttypes.h>
 #include "matrix.h"
 
-/**
- * 4 russian method
- * @param A
- * @param B
- * @param k
- * @return C the matrix resulting of A*B
- */
-matrix_t *  MethodFourRussianMultiplication(matrix_t * A, matrix_t * B, int32_t k);
 void addRowFromTable(matrix_t * C, int indexRowC, matrix_t * T, int indexRowT);
 /**
  * Create the table of linear combination
@@ -28,6 +20,14 @@ int64_t * createTable(matrix_t * B, int k);
 void fillTable2(int64_t * T, matrix_t * B, int k, int k_);
 void fillTable(int64_t * T, matrix_t * B, int k);
 void showT(int64_t * T, int64_t size, int64_t k);
+/**
+ * 4 russian method
+ * @param A
+ * @param B
+ * @param k
+ * @return C the matrix resulting of A*B
+ */
+matrix_t * matrusse(matrix_t * A, matrix_t * B, int k);
 
 
 #endif //MATRUSSE_FOURRUSSIANALGORITHM_H
