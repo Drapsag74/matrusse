@@ -119,7 +119,7 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
             }
         }
         freeBloc(B_);
+        free(T);
     }
-    free(T);
     return result;
 }
