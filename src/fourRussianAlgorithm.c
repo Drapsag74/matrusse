@@ -96,9 +96,26 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
         for(int j=0;j<A->m;j++)
         {
             int64_t index=extract(A,j,k*i,k);
-            for(int k=0;k<B->nbColonneInt;k++)
+            for(int l=0;l<B->nbColonneInt;l++)
             {
-                result->value[j*B->nbColonneInt+k]=readInt64_t(result,j,k)^T[index*B->nbColonneInt+k];
+                result->value[j*B->nbColonneInt+l]=readInt64_t(result,j,l)^T[index*B->nbColonneInt+l];
+            }
+        }
+        freeBloc(B_);
+    }
+    free(T);
+    int k_=A->n%k;
+    if(k_!=0)
+    {
+        T=createTable(B,k_);
+        B_=getBloc(B,B->m-k_,B->m-1);
+        fillTable2(T,B_,k_,k_);
+        for(int j=0;j<A->m;j++)
+        {
+            int64_t index=extract(A,j,A->n-k_,k_);
+            for(int l=0;l<B->nbColonneInt;l++)
+            {
+                result->value[j*B->nbColonneInt+l]=readInt64_t(result,j,l)^T[index*B->nbColonneInt+l];
             }
         }
         freeBloc(B_);
