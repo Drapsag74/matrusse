@@ -1,13 +1,11 @@
 #include "matrix.h"
 #include "time.h"
-
+#include <emmintrin.h>
 
 matrix_t * aleaMatrixBinaire(long int m,long int n) {
-    //test
     printf("Creating a matrix of size %dx%d\n", m,n);
     matrix_t *matrice = malloc(sizeof(matrix_t));
     matrice->nbColonneInt=n / (sizeof(long long int) * 8);
-    int nbInt=0;
     matrice->m = m;
     matrice->n = n ;
 
@@ -38,6 +36,23 @@ matrix_t * aleaMatrixBinaire(long int m,long int n) {
     return matrice;
 
 }
+matrix_t * nullMatrix(long int m,long int n) {
+    printf("Creating a matrix of size %dx%d\n", m,n);
+    matrix_t *matrice = malloc(sizeof(matrix_t));
+    matrice->nbColonneInt=n / (sizeof(long long int) * 8);
+    matrice->m = m;
+    matrice->n = n ;
+
+    if (matrice->nbColonneInt * sizeof(long long int) * 8 == n) {
+        matrice->value = malloc(matrice->nbColonneInt * sizeof(long long int) * m);
+    }else{
+        matrice->nbColonneInt++;
+    }
+    for (int i = 0; i < m * matrice->nbColonneInt; i++) {
+        matrice->value[i] = 0;
+    }
+    return matrice;
+}
 
 
 void showMatrix(matrix_t * m) {
@@ -56,6 +71,10 @@ void showMatrix(matrix_t * m) {
 int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumns){
     return m->value[indexRow*m->nbColonneInt+indexColumns];
 }
+
+/*int64_t readInt128i(matrix_t * m,long int indexRow,long int indexColumn){
+    return
+}*/
 
 int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits){
     int64_t ret=0;
@@ -110,9 +129,26 @@ int64_t * getRow(matrix_t * m,long int indexRow){
     return m->value[indexRow*m->nbColonneInt];
 }
 
+matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow){
+    matrix_t * matrice = malloc(sizeof(matrix_t));
+    matrice->m = indexLastRow-indexFirstRow+1;
+    matrice->n = m->n ;
+    matrice->nbColonneInt=m->nbColonneInt;
+    matrice->value=m->value+indexFirstRow*m->nbColonneInt;
+    return matrice;
+}
+
 int64_t random_64() {
     int64_t random=rand();
     random=random<<32;
     return  random+rand();
 }
 
+void freeBloc(matrix_t * m){
+    free(m);
+}
+
+void freeMatrix(matrix_t * m){
+    free(m->value);
+    free(m);
+}

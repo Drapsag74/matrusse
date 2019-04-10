@@ -16,11 +16,19 @@ struct matrix_t{
 //...
 /**
  *
- * @param m
- * @param n
+ * @param m - The number of row
+ * @param n - The number of column
  * @return struct matrix_t of size (m,n)
  */
 matrix_t * aleaMatrixBinaire(long int m,long int n);
+
+/**
+ *
+ * @param m - The number of row
+ * @param n - The number of column
+ * @return a matrix whise all bits = 0
+ */
+matrix_t * nullMatrix(long int m,long int n);
 
 /**
  *
@@ -37,6 +45,8 @@ void showMatrix(matrix_t * m);
  * @return The int64_t in position (indexRow,indexColumn)
  */
 int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumn);
+
+//int64_t readInt128i(matrix_t * m,long int indexRow,long int indexColumn);
 
 /**
  *
@@ -69,10 +79,16 @@ long int getNbColumn(matrix_t * m);
  */
 int64_t * getRow(matrix_t * m,long int indexRow);
 
+matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow);
+
 /**
  *
  * @return a random int64_t
  */
 int64_t random_64();
+
+void freeBloc(matrix_t * m);
+
+void freeMatrix(matrix_t * m);
 
 #endif
