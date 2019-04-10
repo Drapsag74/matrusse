@@ -2,46 +2,75 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <inttypes.h>
-#include "utils.h"
-#include <math.h>
+#include <time.h>
+#include <string.h>
 
-#define sizeRow 128
+#include "matrix.h"
+#include "fourRussianAlgorithm.h"
+
+
+void showHelp() {
+    printf("You must give at least one argument for the size of the matrix\n"
+           "Matrusse n [m] [-options]\n"
+           "Available options are : \n"
+           "-b : choose the algorithm you want to test\n"
+           "-h : help\n");
+}
+
+int64_t bench(char * arg) {
+
+    if(strcmp(arg,"-b=1") == 0) {
+        return 1;
+    } else {
+        return 2;
+    }
+}
 
 int main(int argc, char *argv[]) {
-    struct matrix_t * m= aleaMatrixBinaire(1000,1000);
-    showMatrix(m);
-    printf("%16"PRIx64" ",readInt64_t(m,1,1));
-    /*
-    printf("Running test \n");
-    matrix_t * A = aleaMatrixBinaire(sizeRow, sizeRow);
-    printf("m=%d, n=%d\n", A->m, A->n);
 
-    showMatrix(A, 0, (int)A->m * A->n);
-    readInt64_t(A,3,3);*/
+    if(argc == 1) {
+        showHelp();
+        return 0;
+    }
+    int64_t n = 0;
+    int64_t  m = 0;
+    int64_t algo = 2;
+
+    if(argc == 2) {
+        n = atoi(argv[1]);
+        m = n;
+    } else if (argc > 2 || argv[2][0] != '-') {
+        n = atoi(argv[1]);
+        m = atoi(argv[2]);
+    }
+
+    int64_t k = n;
+    matrix_t * A = aleaMatrixBinaire(n,m);
+    int64_t * T = createTable(A, k);
+
+    for (int i = 2; i < argc; i++) {
+        if(argv[i][0] == '-') {
+            switch(argv[i][1]) {
+                case 'b' :
+                    algo = bench(argv[i]);
+            }
+        }
+    }
+
+    if(algo == 1) {
+        printf("exec algo 1");
+        clock_t t = clock();
+        fillTable(T,A,k);
+        clock_t t2 = clock();
+        printf("Temps d'exec : %d", t2-t);
+    } else {
+        clock_t t = clock();
+        fillTable2(T, A, k,k);
+        clock_t t2 = clock();
+        printf("Temps d'exec : %d", t2-t);
+    }
+
     return 0;
 
 }
 
-void addRowFromTable(matrix_t * C, int indexRowC, matrix_t * T, int indexRowT) {
-    int64_t * rowC = C->value[indexRowC*C->n];
-    int64_t * rowT = T->value[indexRowT*T->n];
-    for(int i = 0; i < C->n; i++){
-        rowC[i] ^= rowT[i];
-    }
-}
-
-int64_t * createTable(matrix_t * B, int k){
-    int64_t * T = malloc((B->n*sizeof(B->value[0]))<<k);
-}
-
-int64_t * fillTable(int64_t * T, matrix_t * B, int k){
-    int64_t p = 1 << k;
-    for(int i = 0; i < p; i++) {
-        printf(PRId64",",(i^(i>>1)));
-
-        //1) calculer la table de gray (T) au fur et a mesure de la boucle grace a la formule ci-dessus
-        //2) Trouver que le bit qui change par rapport au code precedent pour savoir quelle ligne de la matrice additionner
-        //3) Mettre le résultat de l'addition dans la table T
-        //indication: une secode bouble imbriqué devra faire les xor 64 par 64 jusqu'a la fin de la ligne pour l'addition
-    }
-}
