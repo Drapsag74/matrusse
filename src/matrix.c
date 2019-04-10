@@ -54,6 +54,19 @@ matrix_t * nullMatrix(long int m,long int n) {
     return matrice;
 }
 
+matrix_t * identiterMatrix(long int m){
+    matrix_t * matrice =nullMatrix(m,m);
+    int64_t * tmp;
+    int64_t mask;
+    for(int i=0;i<=matrice->m;i++){
+        tmp=getRow(matrice,i-1);
+        mask=1;
+        mask=mask<<64-(i%64);
+        tmp[i/64]=mask;
+    }
+    return matrice;
+}
+
 
 void showMatrix(matrix_t * m) {
     printf("[");
@@ -126,7 +139,7 @@ long int getNbColumn(matrix_t * m){
 }
 
 int64_t * getRow(matrix_t * m,long int indexRow){
-    return m->value[indexRow*m->nbColonneInt];
+    return m->value+indexRow*m->nbColonneInt;
 }
 
 matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow){

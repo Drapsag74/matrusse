@@ -30,6 +30,8 @@ matrix_t * aleaMatrixBinaire(long int m,long int n);
  */
 matrix_t * nullMatrix(long int m,long int n);
 
+matrix_t * identiterMatrix(long int m);
+
 /**
  *
  * @param m
@@ -79,6 +81,13 @@ long int getNbColumn(matrix_t * m);
  */
 int64_t * getRow(matrix_t * m,long int indexRow);
 
+/**
+ *
+ * @param m - The matrix
+ * @param indexFirstRow - The index of the first row of the bloc
+ * @param indexLastRow - The index of the last row of the bloc
+ * @return
+ */
 matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow);
 
 /**
@@ -87,8 +96,16 @@ matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow);
  */
 int64_t random_64();
 
+/**
+ *
+ * @param m - The Bloc who need to be free
+ */
 void freeBloc(matrix_t * m);
 
+/**
+ *
+ * @param m - The Matrix who need to be free
+ */
 void freeMatrix(matrix_t * m);
 
 #endif
