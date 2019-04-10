@@ -144,3 +144,11 @@ int64_t random_64() {
     return  random+rand();
 }
 
+void freeBloc(matrix_t * m){
+    free(m);
+}
+
+void freeMatrix(matrix_t * m){
+    free(m->value);
+    free(m);
+}

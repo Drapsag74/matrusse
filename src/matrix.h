@@ -87,4 +87,8 @@ matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow);
  */
 int64_t random_64();
 
+void freeBloc(matrix_t * m);
+
+void freeMatrix(matrix_t * m);
+
 #endif
