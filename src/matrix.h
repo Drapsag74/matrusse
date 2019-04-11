@@ -111,6 +111,11 @@ long int getNbColumn(matrix_t * m);
  */
 int64_t * getRow(matrix_t * m,long int indexRow);
 
+void writeInt64_t(matrix_t * m,long int indexRow,long int indexColumn, int64_t val);
+
+void writeInt128i(matrix_t * m,long int indexRow,long int indexColumn, __m128i val);
+
+void writeInt256i(matrix_t * m,long int indexRow,long int indexColumn, __m256i val);
 
 
 /**

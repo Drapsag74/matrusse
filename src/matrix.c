@@ -133,6 +133,32 @@ __m256i readInt256i(matrix_t * m,long int indexRow,long int indexColumn){
     return _mm256_set_epi64x(0,0,0,0);//pas normal
 }
 
+
+void writeInt64_t(matrix_t * m,long int indexRow,long int indexColumn, int64_t val){
+    m->value[indexRow*m->nbColonneInt+indexColumn]=val;
+    return ;
+}
+void writeInt128i(matrix_t * m,long int indexRow,long int indexColumn, __m128i val){
+    m->value[indexRow*m->nbColonneInt+indexColumn*2]=val[0];
+    if(val[1]!=0){
+        m->value[indexRow*m->nbColonneInt+indexColumn*2+1]=val[1];
+    }
+    return ;
+}
+void writeInt256i(matrix_t * m,long int indexRow,long int indexColumn, __m256i val){
+    m->value[indexRow*m->nbColonneInt+indexColumn*4]=val[0];
+    if(val[1]!=0 && val[2]!=0 && val[3]!=0){
+        m->value[indexRow*m->nbColonneInt+indexColumn*4+1]=val[1];
+        if(val[2]!=0 && val[3]!=0){
+            m->value[indexRow*m->nbColonneInt+indexColumn*4+2]=val[2];
+            if(val[3]!=0){
+                m->value[indexRow*m->nbColonneInt+indexColumn*4+3]=val[3];
+            }
+        }
+    }
+    return ;
+}
+
 int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits){
     int64_t ret=0;
     int64_t mask=0;
@@ -207,9 +233,12 @@ int64_t random_64() {
 
 void freeBloc(matrix_t * m){
     free(m);
+    m=NULL;
 }
 
 void freeMatrix(matrix_t * m){
     free(m->value);
+    m->value=NULL;
     free(m);
+    m=NULL;
 }
