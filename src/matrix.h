@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <inttypes.h>
+#include <emmintrin.h>
+#include <immintrin.h>
 
 typedef struct matrix_t matrix_t;
 struct matrix_t{
@@ -39,6 +41,8 @@ matrix_t * identiterMatrix(long int m);
  */
 void showMatrix(matrix_t * m);
 
+void showMatrixBits(matrix_t * m);
+
 /**
  *
  * @param m -The matrix
@@ -48,7 +52,11 @@ void showMatrix(matrix_t * m);
  */
 int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumn);
 
-//int64_t readInt128i(matrix_t * m,long int indexRow,long int indexColumn);
+
+__m128i readInt128i(matrix_t * m,long int indexRow,long int indexColumn);
+
+
+__m256i readInt256i(matrix_t * m,long int indexRow,long int indexColumn);
 
 /**
  *
@@ -80,6 +88,8 @@ long int getNbColumn(matrix_t * m);
  * @return return a pointer of the first element of row
  */
 int64_t * getRow(matrix_t * m,long int indexRow);
+
+
 
 /**
  *

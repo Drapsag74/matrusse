@@ -1,6 +1,6 @@
 #include "matrix.h"
 #include "time.h"
-#include <emmintrin.h>
+
 
 matrix_t * aleaMatrixBinaire(long int m,long int n) {
     printf("Creating a matrix of size %dx%d\n", m,n);
@@ -37,7 +37,7 @@ matrix_t * aleaMatrixBinaire(long int m,long int n) {
 
 }
 matrix_t * nullMatrix(long int m,long int n) {
-    printf("Creating a matrix of size %dx%d\n", m,n);
+    printf("Creating a matrix null of size %dx%d\n", m,n);
     matrix_t *matrice = malloc(sizeof(matrix_t));
     matrice->nbColonneInt=n / (sizeof(long long int) * 8);
     matrice->m = m;
@@ -55,7 +55,7 @@ matrix_t * nullMatrix(long int m,long int n) {
     return matrice;
 }
 
-matrix_t * identiterMatrix(long int m){
+matrix_t * identiterMatrix(long int m){//ne pas utiliser
     matrix_t * matrice =nullMatrix(m,m);
     int64_t * tmp;
     int64_t mask;
@@ -82,17 +82,56 @@ void showMatrix(matrix_t * m) {
         }
     }
 }
+void showMatrixBits(matrix_t * m) {
+    int count;
+    int64_t tmp;
+    for (int i = 0; i < m->m*m->nbColonneInt; i++) {
+        count=0;
+        tmp=m->value[i];
+        int64_t mask=1;
+        mask=mask<<63;
+        while (tmp) {
+            count++;
+            if (tmp & mask)
+                printf("1 ");
+            else
+                printf("0 ");
+
+            tmp <<= 1;
+        }
+        for(int i=count;i<m->n;i++){
+            printf("0 ");
+        }
+        if((i+1)%(m->nbColonneInt)==0){
+            printf("\n");
+        }
+    }
+}
 
 int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumns){
     return m->value[indexRow*m->nbColonneInt+indexColumns];
 }
 
-/*__m128i readInt128i(matrix_t * m,long int indexRow,long int indexColumn){
-    if(indexColumn*2+1<=m->nbColonneInt){
-        return _mm_set_epi64()
+__m128i readInt128i(matrix_t * m,long int indexRow,long int indexColumn){
+    if(indexColumn*2+1<m->nbColonneInt){
+        return _mm_set_epi64x (readInt64_t(m,indexRow,indexColumn*2+1),readInt64_t(m,indexRow,indexColumn*2));
+    }else{
+        return _mm_set_epi64x (0,readInt64_t(m,indexRow,indexColumn*2));
     }
-    return
-}*/
+}
+
+__m256i readInt256i(matrix_t * m,long int indexRow,long int indexColumn){
+    if(indexColumn*4+3<m->nbColonneInt){
+        return _mm256_setr_epi64x(readInt64_t(m,indexRow,indexColumn*4),readInt64_t(m,indexRow,indexColumn*4+1),readInt64_t(m,indexRow,indexColumn*4+2),readInt64_t(m,indexRow,indexColumn*4+3));
+    }else if(indexColumn*4+2<m->nbColonneInt){
+        return _mm256_setr_epi64x(readInt64_t(m,indexRow,indexColumn*4),readInt64_t(m,indexRow,indexColumn*4+1),readInt64_t(m,indexRow,indexColumn*4+2),0);
+    }else if(indexColumn*4+1<m->nbColonneInt){
+        return _mm256_setr_epi64x(readInt64_t(m,indexRow,indexColumn*4),readInt64_t(m,indexRow,indexColumn*4+1),0,0);
+    }else if(indexColumn*4<m->nbColonneInt){
+        return _mm256_setr_epi64x(readInt64_t(m,indexRow,indexColumn*4),0,0,0);
+    }
+    return _mm256_set_epi64x(0,0,0,0);//pas normal
+}
 
 int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits){
     int64_t ret=0;
@@ -135,6 +174,10 @@ int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits)
     }
     return ret;
 }
+
+/*int writeFile(matrix_t * m,char * fill){
+    fopen()
+}*/
 
 long int getNbRow(matrix_t * m){
     return m->m;
