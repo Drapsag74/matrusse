@@ -5,12 +5,12 @@
 matrix_t * aleaMatrixBinaire(long int m,long int n) {
     printf("Creating a matrix of size %dx%d\n", m,n);
     matrix_t *matrice = malloc(sizeof(matrix_t));
-    matrice->nbColonneInt=n / (sizeof(long long int) * 8);
+    matrice->nbColonneInt=n / (sizeof(int64_t) * 8);
     matrice->m = m;
     matrice->n = n ;
 
-    if (matrice->nbColonneInt * sizeof(long long int) * 8 == n) {//The number of Column is a multiple of 64
-        matrice->value = malloc(matrice->nbColonneInt * sizeof(long long int) * m);
+    if (matrice->nbColonneInt * sizeof(int64_t) * 8 == n) {//The number of Column is a multiple of 64
+        matrice->value = malloc(matrice->nbColonneInt * sizeof(int64_t) * m);
         for (int i = 0; i < m * matrice->nbColonneInt; i++) {
             matrice->value[i] = random_64();
         }
@@ -23,7 +23,7 @@ matrix_t * aleaMatrixBinaire(long int m,long int n) {
             tmp=tmp<<63-i;
             mask+=tmp;
         }
-        matrice->value = malloc((matrice->nbColonneInt) * sizeof(long long int) * m);
+        matrice->value = malloc((matrice->nbColonneInt) * sizeof(int64_t) * m);
 
         for (int i = 0; i < m * matrice->nbColonneInt; i++) {
             matrice->value[i] = random_64();
@@ -39,15 +39,15 @@ matrix_t * aleaMatrixBinaire(long int m,long int n) {
 matrix_t * nullMatrix(long int m,long int n) {
     printf("Creating a matrix null of size %dx%d\n", m,n);
     matrix_t *matrice = malloc(sizeof(matrix_t));
-    matrice->nbColonneInt=n / (sizeof(long long int) * 8);
+    matrice->nbColonneInt=n / (sizeof(int64_t) * 8);
     matrice->m = m;
     matrice->n = n ;
 
-    if (matrice->nbColonneInt * sizeof(long long int) * 8 == n) {
-        matrice->value = malloc(matrice->nbColonneInt * sizeof(long long int) * m);
+    if (matrice->nbColonneInt * sizeof(int64_t) * 8 == n) {
+        matrice->value = malloc(matrice->nbColonneInt * sizeof(int64_t) * m);
     }else{
         matrice->nbColonneInt++;
-        matrice->value = malloc(matrice->nbColonneInt * sizeof(long long int) * m);
+        matrice->value = malloc(matrice->nbColonneInt * sizeof(int64_t) * m);
     }
     for (int i = 0; i < m * matrice->nbColonneInt; i++) {
         matrice->value[i] = 0;

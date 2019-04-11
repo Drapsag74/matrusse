@@ -32,6 +32,12 @@ matrix_t * aleaMatrixBinaire(long int m,long int n);
  */
 matrix_t * nullMatrix(long int m,long int n);
 
+/**
+ *
+ * @param m - The size of the matrix
+ * @return
+ */
+
 matrix_t * identiterMatrix(long int m);
 
 /**
@@ -41,6 +47,10 @@ matrix_t * identiterMatrix(long int m);
  */
 void showMatrix(matrix_t * m);
 
+/**
+ * Show the matrix whise 1 or 0
+ * @param m - The matrix
+ */
 void showMatrixBits(matrix_t * m);
 
 /**
@@ -52,10 +62,22 @@ void showMatrixBits(matrix_t * m);
  */
 int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumn);
 
-
+/**
+ *
+ * @param m - The matrix
+ * @param indexRow - The index of the row
+ * @param indexColumn - The index of the column
+ * @return
+ */
 __m128i readInt128i(matrix_t * m,long int indexRow,long int indexColumn);
 
-
+/**
+ *
+ * @param m - The matrix
+ * @param indexRow - The index of the row
+ * @param indexColumn - The index of the column
+ * @return
+ */
 __m256i readInt256i(matrix_t * m,long int indexRow,long int indexColumn);
 
 /**
