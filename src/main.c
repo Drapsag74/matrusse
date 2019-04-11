@@ -26,6 +26,8 @@ int64_t bench(char * arg) {
     }
 }
 
+
+
 int main(int argc, char *argv[]) {
 
     if(argc == 1) {
@@ -58,18 +60,20 @@ int main(int argc, char *argv[]) {
     }
 
     if(algo == 1) {
-        printf("exec algo 1");
+        printf("exec algo 1\n");
         clock_t t = clock();
         fillTable(T,A,k);
         clock_t t2 = clock();
         printf("Temps d'exec : %d", t2-t);
     } else {
+        printf("exec algo 2\n");
         clock_t t = clock();
         fillTable2(T, A, k,k);
         clock_t t2 = clock();
         printf("Temps d'exec : %d", t2-t);
     }
-
+    printf("\nterminé");
+    //showT(T, A->nbColonneInt, k);
     return 0;
 
 }

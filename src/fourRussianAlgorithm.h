@@ -9,6 +9,8 @@
 #include <inttypes.h>
 #include "matrix.h"
 
+#define LOG2(X) ((unsigned) (8*sizeof (unsigned long long) - __builtin_clzll((X)) - 1))
+
 void addRowFromTable(matrix_t * C, int indexRowC, matrix_t * T, int indexRowT);
 /**
  * Create the table of linear combination
