@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include "matrix.h"
 #include "fourRussianAlgorithm.h"
+#include <emmintrin.h>
+#include <immintrin.h>
 
 
 int main(int argc, char * argv[]) {
