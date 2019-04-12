@@ -5,53 +5,41 @@
 #include "fourRussianAlgorithm.h"
 #include <immintrin.h>
 
-matrix_t *  MethodFourRussianMultiplication(matrix_t * A, matrix_t * B, int32_t k) {
-    matrix_t * C = malloc(sizeof(matrix_t));
-
-    return C;
-}
-
-void addRowFromTable(matrix_t * C, int indexRowC, matrix_t * T, int indexRowT) {
-    int64_t * rowC = C->value + indexRowC*C->n;
-    int64_t * rowT = T->value + indexRowT*T->n;
-    for(int i = 0; i < C->n; i++){
-        rowC[i] ^= rowT[i];
-    }
-}
-
-__m256i * createTable(matrix_t * B, int k){
-    __m256i * T = _mm_malloc(((B->nbColonneInt/4+1)*sizeof(__m256i)*2)<<k,32);
-    //printf("\n%d\n",(B->nbColonneInt/4+1)*4<<k);
-    return T;
+matrix_t * createTable(matrix_t * B, int k){
+    int64_t * T = malloc((B->nbColonneInt*sizeof(B->value[0]))<<k);
+    matrix_t * result;
+    result->nbColonneInt=B->nbColonneInt;
+    result->n=B->n;
+    result->m=1<<k;
+    result->value=T;
+    return result;
 }
 
 //note : k_ sert à stocker la valeur initiale de k
-void fillTable2(__m256i * T, matrix_t * B, int k, int k_){
+void fillTable2(matrix_t * T, matrix_t * B, int k, int k_){
     if(k==0)
     {
-        for(int i=0;i<=B->nbColonneInt/4;i++)
+        for(int i=0;i<B->nbColonneInt;i++)
         {
-            //T[i]=_mm256_setzero_si256();
-            _mm256_storeu_si256(&T[i],_mm256_setzero_si256());
+            writeInt64_t(T,0,i,0);
         }
     }
     else
     {
         fillTable2(T,B,k-1,k_);
-        //printf("%d",k);
         int temp=1<<k-1;
         for(int i=0;i<temp;i++)
         {
             //printf("\n%d\n",i);
             for(int j=0;j<=B->nbColonneInt/4;j++)
             {
-                //printf("\n%d",j);
-                //printf("\n%d",((temp+i)*(B->nbColonneInt/4+1)+j));
-                //printf("%d ",j);
-                //T[(temp+i)*(B->nbColonneInt)+j]=_mm256_xor_si256(T[i*(B->nbColonneInt)+j],readInt256i(B,i,j));
-                __m256i temp__=_mm256_loadu_si256(&T[(i*(B->nbColonneInt/4+1)+j)]);
-                __m256i temp_=_mm256_xor_si256(temp__,readInt256i(B,i,j));
-                _mm256_storeu_si256(&T[((temp+i)*(B->nbColonneInt/4+1)+j)],temp_);
+                //printf("%d ",j):
+                //T[(temp+i)*(B->nbColonneInt)+j]=T[i*(B->nbColonneInt)+j]^(B->value[(k_-k)*(B->nbColonneInt)+j]);
+                __m256i coeffs=xor_256(T,B,i,k_-k,j);
+                if(j!=B->nbColonneInt/4)
+                    store_coeffs(T,coeffs,temp+i,j,1);
+                else
+                    store_coeffs(T,coeffs,temp+i,j,0);
             }
         }
     }
@@ -97,13 +85,33 @@ void showT(int64_t * T, int64_t size, int64_t k) {
 
 }
 
+__m256i xor_256(matrix_t * A, matrix_t * B, int ARow, int BRow, int Col)
+{
+    return _mm256_xor_si256(readInt256i(A,ARow,Col),readInt256i(B,BRow,Col));
+}
+
+void store_coeffs(matrix_t * R, __m256i coeffs, int Row, int Col, int last)
+{
+    if(last!=0)
+    {
+        writeInt64_t(R,Row,Col,coeffs[0]);
+        writeInt64_t(R,Row,Col+1,coeffs[1]);
+        writeInt64_t(R,Row,Col+2,coeffs[2]);
+        writeInt64_t(R,Row,Col+3,coeffs[3]);
+    }
+    else
+    {
+        for(int i=0;i<R->nbColonneInt%4;i++)
+        {
+            writeInt64_t(R,Row,Col+i,coeffs[i]);
+        }
+    }
+}
+
 matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
 {
     matrix_t * result=nullMatrix(A->m,B->n);
-    __m256i * T=createTable(B,k);
-    int nbColT=B->nbColonneInt/4;
-    if(B->nbColonneInt%4!=0)
-        nbColT++;
+    matrix_t * T=createTable(B,k);
     matrix_t * B_;
     for(int i=0;i<A->n/k;i++)
     {
@@ -114,26 +122,15 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
             int64_t index=extract(A,j,k*i,k);
             for(int l=0;l<=B->nbColonneInt/4;l++)
             {
-                __m256i temp_=_mm256_loadu_si256(&T[(index*nbColT+l)]);
-                //__m256i temp=_mm256_xor_si256(readInt256i(result,j,l),T[index*nbColT+l]);
-                __m256i temp=_mm256_xor_si256(readInt256i(result,j,l),temp_);
+                //result->value[j*B->nbColonneInt+l]=readInt64_t(result,j,l)^T[index*B->nbColonneInt+l];
+                __m256i coeffs=xor_256(result,T,j,index,l);
                 if(l!=B->nbColonneInt/4)
-                {
-                    result->value[j * B->nbColonneInt + 4*l] = temp[0];
-                    result->value[j * B->nbColonneInt + 4*l + 1] = temp[1];
-                    result->value[j * B->nbColonneInt + 4*l + 2] = temp[2];
-                    result->value[j * B->nbColonneInt + 4*l + 3] = temp[3];
-                }
+                    store_coeffs(result,coeffs,j,l,1);
                 else
-                {
-                    for(int p=0;p<B->nbColonneInt %4;p++)
-                    {
-                        result->value[j * B->nbColonneInt + 4*l+p] = temp[p];
-                    }
-                }
+                    store_coeffs(result,coeffs,j,l,0);
             }
         }
-        freeBloc(B_);
+        //freeBloc(B_);
     }
     int k_=A->n%k;
     if(k_!=0)
@@ -144,28 +141,18 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
         for(int j=0;j<A->m;j++)
         {
             int64_t index=extract(A,j,A->n-k_,k_);
-            for(int l=0;l<B->nbColonneInt;l++)
+            for(int l=0;l<=B->nbColonneInt/4;l++)
             {
-                __m256i temp_=_mm256_loadu_si256(&T[(index*nbColT+l)]);
-                //__m256i temp=_mm256_xor_si256(readInt256i(result,j,l),T[index*nbColT+l]);
-                __m256i temp=_mm256_xor_si256(readInt256i(result,j,l),temp_);
+                //result->value[j*B->nbColonneInt+l]=readInt64_t(result,j,l)^T[index*B->nbColonneInt+l];
+                __m256i coeffs=xor_256(result,T,j,index,l);
                 if(l!=B->nbColonneInt/4)
-                {
-                    result->value[j * B->nbColonneInt + 4*l] = temp[0];
-                    result->value[j * B->nbColonneInt + 4*l + 1] = temp[1];
-                    result->value[j * B->nbColonneInt + 4*l + 2] = temp[2];
-                    result->value[j * B->nbColonneInt + 4*l + 3] = temp[3];
-                }
+                    store_coeffs(result,coeffs,j,l,1);
                 else
-                {
-                    for(int p=0;p<B->nbColonneInt %4;p++)
-                    {
-                        result->value[j * B->nbColonneInt + 4*l+p] = temp[p];
-                    }
-                }
+                    store_coeffs(result,coeffs,j,l,0);
             }
         }
-        freeBloc(B_);
+        //freeBloc(B_);
     }
+    freeMatrix(T);
     return result;
 }
