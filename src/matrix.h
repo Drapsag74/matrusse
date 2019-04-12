@@ -40,6 +40,8 @@ matrix_t * nullMatrix(long int m,long int n);
 
 matrix_t * identiterMatrix(long int m);
 
+matrix_t * matrixVide(long int m,long int n);
+
 /**
  *
  * @param m
