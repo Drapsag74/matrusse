@@ -42,7 +42,9 @@ matrix_t * identiterMatrix(long int m);
 
 matrix_t * matrixVide(long int m,long int n);
 
-void xor(matrix_t * m1, long int row1,matrix_t * m2,long int  row2);
+void xorMatrixMatrix(matrix_t * m1, long int row1,matrix_t * m2,long int  row2);
+
+void xorMatrixRow(matrix_t * m1, long int row1,int64_t * row);
 
 /**
  *

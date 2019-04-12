@@ -143,11 +143,18 @@ __m256i readInt256i(matrix_t * m,long int indexRow,long int indexColumn){
     return _mm256_set_epi64x(0,0,0,0);//pas normal
 }
 
-void xor(matrix_t * m1, long int row1,matrix_t * m2,long int  row2){
+void xorMatrixMatrix(matrix_t * m1, long int row1,matrix_t * m2,long int  row2){
     int64_t * a=getRow(m1,row1);
     int64_t * b=getRow(m2,row2);
     for(long int i=0;i<m1->nbColonneInt;i++){
         a[i]=a[i]^b[i];
+    }
+
+}
+void xorMatrixRow(matrix_t * m1, long int row1,int64_t * row){
+    int64_t * a=getRow(m1,row1);
+    for(long int i=0;i<m1->nbColonneInt;i++){
+        a[i]=a[i]^row[i];
     }
 
 }
