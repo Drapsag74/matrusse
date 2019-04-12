@@ -10,21 +10,16 @@
 
 
 int main(int argc, char * argv[]) {
-    matrix_t * A=aleaMatrixBinaire(10,64);
-    /*printf("%d",extract(B,0,1,8));
-    printf("%d",extract(B,1,1,8));
-    printf("%d",extract(B,2,1,8));
-    printf("%d",extract(B,3,1,8));
-    printf("%d",extract(B,4,1,8));
-    printf("%d",extract(B,5,1,8));
-
-    printf("\n");*/
-    showMatrix(A);
-    printf("\n");
-    xor(A,1,A,2);
-    showMatrix(A);
+    matrix_t * A=aleaMatrixBinaire(32000,32000);
+    //matrix_t * B=identiterMatrix(64);
+    //showMatrix(A);
+    //printf("\n");
+    //printf("\n");
+    matrix_t * C=matrusse(A,A,8);
+    //showMatrix(B);
+    showMatrix(C);
     freeMatrix(A);
     //freeMatrix(B);
-    //freeMatrix(C);
+    freeMatrix(C);
     return 0;
 }
