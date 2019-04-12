@@ -42,6 +42,8 @@ matrix_t * identiterMatrix(long int m);
 
 matrix_t * matrixVide(long int m,long int n);
 
+void xor(matrix_t * m1, long int row1,matrix_t * m2,long int  row2);
+
 /**
  *
  * @param m
