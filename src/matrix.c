@@ -1,6 +1,6 @@
 #include "matrix.h"
 #include "time.h"
-
+#include <limits.h>
 
 matrix_t * aleaMatrixBinaire(long int m,long int n) {
     printf("Creating a matrix of size %dx%d\n", m,n);
@@ -122,13 +122,13 @@ __m128i readInt128i(matrix_t * m,long int indexRow,long int indexColumn){
 
 __m256i readInt256i(matrix_t * m,long int indexRow,long int indexColumn){
     if(indexColumn*4+3<m->nbColonneInt){
-        return _mm256_setr_epi64x(readInt64_t(m,indexRow,indexColumn*4),readInt64_t(m,indexRow,indexColumn*4+1),readInt64_t(m,indexRow,indexColumn*4+2),readInt64_t(m,indexRow,indexColumn*4+3));
+        return _mm256_setr_epi64x(readInt64_t(m,indexRow,4*indexColumn),readInt64_t(m,indexRow,4*indexColumn+1),readInt64_t(m,indexRow,4*indexColumn+2),readInt64_t(m,indexRow,4*indexColumn+3));
     }else if(indexColumn*4+2<m->nbColonneInt){
-        return _mm256_setr_epi64x(readInt64_t(m,indexRow,indexColumn*4),readInt64_t(m,indexRow,indexColumn*4+1),readInt64_t(m,indexRow,indexColumn*4+2),0);
+        return _mm256_setr_epi64x(readInt64_t(m,indexRow,4*indexColumn),readInt64_t(m,indexRow,4*indexColumn+1),readInt64_t(m,indexRow,4*indexColumn+2),0);
     }else if(indexColumn*4+1<m->nbColonneInt){
-        return _mm256_setr_epi64x(readInt64_t(m,indexRow,indexColumn*4),readInt64_t(m,indexRow,indexColumn*4+1),0,0);
+        return _mm256_setr_epi64x(readInt64_t(m,indexRow,4*indexColumn),readInt64_t(m,indexRow,4*indexColumn+1),0,0);
     }else if(indexColumn*4<m->nbColonneInt){
-        return _mm256_setr_epi64x(readInt64_t(m,indexRow,indexColumn*4),0,0,0);
+        return _mm256_setr_epi64x(readInt64_t(m,indexRow,4*indexColumn),0,0,0);
     }
     return _mm256_set_epi64x(0,0,0,0);//pas normal
 }
@@ -230,9 +230,13 @@ matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow){
 }
 
 int64_t random_64() {
-    int64_t random=rand();
+    /*int64_t random=rand();
     random=random<<32;
-    return  random+rand();
+    return  random+rand();*/
+    int64_t random1=(int) ((double)UINT_MAX*((double)rand()/RAND_MAX));
+    int64_t random2=(int) ((double)UINT_MAX*((double)rand()/RAND_MAX));
+    random1=random1<<32;
+    return random1+random2;
 }
 
 void freeBloc(matrix_t * m){

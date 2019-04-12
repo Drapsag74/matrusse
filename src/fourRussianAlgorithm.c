@@ -32,7 +32,7 @@ void fillTable2(matrix_t * T, matrix_t * B, int k, int k_){
         {
             //printf("\n%d\n",i);
             int lim=B->nbColonneInt/4;
-            if(lim%4==0)
+            if(B->nbColonneInt%4==0 && lim!=0)
                 lim--;
             for(int j=0;j<=lim;j++)
             {
@@ -97,16 +97,16 @@ void store_coeffs(matrix_t * R, __m256i coeffs, int Row, int Col, int last)
 {
     if(last!=0)
     {
-        writeInt64_t(R,Row,Col,coeffs[0]);
-        writeInt64_t(R,Row,Col+1,coeffs[1]);
-        writeInt64_t(R,Row,Col+2,coeffs[2]);
-        writeInt64_t(R,Row,Col+3,coeffs[3]);
+        writeInt64_t(R,Row,4*Col,coeffs[0]);
+        writeInt64_t(R,Row,4*Col+1,coeffs[1]);
+        writeInt64_t(R,Row,4*Col+2,coeffs[2]);
+        writeInt64_t(R,Row,4*Col+3,coeffs[3]);
     }
     else
     {
         for(int i=0;i<R->nbColonneInt%4;i++)
         {
-            writeInt64_t(R,Row,Col+i,coeffs[i]);
+            writeInt64_t(R,Row,4*Col+i,coeffs[i]);
         }
     }
 }
@@ -114,17 +114,27 @@ void store_coeffs(matrix_t * R, __m256i coeffs, int Row, int Col, int last)
 matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
 {
     matrix_t * result=nullMatrix(A->m,B->n);
+    printf("%d\n",A->m);
+    printf("%d\n",B->n);
     matrix_t * T=createTable(B,k);
     matrix_t * B_;
     for(int i=0;i<A->n/k;i++)
     {
+        if(i%10==0)
+            printf("Process %d / %d done\n",i,A->n/k);
         B_=getBloc(B,i*k,(i+1)*k-1);
         fillTable2(T,B_,k,k);
         for(int j=0;j<A->m;j++)
         {
             int64_t index=extract(A,j,k*i,k);
+            if(index<0)
+            {
+                printf("%16"PRIx64" ",index);
+                printf("index=%d j=%d i=%d\n",index,j,i);
+                index=-index;
+            }
             int lim=B->nbColonneInt/4;
-            if(lim%4==0)
+            if(B->nbColonneInt%4==0 && lim!=0)
                 lim--;
             for(int l=0;l<=lim;l++)
             {
@@ -136,11 +146,12 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
                     store_coeffs(result,coeffs,j,l,0);
             }
         }
-        freeBloc(B_);
+        //freeBloc(B_);
     }
     int k_=A->n%k;
     if(k_!=0)
     {
+        printf("%d",B->nbColonneInt);
         T=createTable(B,k_);
         B_=getBloc(B,B->m-k_,B->m-1);
         fillTable2(T,B_,k_,k_);
@@ -148,7 +159,7 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
         {
             int64_t index=extract(A,j,A->n-k_,k_);
             int lim=B->nbColonneInt/4;
-            if(lim%4==0)
+            if(B->nbColonneInt%4==0 && lim!=0)
                 lim--;
             for(int l=0;l<=lim;l++)
             {
@@ -160,7 +171,7 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
                     store_coeffs(result,coeffs,j,l,0);
             }
         }
-        freeBloc(B_);
+        //freeBloc(B_);
     }
     freeMatrix(T);
     return result;
