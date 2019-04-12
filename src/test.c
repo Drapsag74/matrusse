@@ -10,16 +10,16 @@
 
 
 int main(int argc, char * argv[]) {
-    matrix_t * A=aleaMatrixBinaire(64,64);
-    matrix_t * B=identiterMatrix(64);
-    showMatrix(A);
-    printf("\n");
-    showMatrix(B);
-    printf("\n");
-    matrix_t * C=matrusse(A,B,8);
+    matrix_t * A=aleaMatrixBinaire(32000,32000);
+    //matrix_t * B=identiterMatrix(64);
+    //showMatrix(A);
+    //printf("\n");
+    //printf("\n");
+    matrix_t * C=matrusse(A,A,8);
+    //showMatrix(B);
     showMatrix(C);
     freeMatrix(A);
-    freeMatrix(B);
+    //freeMatrix(B);
     freeMatrix(C);
     return 0;
 }

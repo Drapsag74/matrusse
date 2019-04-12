@@ -140,6 +140,7 @@ __m256i readInt256i(matrix_t * m,long int indexRow,long int indexColumn){
         return _mm256_setr_epi64x(readInt64_t(m,indexRow,4*indexColumn),0,0,0);
     }
     printf("problem");
+    printf("readInt256i error\n");
     return _mm256_set_epi64x(0,0,0,0);//pas normal
 }
 

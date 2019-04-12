@@ -7,7 +7,7 @@
 
 matrix_t * createTable(matrix_t * B, int k){
     int64_t * T = malloc((B->nbColonneInt*sizeof(B->value[0]))<<k);
-    matrix_t * result;
+    matrix_t * result=matrixVide(1<<k,B->n);
     result->nbColonneInt=B->nbColonneInt;
     result->n=B->n;
     result->m=1<<k;
@@ -129,8 +129,8 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
             int64_t index=extract(A,j,k*i,k);
             if(index<0)
             {
-                printf("%16"PRIx64" ",index);
-                printf("index=%d j=%d i=%d\n",index,j,i);
+                /*printf("%16"PRIx64" ",index);
+                printf("index=%d j=%d i=%d\n",index,j,i);*/
                 index=-index;
             }
             int lim=B->nbColonneInt/4;
