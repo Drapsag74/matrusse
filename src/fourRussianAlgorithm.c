@@ -31,7 +31,10 @@ void fillTable2(matrix_t * T, matrix_t * B, int k, int k_){
         for(int i=0;i<temp;i++)
         {
             //printf("\n%d\n",i);
-            for(int j=0;j<=B->nbColonneInt/4;j++)
+            int lim=B->nbColonneInt/4;
+            if(lim%4==0)
+                lim--;
+            for(int j=0;j<=lim;j++)
             {
                 //printf("%d ",j):
                 //T[(temp+i)*(B->nbColonneInt)+j]=T[i*(B->nbColonneInt)+j]^(B->value[(k_-k)*(B->nbColonneInt)+j]);
@@ -120,7 +123,10 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
         for(int j=0;j<A->m;j++)
         {
             int64_t index=extract(A,j,k*i,k);
-            for(int l=0;l<=B->nbColonneInt/4;l++)
+            int lim=B->nbColonneInt/4;
+            if(lim%4==0)
+                lim--;
+            for(int l=0;l<=lim;l++)
             {
                 //result->value[j*B->nbColonneInt+l]=readInt64_t(result,j,l)^T[index*B->nbColonneInt+l];
                 __m256i coeffs=xor_256(result,T,j,index,l);
@@ -130,7 +136,7 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
                     store_coeffs(result,coeffs,j,l,0);
             }
         }
-        //freeBloc(B_);
+        freeBloc(B_);
     }
     int k_=A->n%k;
     if(k_!=0)
@@ -141,7 +147,10 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
         for(int j=0;j<A->m;j++)
         {
             int64_t index=extract(A,j,A->n-k_,k_);
-            for(int l=0;l<=B->nbColonneInt/4;l++)
+            int lim=B->nbColonneInt/4;
+            if(lim%4==0)
+                lim--;
+            for(int l=0;l<=lim;l++)
             {
                 //result->value[j*B->nbColonneInt+l]=readInt64_t(result,j,l)^T[index*B->nbColonneInt+l];
                 __m256i coeffs=xor_256(result,T,j,index,l);
@@ -151,7 +160,7 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
                     store_coeffs(result,coeffs,j,l,0);
             }
         }
-        //freeBloc(B_);
+        freeBloc(B_);
     }
     freeMatrix(T);
     return result;
