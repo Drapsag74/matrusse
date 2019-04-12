@@ -139,20 +139,24 @@ void writeInt64_t(matrix_t * m,long int indexRow,long int indexColumn, int64_t v
     return ;
 }
 void writeInt128i(matrix_t * m,long int indexRow,long int indexColumn, __m128i val){
-    m->value[indexRow*m->nbColonneInt+indexColumn*2]=val[0];
-    if(val[1]!=0){
-        m->value[indexRow*m->nbColonneInt+indexColumn*2+1]=val[1];
+    if(indexColumn*2<m->nbColonneInt){
+        m->value[indexRow*m->nbColonneInt+indexColumn*2]=val[0];
+        if(indexColumn*2+1<m->nbColonneInt){
+            m->value[indexRow*m->nbColonneInt+indexColumn*2+1]=val[1];
+        }
     }
     return ;
 }
 void writeInt256i(matrix_t * m,long int indexRow,long int indexColumn, __m256i val){
-    m->value[indexRow*m->nbColonneInt+indexColumn*4]=val[0];
-    if(val[1]!=0 && val[2]!=0 && val[3]!=0){
-        m->value[indexRow*m->nbColonneInt+indexColumn*4+1]=val[1];
-        if(val[2]!=0 && val[3]!=0){
-            m->value[indexRow*m->nbColonneInt+indexColumn*4+2]=val[2];
-            if(val[3]!=0){
-                m->value[indexRow*m->nbColonneInt+indexColumn*4+3]=val[3];
+    if(indexColumn*4<m->nbColonneInt){
+        m->value[indexRow*m->nbColonneInt+indexColumn*4]=val[0];
+        if(indexColumn*4+1<m->nbColonneInt){
+            m->value[indexRow*m->nbColonneInt+indexColumn*4+1]=val[1];
+            if(indexColumn*4+2<m->nbColonneInt){
+                m->value[indexRow*m->nbColonneInt+indexColumn*4+2]=val[2];
+                if(indexColumn*4+3<m->nbColonneInt){
+                    m->value[indexRow*m->nbColonneInt+indexColumn*4+3]=val[3];
+                }
             }
         }
     }
@@ -237,8 +241,10 @@ void freeBloc(matrix_t * m){
 }
 
 void freeMatrix(matrix_t * m){
-    free(m->value);
     m->value=NULL;
-    free(m);
+    free(m->value);
+
     m=NULL;
+    free(m);
+
 }
