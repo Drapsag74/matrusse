@@ -9,7 +9,7 @@
 
 typedef struct matrix_t matrix_t;
 struct matrix_t{
-  int64_t * value;
+  uint64_t * value;
   int nbColonneInt;
   int m; //number of row
   int n; //number of columns
@@ -44,7 +44,7 @@ matrix_t * matrixVide(long int m,long int n);
 
 void xorMatrixMatrix(matrix_t * m1, long int row1,matrix_t * m2,long int  row2);
 
-void xorMatrixRow(matrix_t * m1, long int row1,int64_t * row);
+void xorMatrixRow(matrix_t * m1, long int row1,uint64_t * row);
 
 /**
  *
@@ -63,10 +63,10 @@ void showMatrixBits(matrix_t * m);
  *
  * @param m -The matrix
  * @param indexRow - The index of the row
- * @param indexColumn - The index of the column (in int64_t not in bits)
- * @return The int64_t in position (indexRow,indexColumn)
+ * @param indexColumn - The index of the column (in uint64_t not in bits)
+ * @return The uint64_t in position (indexRow,indexColumn)
  */
-int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumn);
+uint64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumn);
 
 /**
  *
@@ -94,7 +94,7 @@ __m256i readInt256i(matrix_t * m,long int indexRow,long int indexColumn);
  * @param nbBits - The numbers of bits who need to take
  * @return int64_t - the nbBits selected
  */
-int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits);
+uint64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits);
 
 /**
  *
@@ -115,9 +115,9 @@ long int getNbColumn(matrix_t * m);
  * @param indexRow - The index of the row return
  * @return return a pointer of the first element of row
  */
-int64_t * getRow(matrix_t * m,long int indexRow);
+uint64_t * getRow(matrix_t * m,long int indexRow);
 
-void writeInt64_t(matrix_t * m,long int indexRow,long int indexColumn, int64_t val);
+void writeInt64_t(matrix_t * m,long int indexRow,long int indexColumn, uint64_t val);
 
 void writeInt128i(matrix_t * m,long int indexRow,long int indexColumn, __m128i val);
 
@@ -135,9 +135,9 @@ matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow);
 
 /**
  *
- * @return a random int64_t
+ * @return a random uint64_t
  */
-int64_t random_64();
+uint64_t random_64();
 
 /**
  *

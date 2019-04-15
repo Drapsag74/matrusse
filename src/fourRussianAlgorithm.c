@@ -6,7 +6,7 @@
 #include <immintrin.h>
 
 matrix_t * createTable(matrix_t * B, int k){
-    int64_t * T = malloc((B->nbColonneInt*sizeof(B->value[0]))<<k);
+    uint64_t * T = malloc((B->nbColonneInt*sizeof(B->value[0]))<<k);
     matrix_t * result=matrixVide(1<<k,B->n);
     result->nbColonneInt=B->nbColonneInt;
     result->n=B->n;
@@ -49,21 +49,21 @@ void fillTable2(matrix_t * T, matrix_t * B, int k, int k_){
 }
 
 
-void fillTable(int64_t * T, matrix_t * B, int k){
-    register int64_t n = B->nbColonneInt;
+void fillTable(uint64_t * T, matrix_t * B, int k){
+    register uint64_t n = B->nbColonneInt;
     for (int i = 0; i < n; i++) {
         T[i] = 0;
     }
 
-    for(int64_t i = 1; i < (1 << k); i++) {
+    for(uint64_t i = 1; i < (1 << k); i++) {
         //printf("%"PRId32",",p);
-        int64_t grey = i^(i>>1);
-        int64_t greyPrec = (i-1)^((i-1)>>1);
-        int64_t log = LOG2(greyPrec^grey);
+        uint64_t grey = i^(i>>1);
+        uint64_t greyPrec = (i-1)^((i-1)>>1);
+        uint64_t log = LOG2(greyPrec^grey);
         //printf("\ngrey : %" PRId64 "greyprec : %" PRId64"dif : %"PRId64 "///// ", grey, greyPrec, dif);
 
         //printf("\nlog :%"PRId64, log);
-        for (int64_t j = 0; j < n; j++) {
+        for (uint64_t j = 0; j < n; j++) {
             //printf("\nit : %d,%d\n",i,j);
             //printf("\nid : %"PRId64",%"PRId64,i*(B->nbColonneInt), j);
             T[grey*n + j] = T[greyPrec*n + j]^readInt64_t(B,k - log - 1, j);
@@ -74,11 +74,11 @@ void fillTable(int64_t * T, matrix_t * B, int k){
     }
 }
 
-void showT(int64_t * T, int64_t size, int64_t k) {
+void showT(uint64_t * T, uint64_t size, uint64_t k) {
     printf("Showing table T : \n");
-    for (int64_t i = 0; i < (1<<k); i++) {
+    for (uint64_t i = 0; i < (1<<k); i++) {
         printf("[");
-        for (int64_t j = 0; j < size; j++) {
+        for (uint64_t j = 0; j < size; j++) {
             printf("%16"PRIx64"\t", T[i*size+j]);
         }
         printf("]");
@@ -126,7 +126,7 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
         fillTable2(T,B_,k,k);
         for(int j=0;j<A->m;j++)
         {
-            int64_t index=extract(A,j,k*i,k);
+            uint64_t index=extract(A,j,k*i,k);
             if(index<0)
             {
                 /*printf("%16"PRIx64" ",index);
@@ -157,7 +157,7 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
         fillTable2(T,B_,k_,k_);
         for(int j=0;j<A->m;j++)
         {
-            int64_t index=extract(A,j,A->n-k_,k_);
+            uint64_t index=extract(A,j,A->n-k_,k_);
             int lim=B->nbColonneInt/4;
             if(B->nbColonneInt%4==0 && lim!=0)
                 lim--;

@@ -21,10 +21,10 @@ void addRowFromTable(matrix_t * C, int indexRowC, matrix_t * T, int indexRowT);
  */
 matrix_t * createTable(matrix_t * B, int k);
 void fillTable2(matrix_t * T, matrix_t * B, int k, int k_);
-void fillTable(int64_t * T, matrix_t * B, int k);
+void fillTable(uint64_t * T, matrix_t * B, int k);
 __m256i xor_256(matrix_t * A, matrix_t * B, int ARow, int BRow, int Col);
 void store_coeffs(matrix_t * R, __m256i coeffs, int Row, int Col, int last);
-void showT(int64_t * T, int64_t size, int64_t k);
+void showT(uint64_t * T, uint64_t size, uint64_t k);
 /**
  * 4 russian method
  * @param A

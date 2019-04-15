@@ -5,25 +5,25 @@
 matrix_t * aleaMatrixBinaire(long int m,long int n) {
     printf("Creating a matrix of size %dx%d\n", m,n);
     matrix_t *matrice = malloc(sizeof(matrix_t));
-    matrice->nbColonneInt=n / (sizeof(int64_t) * 8);
+    matrice->nbColonneInt=n / (sizeof(uint64_t) * 8);
     matrice->m = m;
     matrice->n = n ;
 
-    if (matrice->nbColonneInt * sizeof(int64_t) * 8 == n) {//The number of Column is a multiple of 64
-        matrice->value = malloc(matrice->nbColonneInt * sizeof(int64_t) * m);
+    if (matrice->nbColonneInt * sizeof(uint64_t) * 8 == n) {//The number of Column is a multiple of 64
+        matrice->value = malloc(matrice->nbColonneInt * sizeof(uint64_t) * m);
         for (int i = 0; i < m * matrice->nbColonneInt; i++) {
             matrice->value[i] = random_64();
         }
     } else {//The number of column isn't a multiple of 64
         matrice->nbColonneInt++;
-        int64_t mask=0;
-        int64_t tmp;
-        for(int i=0;i<matrice->n%64;i++){//Creation of a mask to make the good size of last int64_t if a line
+        uint64_t mask=0;
+        uint64_t tmp;
+        for(int i=0;i<matrice->n%64;i++){//Creation of a mask to make the good size of last uint64_t if a line
             tmp=1;
             tmp=tmp<<63-i;
             mask+=tmp;
         }
-        matrice->value = malloc((matrice->nbColonneInt) * sizeof(int64_t) * m);
+        matrice->value = malloc((matrice->nbColonneInt) * sizeof(uint64_t) * m);
 
         for (int i = 0; i < m * matrice->nbColonneInt; i++) {
             matrice->value[i] = random_64();
@@ -39,15 +39,15 @@ matrix_t * aleaMatrixBinaire(long int m,long int n) {
 matrix_t * nullMatrix(long int m,long int n) {
     printf("Creating a matrix null of size %dx%d\n", m,n);
     matrix_t *matrice = malloc(sizeof(matrix_t));
-    matrice->nbColonneInt=n / (sizeof(int64_t) * 8);
+    matrice->nbColonneInt=n / (sizeof(uint64_t) * 8);
     matrice->m = m;
     matrice->n = n ;
 
-    if (matrice->nbColonneInt * sizeof(int64_t) * 8 == n) {
-        matrice->value = malloc(matrice->nbColonneInt * sizeof(int64_t) * m);
+    if (matrice->nbColonneInt * sizeof(uint64_t) * 8 == n) {
+        matrice->value = malloc(matrice->nbColonneInt * sizeof(uint64_t) * m);
     }else{
         matrice->nbColonneInt++;
-        matrice->value = malloc(matrice->nbColonneInt * sizeof(int64_t) * m);
+        matrice->value = malloc(matrice->nbColonneInt * sizeof(uint64_t) * m);
     }
     for (int i = 0; i < m * matrice->nbColonneInt; i++) {
         matrice->value[i] = 0;
@@ -58,7 +58,7 @@ matrix_t * nullMatrix(long int m,long int n) {
 matrix_t * matrixVide(long int m,long int n) {
     printf("Creating a matrix null of size %dx%d\n", m,n);
     matrix_t *matrice = malloc(sizeof(matrix_t));
-    matrice->nbColonneInt=n / (sizeof(int64_t) * 8);
+    matrice->nbColonneInt=n / (sizeof(uint64_t) * 8);
     matrice->m = m;
     matrice->n = n ;
     return matrice;
@@ -66,8 +66,8 @@ matrix_t * matrixVide(long int m,long int n) {
 
 matrix_t * identiterMatrix(long int m){//ne pas utiliser
     matrix_t * matrice =nullMatrix(m,m);
-    int64_t * tmp;
-    int64_t mask;
+    uint64_t * tmp;
+    uint64_t mask;
     for(int i=0;i<=matrice->m;i++){
         tmp=getRow(matrice,i);
         mask=1;
@@ -93,11 +93,11 @@ void showMatrix(matrix_t * m) {
 }
 void showMatrixBits(matrix_t * m) {
     int count;
-    int64_t tmp;
+    uint64_t tmp;
     for (int i = 0; i < m->m*m->nbColonneInt; i++) {
         count=0;
         tmp=m->value[i];
-        int64_t mask=1;
+        uint64_t mask=1;
         mask=mask<<63;
         while (tmp) {
             count++;
@@ -117,7 +117,7 @@ void showMatrixBits(matrix_t * m) {
     }
 }
 
-int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumns){
+uint64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumns){
     return m->value[indexRow*m->nbColonneInt+indexColumns];
 }
 
@@ -145,15 +145,15 @@ __m256i readInt256i(matrix_t * m,long int indexRow,long int indexColumn){
 }
 
 void xorMatrixMatrix(matrix_t * m1, long int row1,matrix_t * m2,long int  row2){
-    int64_t * a=getRow(m1,row1);
-    int64_t * b=getRow(m2,row2);
+    uint64_t * a=getRow(m1,row1);
+    uint64_t * b=getRow(m2,row2);
     for(long int i=0;i<m1->nbColonneInt;i++){
         a[i]=a[i]^b[i];
     }
 
 }
-void xorMatrixRow(matrix_t * m1, long int row1,int64_t * row){
-    int64_t * a=getRow(m1,row1);
+void xorMatrixRow(matrix_t * m1, long int row1,uint64_t * row){
+    uint64_t * a=getRow(m1,row1);
     for(long int i=0;i<m1->nbColonneInt;i++){
         a[i]=a[i]^row[i];
     }
@@ -161,7 +161,7 @@ void xorMatrixRow(matrix_t * m1, long int row1,int64_t * row){
 }
 
 
-void writeInt64_t(matrix_t * m,long int indexRow,long int indexColumn, int64_t val){
+void writeInt64_t(matrix_t * m,long int indexRow,long int indexColumn, uint64_t val){
     m->value[indexRow*m->nbColonneInt+indexColumn]=val;
     return ;
 }
@@ -190,15 +190,15 @@ void writeInt256i(matrix_t * m,long int indexRow,long int indexColumn, __m256i v
     return ;
 }
 
-int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits){
-    int64_t ret=0;
-    int64_t mask=0;
+uint64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits){
+    uint64_t ret=0;
+    uint64_t mask=0;
     long int debut=indexColumn/64;
     if(debut==(indexColumn+nbBits)/64){//if the number of column is a multiple of 64
         ret =readInt64_t(m,indexRow,debut);
         int emplacement=indexColumn%64;
         for(int i=emplacement;i<emplacement+nbBits;i++){
-            int64_t tmp=1;
+            uint64_t tmp=1;
             tmp=tmp<<63-i;
             mask+=tmp;
         }
@@ -206,10 +206,10 @@ int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits)
         ret=ret>>64-emplacement-nbBits;
     }else{//if the number of column isn't a multiple of 64 (the bits are in two int64_t different)
         //First int64_t---------------------------------------------------------------------------
-        int64_t ret2=readInt64_t(m,indexRow,debut);
+        uint64_t ret2=readInt64_t(m,indexRow,debut);
         int emplacement=indexColumn%64;
         for(int i=emplacement;i<64;i++){//creation of the first mask
-            int64_t tmp=1;
+            uint64_t tmp=1;
             tmp=tmp<<63-i;
             mask+=tmp;
         }
@@ -217,10 +217,10 @@ int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits)
         ret2=ret2<<(emplacement+nbBits)%64;
 
         //Second int64_t--------------------------------------------------------------------------
-        int64_t ret3=readInt64_t(m,indexRow,debut+1);
+        uint64_t ret3=readInt64_t(m,indexRow,debut+1);
         mask=0;
         for(int i=0;i<(emplacement+nbBits)%64;i++){//creation of the second mask
-            int64_t tmp=1;
+            uint64_t tmp=1;
             tmp=tmp<<63-i;
             mask+=tmp;
         }
@@ -243,7 +243,7 @@ long int getNbColumn(matrix_t * m){
     return m->nbColonneInt;
 }
 
-int64_t * getRow(matrix_t * m,long int indexRow){
+uint64_t * getRow(matrix_t * m,long int indexRow){
     return m->value+indexRow*m->nbColonneInt;
 }
 
@@ -256,19 +256,20 @@ matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow){
     return matrice;
 }
 
-int64_t random_64() {
-    /*int64_t random=rand();
+uint64_t random_64() {
+    /*uint64_t random=rand();
     random=random<<32;
     return  random+rand();*/
-    int64_t random1=(int) ((double)UINT_MAX*((double)rand()/RAND_MAX));
-    int64_t random2=(int) ((double)UINT_MAX*((double)rand()/RAND_MAX));
+    uint64_t random1=(int) ((double)UINT_MAX*((double)rand()/RAND_MAX));
+    uint64_t random2=(int) ((double)UINT_MAX*((double)rand()/RAND_MAX));
     random1=random1<<32;
     return random1+random2;
 }
 
 void freeBloc(matrix_t * m){
-    free(m);
     m=NULL;
+    free(m);
+
 }
 
 void freeMatrix(matrix_t * m){
