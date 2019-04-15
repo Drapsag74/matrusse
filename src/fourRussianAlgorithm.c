@@ -38,11 +38,17 @@ void fillTable2(matrix_t * T, matrix_t * B, int k, int k_){
             {
                 //printf("%d ",j):
                 //T[(temp+i)*(B->nbColonneInt)+j]=T[i*(B->nbColonneInt)+j]^(B->value[(k_-k)*(B->nbColonneInt)+j]);
-                __m256i coeffs=xor_256(T,B,i,k_-k,j);
+                //__m256i coeffs=xor_256(T,B,i,k_-k,j);
+                __m256i coeffs=_mm256_xor_si256(readInt256i(T,i,j),readInt256i(B,k_-k,j));
                 if(j!=B->nbColonneInt/4)
-                    store_coeffs2(T,coeffs,temp+i,j);
+                    //store_coeffs2(T,coeffs,temp+i,j);
+                    _mm256_storeu_si256(&T->value[(temp+i)*(T->nbColonneInt)+4*j],coeffs);
                 else
-                    store_coeffs(T,coeffs,temp+i,j);
+                    //store_coeffs(T,coeffs,temp+i,j);
+                    for(int i=0;i<T->nbColonneInt%4;i++)
+                    {
+                        writeInt64_t(T,temp+i,4*j+i,coeffs[i]);
+                    }
             }
         }
     }
@@ -134,11 +140,17 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
             for(int l=0;l<=lim;l++)
             {
                 //result->value[j*B->nbColonneInt+l]=readInt64_t(result,j,l)^T[index*B->nbColonneInt+l];
-                __m256i coeffs=xor_256(result,T,j,index,l);
+                //__m256i coeffs=xor_256(result,T,j,index,l);
+                __m256i coeffs=_mm256_xor_si256(readInt256i(result,j,l),readInt256i(T,index,l));
                 if(l!=B->nbColonneInt/4)
-                    store_coeffs2(result,coeffs,j,l);
+                    //store_coeffs2(result,coeffs,j,l);
+                    _mm256_storeu_si256(&result->value[j*(result->nbColonneInt)+4*l],coeffs);
                 else
-                    store_coeffs(result,coeffs,j,l);
+                    //store_coeffs(result,coeffs,j,l);
+                    for(int i=0;i<result->nbColonneInt%4;i++)
+                    {
+                        writeInt64_t(result,j,4*l+i,coeffs[i]);
+                    }
             }
         }
         //freeBloc(B_);
@@ -159,11 +171,21 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
             for(int l=0;l<=lim;l++)
             {
                 //result->value[j*B->nbColonneInt+l]=readInt64_t(result,j,l)^T[index*B->nbColonneInt+l];
-                __m256i coeffs=xor_256(result,T,j,index,l);
-                if(l!=B->nbColonneInt/4)
+                //__m256i coeffs=xor_256(result,T,j,index,l);
+                __m256i coeffs=_mm256_xor_si256(readInt256i(result,j,l),readInt256i(T,index,l));
+                /*if(l!=B->nbColonneInt/4)
                     store_coeffs2(result,coeffs,j,l);
                 else
-                    store_coeffs(result,coeffs,j,l);
+                    store_coeffs(result,coeffs,j,l);*/
+                if(l!=B->nbColonneInt/4)
+                    //store_coeffs2(result,coeffs,j,l);
+                    _mm256_storeu_si256(&result->value[j*(result->nbColonneInt)+4*l],coeffs);
+                else
+                    //store_coeffs(result,coeffs,j,l);
+                    for(int i=0;i<result->nbColonneInt%4;i++)
+                    {
+                        writeInt64_t(result,j,4*l+i,coeffs[i]);
+                    }
             }
         }
         //freeBloc(B_);
