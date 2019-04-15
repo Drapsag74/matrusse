@@ -131,13 +131,22 @@ __m128i readInt128i(matrix_t * m,long int indexRow,long int indexColumn){
 
 __m256i readInt256i(matrix_t * m,long int indexRow,long int indexColumn){
     if(indexColumn*4+3<m->nbColonneInt){
-        return _mm256_setr_epi64x(readInt64_t(m,indexRow,4*indexColumn),readInt64_t(m,indexRow,4*indexColumn+1),readInt64_t(m,indexRow,4*indexColumn+2),readInt64_t(m,indexRow,4*indexColumn+3));
+        return _mm256_lddqu_si256(m->value+(indexRow*m->nbColonneInt+indexColumn));
     }else if(indexColumn*4+2<m->nbColonneInt){
-        return _mm256_setr_epi64x(readInt64_t(m,indexRow,4*indexColumn),readInt64_t(m,indexRow,4*indexColumn+1),readInt64_t(m,indexRow,4*indexColumn+2),0);
+        __m256i ret=_mm256_lddqu_si256(m->value+(indexRow*m->nbColonneInt+indexColumn));
+        ret[3]=0;
+        return ret;
     }else if(indexColumn*4+1<m->nbColonneInt){
-        return _mm256_setr_epi64x(readInt64_t(m,indexRow,4*indexColumn),readInt64_t(m,indexRow,4*indexColumn+1),0,0);
+        __m256i ret=_mm256_lddqu_si256(m->value+(indexRow*m->nbColonneInt+indexColumn));
+        ret[3]=0;
+        ret[2]=0;
+        return ret;
     }else if(indexColumn*4<m->nbColonneInt){
-        return _mm256_setr_epi64x(readInt64_t(m,indexRow,4*indexColumn),0,0,0);
+        __m256i ret=_mm256_lddqu_si256(m->value+(indexRow*m->nbColonneInt+indexColumn));
+        ret[3]=0;
+        ret[2]=0;
+        ret[1]=0;
+        return ret;
     }
     printf("problem");
     printf("readInt256i error\n");
