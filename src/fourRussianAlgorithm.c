@@ -40,9 +40,9 @@ void fillTable2(matrix_t * T, matrix_t * B, int k, int k_){
                 //T[(temp+i)*(B->nbColonneInt)+j]=T[i*(B->nbColonneInt)+j]^(B->value[(k_-k)*(B->nbColonneInt)+j]);
                 __m256i coeffs=xor_256(T,B,i,k_-k,j);
                 if(j!=B->nbColonneInt/4)
-                    store_coeffs(T,coeffs,temp+i,j,1);
+                    store_coeffs2(T,coeffs,temp+i,j);
                 else
-                    store_coeffs(T,coeffs,temp+i,j,0);
+                    store_coeffs(T,coeffs,temp+i,j);
             }
         }
     }
@@ -93,22 +93,17 @@ __m256i xor_256(matrix_t * A, matrix_t * B, int ARow, int BRow, int Col)
     return _mm256_xor_si256(readInt256i(A,ARow,Col),readInt256i(B,BRow,Col));
 }
 
-void store_coeffs(matrix_t * R, __m256i coeffs, int Row, int Col, int last)
+void store_coeffs(matrix_t * R, __m256i coeffs, int Row, int Col)
 {
-    if(last!=0)
+    for(int i=0;i<R->nbColonneInt%4;i++)
     {
-        writeInt64_t(R,Row,4*Col,coeffs[0]);
-        writeInt64_t(R,Row,4*Col+1,coeffs[1]);
-        writeInt64_t(R,Row,4*Col+2,coeffs[2]);
-        writeInt64_t(R,Row,4*Col+3,coeffs[3]);
+        writeInt64_t(R,Row,4*Col+i,coeffs[i]);
     }
-    else
-    {
-        for(int i=0;i<R->nbColonneInt%4;i++)
-        {
-            writeInt64_t(R,Row,4*Col+i,coeffs[i]);
-        }
-    }
+}
+
+void store_coeffs2(matrix_t * R, __m256i coeffs, int Row, int Col)
+{
+    _mm256_storeu_si256(&R->value[Row*(R->nbColonneInt)+4*Col],coeffs);
 }
 
 matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
@@ -127,12 +122,12 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
         for(int j=0;j<A->m;j++)
         {
             uint64_t index=extract(A,j,k*i,k);
-            if(index<0)
+            /*if(index<0)
             {
-                /*printf("%16"PRIx64" ",index);
-                printf("index=%d j=%d i=%d\n",index,j,i);*/
+                printf("%16"PRIx64" ",index);
+                printf("index=%d j=%d i=%d\n",index,j,i);
                 index=-index;
-            }
+            }*/
             int lim=B->nbColonneInt/4;
             if(B->nbColonneInt%4==0 && lim!=0)
                 lim--;
@@ -141,9 +136,9 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
                 //result->value[j*B->nbColonneInt+l]=readInt64_t(result,j,l)^T[index*B->nbColonneInt+l];
                 __m256i coeffs=xor_256(result,T,j,index,l);
                 if(l!=B->nbColonneInt/4)
-                    store_coeffs(result,coeffs,j,l,1);
+                    store_coeffs2(result,coeffs,j,l);
                 else
-                    store_coeffs(result,coeffs,j,l,0);
+                    store_coeffs(result,coeffs,j,l);
             }
         }
         //freeBloc(B_);
@@ -166,9 +161,9 @@ matrix_t * matrusse(matrix_t * A, matrix_t * B, int k)
                 //result->value[j*B->nbColonneInt+l]=readInt64_t(result,j,l)^T[index*B->nbColonneInt+l];
                 __m256i coeffs=xor_256(result,T,j,index,l);
                 if(l!=B->nbColonneInt/4)
-                    store_coeffs(result,coeffs,j,l,1);
+                    store_coeffs2(result,coeffs,j,l);
                 else
-                    store_coeffs(result,coeffs,j,l,0);
+                    store_coeffs(result,coeffs,j,l);
             }
         }
         //freeBloc(B_);
