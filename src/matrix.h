@@ -10,9 +10,9 @@
 typedef struct matrix_t matrix_t;
 struct matrix_t{
   uint64_t * value;
-  int nbColonneInt;
-  int m; //number of row
-  int n; //number of columns
+  unsigned int nbColonneInt;
+  unsigned int m; //number of row
+  unsigned int n; //number of columns
 };
 
 //...
