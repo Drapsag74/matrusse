@@ -10,7 +10,7 @@
 
 
 int main(int argc, char * argv[]) {
-    matrix_t * A=aleaMatrixBinaire(32000,32000);
+    matrix_t * A=aleaMatrixBinaire(16000,16000);
     //matrix_t * B=identiterMatrix(64);
     //showMatrix(A);
     //printf("\n");
