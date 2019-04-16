@@ -16,6 +16,8 @@
 
 #define TAILLE_BLOC 1024
 
+#include "utils.h"
+
 matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k);
 
 #endif //MATRUSSE_FOURRUSSIANALGORITHMV2_H

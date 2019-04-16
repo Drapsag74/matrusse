@@ -3,8 +3,10 @@
 //
 
 #include "fourRussianAlgorithmV2.h"
+#include "utils.h"
 
 matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k) {
+    printf("matruse opti cache : \n");
     uint32_t m = A->m;
     uint32_t blocksize = TAILLE_BLOC;
     uint32_t l = A->n;
@@ -13,6 +15,7 @@ matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k) {
     matrix_t * C = nullMatrix(m, nbits);
     //TODO threading
     for (int start = 0; start < m/blocksize; ++start) {
+        progressBar(start,m/blocksize-1);
         for (int i = 0; i < l/k; ++i) {
             //alocating table of 2^k * B->nbColonneInt
             uint64_t * T = malloc((n*sizeof(uint64_t))<<k);

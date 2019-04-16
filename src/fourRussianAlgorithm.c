@@ -6,6 +6,7 @@
 
 matrix_t * matrusseV1(matrix_t * A, matrix_t * B, int k)
 {
+    printf("matruse classique : \n");
     matrix_t * result=nullMatrix(A->m,B->n);
     int64_t * T=createTable(B,k);
     matrix_t * B_;
