@@ -45,9 +45,9 @@ void fillTable2(uint64_t * T, matrix_t * B, int k, int k_){
 
 void showT(uint64_t * T, uint64_t size, uint64_t k) {
     printf("Showing table T : \n");
-    for (uint64_t i = 0; i < (1<<k); i++) {
-        printf("[");
         for (uint64_t j = 0; j < size; j++) {
+            for (uint64_t i = 0; i < (1<<k); i++) {
+                printf("[");
             printf("%16"PRIx64"\t", T[i*size+j]);
         }
         printf("]");
@@ -59,4 +59,24 @@ void showT(uint64_t * T, uint64_t size, uint64_t k) {
 int64_t * createTable(matrix_t * B, int k){
     int64_t * T = malloc((B->nbColonneInt*sizeof(B->value[0]))<<k);
     return T;
+}
+
+void progressBar(int k, int n)
+{
+    int temp=(int)((double)k/n*10);
+    if(k==0)
+        printf("TASK PROGRESS [");
+    else
+        for(int i=0;i<11;i++)
+            printf("\b");
+    for(int i=0;i<10;i++)
+    {
+        if(i<temp)
+            printf("|");
+        else
+            printf(" ");
+    }
+    printf("]");
+    if(k==n)
+        printf(" DONE\n");
 }

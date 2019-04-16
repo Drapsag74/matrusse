@@ -14,13 +14,6 @@
 #include "matrix.h"
 
 
-void *myThreadFun(void *vargp)
-{
-    sleep(1);
-    printf("Printing GeeksQuiz from Thread \n");
-    return NULL;
-}
-
 int main(int argc, char * argv[]) {
     matrix_t * A=aleaMatrixBinaire(16384,16384);
     //matrix_t * B=identiterMatrix(64);
@@ -32,7 +25,7 @@ int main(int argc, char * argv[]) {
     matrix_t * C=matrusseV2(A,A,8);
     //showMatrixBits(A);
     clock_t t2 = clock();
-    showMatrix(C);
+    //showMatrix(C);
     printf("temps d'exec : %ld \n", (t2-t)/CLOCKS_PER_SEC);
 
     //showMatrixBits(C);
