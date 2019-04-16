@@ -57,7 +57,7 @@ matrix_t * nullMatrix(long int m,long int n) {
 
 matrix_t * matrixVide(long int m,long int n) {
     printf("Creating a matrix null of size %dx%d\n", m,n);
-    matrix_t *matrice = malloc(sizeof(matrix_t));
+    matrix_t * matrice = malloc(sizeof(matrix_t));
     matrice->nbColonneInt=n / (sizeof(uint64_t) * 8);
     matrice->m = m;
     matrice->n = n ;

@@ -1,33 +1,36 @@
 import subprocess as sp
 import matplotlib.pyplot as plt
+import numpy as np
 
-plt.clf()
+#tab = []
+#for j in range (5,12):
+    #T=[]
+    #for i in range (100):
+        #bloc = str(j)
+        #out = sp.check_output(['../src/cmake-build-release/Matrusse 256 256 '+bloc+' -m'], shell=True).decode("utf-8")
+        #out = out.split(": ")
+        #p = out[1]
+        #p = int(p)
+        #T.append(p)
+        #moy = (sum(T)/len(T))
+    #tab.append(moy)
+#plt.plot([6,7,8,9,10,11,12],tab)
 
-tabf = []
-for l in range(1,3):
-    tab = []
-    for j in range(8,17,2):
-        T=[]
-        for i in range (100):
-            k = str(j)
-            b = str(l)
-            out = sp.check_output(['../src/cmake-build-release/Matrusse '+k+' 2048 -b='+b], shell=True).decode("utf-8")
-            out = out.split(": ")
-            p = out[1]
-            p = int(p)
-            T.append(p)
-            moy = (sum(T)/len(T))
-        tab.append(moy)
-    tabf.append(tab)
+#import subprocess as sp
+#import matplotlib.pyplot as plt
+tfinal=np.zeros((3,4))
+k=[2048,4096,8192,16384]
+ite=0
 
-plt.plot([8, 10, 12, 14, 16], tabf[0])
-plt.plot([8, 10, 12, 14, 16], tabf[1])
-
-#T=[]
-#for i in range (100):
-    #out = sp.check_output(['../src/cmake-build-release/Matrusse 100 100 8 -m'], shell=True)
-    #out = out.split(": ")
-    #p = out[1]
-    #p = int(p)
-    #T.append(p)
-    #moy = (sum(T)/len(T))
+for j in k:
+    for i in range (1,4):
+        print(i)
+        taille = str(j)
+        version = str(i)
+        out = sp.check_output(['../cmake-build-release/src/Matrusse '+taille+' '+taille+' 8 -m'+version], shell=True).decode("utf-8")
+        out = out.split(": ")
+        p = out[1]
+        p = int(p)
+        tfinal[i-1,ite]=p
+    ite+=1
+    
