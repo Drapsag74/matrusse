@@ -15,7 +15,7 @@ int main(int argc, char * argv[]) {
     //showMatrix(A);
     //printf("\n");
     //printf("\n");
-    matrix_t * C=matrusseIntrin(A,A,8);
+    matrix_t * C=matrusseIntrin(A,A,11);
     //showMatrix(B);
     //showMatrix(C);
     freeMatrix(A);

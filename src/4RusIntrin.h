@@ -9,6 +9,7 @@
 
 matrix_t * createTable(matrix_t * B, int k);
 void fillTableIntrin(matrix_t * T, matrix_t * B, int k, int k_);
+void progressBar(int k, int n);
 matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k);
 
 #endif //MATRUSSE_4RUSINTRIN_H

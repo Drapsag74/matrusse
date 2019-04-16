@@ -4,6 +4,8 @@
 
 #include "4RusIntrin.h"
 #include <immintrin.h>
+#include <string.h>
+#include <stdio.h>
 
 matrix_t * createTable(matrix_t * B, int k){
     uint64_t * T = malloc((B->nbColonneInt*sizeof(B->value[0]))<<k);
@@ -50,17 +52,34 @@ void fillTableIntrin(matrix_t * T, matrix_t * B, int k, int k_){
     }
 }
 
+void progressBar(int k, int n)
+{
+    int temp=(int)((double)k/n*10);
+    if(k==0)
+        printf("TASK PROGRESS [");
+    else
+        for(int i=0;i<11;i++)
+            printf("\b");
+    for(int i=0;i<10;i++)
+    {
+        if(i<temp)
+            printf("|");
+        else
+            printf(" ");
+    }
+    printf("]");
+    if(k==n)
+        printf(" DONE\n");
+}
+
 matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
 {
     matrix_t * result=nullMatrix(A->m,B->n);
-    printf("%d\n",A->m);
-    printf("%d\n",B->n);
     matrix_t * T=createTable(B,k);
     matrix_t * B_;
     for(int i=0;i<A->n/k;i++)
     {
-        if(i%10==0)
-            printf("Process %d / %d done\n",i,A->n/k);
+        progressBar(i,A->n/k-1);
         B_=getBloc(B,i*k,(i+1)*k-1);
         fillTableIntrin(T,B_,k,k);
         for(int j=0;j<A->m;j++)
@@ -86,7 +105,6 @@ matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
     int k_=A->n%k;
     if(k_!=0)
     {
-        printf("%d",B->nbColonneInt);
         T=createTable(B,k_);
         B_=getBloc(B,B->m-k_,B->m-1);
         fillTableIntrin(T,B_,k_,k_);
