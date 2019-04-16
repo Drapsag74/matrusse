@@ -48,10 +48,10 @@ int main(int argc, char *argv[]) {
     } else if (argc >3 || argv[3][0] != '-'){
         n = atoi(argv[1]);
         m = atoi(argv[2]);
-        bloc = atoi(argv[3]);
+        //bloc = atoi(argv[3]);
     }
 
-    int64_t k = n;
+    int64_t k = 8   ;
     matrix_t * A = aleaMatrixBinaire(n,m);
     matrix_t * B = aleaMatrixBinaire(m, n);
     int64_t * T = createTable(A, k);
@@ -85,8 +85,7 @@ int main(int argc, char *argv[]) {
     else{
         printf("exec algo matrusse\n");
         clock_t t = clock();
-        printf("1");
-        matrusse(A, B, bloc);
+        matrusseV1(A, B, bloc);
         clock_t t2 = clock();
         printf("Temps d'exec : %d", t2-t);
     }

@@ -8,12 +8,14 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <inttypes.h>
-#include "matrix.h"
 #include <string.h>
+#include <pthread.h>
 
-#define TAILLE_BLOC 16
+#include "matrix.h"
+#include "utils.h"
 
-void fillTable(uint64_t * T, matrix_t * B, int k, int k_);
-matrix_t * matrusse(matrix_t * A, matrix_t * B, int k);
+#define TAILLE_BLOC 1024
+
+matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k);
 
 #endif //MATRUSSE_FOURRUSSIANALGORITHMV2_H

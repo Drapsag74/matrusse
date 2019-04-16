@@ -1,13 +1,6 @@
-cmake_minimum_required(VERSION 3.10)
-project(matrusse)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_FLAGS_RELEASE "-O3")
-set(CMAKE_C_FLAGS  "-mavx -mavx2 ")
-set(CMAKE_CXX_FLAGS "-std=c++11 -msse  -msse2 -msse3 -mavx -mavx2")
 
-add_executable(Matrusse main.c testVerification.h testVerification.c fourRussianAlgorithm.c fourRussianAlgorithm.h matrix.h matrix.c)
-add_executable(Test test.c testVerification.h testVerification.c fourRussianAlgorithm.c fourRussianAlgorithm.h matrix.h matrix.c)
-add_executable(Tests tests/tests.cpp tests/tests-matrix.cpp matrix.h matrix.c)
-add_executable(TestIntrin testIntrin.c 4RusIntrin.c 4RusIntrin.h matrix.c matrix.h)
+add_executable(Matrusse main.c testVerification.h testVerification.c fourRussianAlgorithm.c fourRussianAlgorithm.h matrix.h matrix.c fourRussianAlgorithmV2.c fourRussianAlgorithmV2.h utils.c utils.h)
+add_executable(Test test.c testVerification.h testVerification.c matrix.h matrix.c fourRussianAlgorithmV2.c fourRussianAlgorithmV2.h fourRussianAlgorithm.c fourRussianAlgorithm.h utils.c utils.h)
+add_executable(Tests tests/tests.cpp tests/tests-matrix.cpp matrix.h matrix.c utils.c utils.h)
 include_directories( ${MY_SOURCE_DIR}/src)
