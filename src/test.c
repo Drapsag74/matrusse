@@ -32,7 +32,9 @@ int main(int argc, char * argv[]) {
     matrix_t * C=matrusseV2(A,A,8);
     //showMatrixBits(A);
     clock_t t2 = clock();
+    showMatrix(C);
     printf("temps d'exec : %ld \n", (t2-t)/CLOCKS_PER_SEC);
+
     //showMatrixBits(C);
     freeMatrix(C);
 
