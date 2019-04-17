@@ -7,7 +7,6 @@
 #include <string.h>
 #include <stdio.h>
 #include "matrix.h"
-#include "utils.h"
 
 matrix_t * createTable2(matrix_t * B, int k){
     uint64_t * T = malloc((B->nbColonneInt*sizeof(B->value[0]))<<k);

@@ -6,7 +6,7 @@
 #include "utils.h"
 
 matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k) {
-    printf("matruse opti cache : \n");
+    printf("matruse opti cache :\n");
     uint32_t m = A->m;
     uint32_t blocksize = TAILLE_BLOC;
     uint32_t l = A->n;
