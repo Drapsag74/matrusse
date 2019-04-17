@@ -55,7 +55,7 @@ matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k) {
     return C;
 }
 
-matrix_t * matrusseV2TestBloc(matrix_t * A, matrix_t * B, int k, , uint32_t blocksize) {
+matrix_t * matrusseV2TestBloc(matrix_t * A, matrix_t * B, int k, uint32_t blocksize) {
     printf("matruse opti cache :\n");
     uint32_t m = A->m;
     uint32_t l = A->n;
