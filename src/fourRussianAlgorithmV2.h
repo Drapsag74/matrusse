@@ -14,7 +14,7 @@
 #include "matrix.h"
 #include "utils.h"
 
-#define TAILLE_BLOC 512
+#define TAILLE_BLOC 1024
 
 #include "utils.h"
 

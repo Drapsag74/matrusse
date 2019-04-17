@@ -12,10 +12,12 @@ matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k) {
     uint32_t l = A->n;
     uint32_t n = B->nbColonneInt;
     uint32_t nbits = B->n;
+
     matrix_t * C = nullMatrix(m, nbits);
-    //TODO threading
+
     for (int start = 0; start < m/blocksize; ++start) {
-        progressBar(start,m/blocksize-1);
+        //progressBar(start,m/blocksize-1);
+
         for (int i = 0; i < l/k; ++i) {
             //alocating table of 2^k * B->nbColonneInt
             uint64_t * T = malloc((n*sizeof(uint64_t))<<k);
@@ -27,11 +29,28 @@ matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k) {
                 uint64_t * Tline = T+id*n;
                 xorMatrixRow(C, j, Tline);
             }
+            freeBloc(Bbloc);
             free(T);
-            free(Bbloc);
+        }
+
+        int kReste = l%k;
+        if (kReste != 0) {
+            //alocating table of 2^k * B->nbColonneInt
+            uint64_t * T = malloc((n*sizeof(uint64_t))<<kReste);
+            matrix_t * Bbloc = getBloc(B, l - kReste, kReste);
+            fillTable(T, Bbloc, kReste);
+            for (int s = 0; s < blocksize; ++s) {
+                uint64_t j = start*blocksize + s;
+                int64_t id = extract(A,j, l - kReste, kReste);
+                uint64_t * Tline = T+id*n;
+                xorMatrixRow(C, j, Tline);
+            }
+            freeBloc(Bbloc);
+            free(T);
         }
     }
 
-    uint64_t kReste = k*A->n;
+
+
     return C;
 }
