@@ -57,13 +57,13 @@ int main(int argc, char *argv[]) {
     } else if (argc > 3 || argv[3][0] != '-') {
         n = atoi(argv[1]);
         m = atoi(argv[2]);
-        //bloc = atoi(argv[3]);
+        bloc = atoi(argv[3]);
     }
 
-    int64_t k = n;
+    int64_t k = bloc;
     matrix_t * A = aleaMatrixBinaire(n, m);
     matrix_t * B = aleaMatrixBinaire(m, n);
-    int64_t *T = createTable(A, k);
+    int64_t * T = createTable(A, k);
 
     for (int i = 4; i < argc; i++) {
         if (argv[i][0] == '-') {
@@ -99,35 +99,34 @@ int main(int argc, char *argv[]) {
             clock_t t = clock();
             fillTable(T, A, k);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t)/ CLOCKS_PER_SEC);
+            printf("Temps d'exec : %d", (t2 - t));
         } else if (algo == 2 & fonction == 1) {
             printf("exec algo 2\n");
             clock_t t = clock();
             fillTable2(T, A, k, k);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t)/ CLOCKS_PER_SEC);
+            printf("Temps d'exec : %d", (t2 - t));
         }else if (algo == 1 & fonction == 2) {
             printf("exec algo matrusse V1\n");
             clock_t t = clock();
             printf("1");
             matrusseV1(A, B, bloc);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t)/ CLOCKS_PER_SEC);
+            printf("Temps d'exec : %d", (t2 - t));
         } else if (algo == 2 & fonction == 2) {
             printf("exec algo matrusse V2\n");
             clock_t t = clock();
             matrusseV2(A, B, bloc);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t)/ CLOCKS_PER_SEC);
+            printf("Temps d'exec : %d", (t2 - t));
         } else if (algo == 3 & fonction == 2) {
             printf("exec algo matrusse V3 Intrin\n");
             clock_t t = clock();
             matrusseIntrin(A, B, bloc);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t)/ CLOCKS_PER_SEC);
+            printf("Temps d'exec : %d", (t2 - t));
         }
         //showT(T, A->nbColonneInt, k);
         return 0;
 
 }
-
