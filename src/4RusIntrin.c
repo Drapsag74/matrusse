@@ -7,7 +7,6 @@
 #include <string.h>
 #include <stdio.h>
 #include "matrix.h"
-#include "utils.h"
 
 matrix_t * createTable2(matrix_t * B, int k){
     uint64_t * T = malloc((B->nbColonneInt*sizeof(B->value[0]))<<k);
@@ -40,7 +39,7 @@ void fillTableIntrin(matrix_t * T, matrix_t * B, int k, int k_){
             for(int j=0;j<=lim;j++)
             {
                 __m256i coeffs=_mm256_xor_si256(readInt256i(T,i,j),readInt256i(B,k_-k,j));
-                    if(j!=B->nbColonneInt/4)
+                if(j!=B->nbColonneInt/4)
                     _mm256_storeu_si256(&T->value[(temp+i)*(T->nbColonneInt)+4*j],coeffs);
                 else
                 {
@@ -87,7 +86,7 @@ matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
     int k_=A->n%k;
     if(k_!=0)
     {
-        T=createTable2(B,k_);
+        T=createTable(B,k_);
         B_=getBloc(B,B->m-k_,B->m-1);
         fillTableIntrin(T,B_,k_,k_);
         for(int j=0;j<A->m;j++)
