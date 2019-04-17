@@ -5,6 +5,7 @@
 matrix_t * aleaMatrixBinaire(long int m,long int n) {
     printf("Creating a matrix of size %dx%d\n", m,n);
     matrix_t *matrice = malloc(sizeof(matrix_t));
+    printf("test1");
     matrice->nbColonneInt=n / (sizeof(uint64_t) * 8);
     matrice->m = m;
     matrice->n = n ;

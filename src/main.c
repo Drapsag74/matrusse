@@ -109,7 +109,6 @@ int main(int argc, char *argv[]) {
         }else if (algo == 1 & fonction == 2) {
             printf("exec algo matrusse V1\n");
             clock_t t = clock();
-            printf("1");
             matrusseV1(A, B, bloc);
             clock_t t2 = clock();
             printf("Temps d'exec : %d", (t2 - t));
