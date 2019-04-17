@@ -57,7 +57,8 @@ void fillTableIntrin(matrix_t * T, matrix_t * B, int k, int k_){
 matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
 {
     matrix_t * result=nullMatrix(A->m,B->n);
-    matrix_t * T=createTable2(B,k);
+    //matrix_t * T=createTable2(B,k);
+    matrix_t * T=matrixVide(1<<k,B->m);
     matrix_t * B_;
     for(int i=0;i<A->n/k;i++)
     {
@@ -87,7 +88,8 @@ matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
     int k_=A->n%k;
     if(k_!=0)
     {
-        T=createTable2(B,k_);
+        //T=createTable2(B,k_);
+        matrix_t * T=matrixVide(1<<k_,B->m);
         B_=getBloc(B,B->m-k_,B->m-1);
         fillTableIntrin(T,B_,k_,k_);
         for(int j=0;j<A->m;j++)

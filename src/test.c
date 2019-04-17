@@ -15,14 +15,14 @@
 
 
 int main(int argc, char * argv[]) {
-    matrix_t * A=aleaMatrixBinaire(512,512);
+    matrix_t * A=aleaMatrixBinaire(6000,6000);
     //matrix_t * B=identiterMatrix(64);
     //showMatrix(A);
     //printf("\n");
     //printf("\n");
 
     clock_t t = clock();
-    matrix_t * C=matrusseV2(A,A,8);
+    matrix_t * C=matrusseV1(A,A,8);
     //showMatrixBits(A);
     clock_t t2 = clock();
     /*int64_t * T=createTable(A,8);
