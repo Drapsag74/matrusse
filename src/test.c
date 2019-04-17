@@ -15,7 +15,7 @@
 
 
 int main(int argc, char * argv[]) {
-    matrix_t * A=aleaMatrixBinaire(16384,16384);
+    matrix_t * A=aleaMatrixBinaire(512,512);
     //matrix_t * B=identiterMatrix(64);
     //showMatrix(A);
     //printf("\n");
@@ -25,8 +25,13 @@ int main(int argc, char * argv[]) {
     matrix_t * C=matrusseV2(A,A,8);
     //showMatrixBits(A);
     clock_t t2 = clock();
-    //showMatrix(C);
-    printf("temps d'exec : %ld \n", (t2-t)/CLOCKS_PER_SEC);
+    /*int64_t * T=createTable(A,8);
+    fillTable2(T,getBloc(A,0,7),8,8);
+    matrix_t * C=matrixVide(1<<8,512);
+    C->value=T;
+    showMatrix(A);*/
+    showMatrix(C);
+    //printf("temps d'exec : %ld \n", (t2-t)/CLOCKS_PER_SEC);
 
     //showMatrixBits(C);
     freeMatrix(C);
@@ -35,6 +40,8 @@ int main(int argc, char * argv[]) {
     //showMatrix(C);
     freeMatrix(A);
     //freeMatrix(B);
+
+    //free(T);
 
     return 0;
 }

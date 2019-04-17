@@ -11,7 +11,7 @@
 #include <time.h>
 
 int main(int argc, char * argv[]) {
-    matrix_t * A=aleaMatrixBinaire(16384,16384);
+    matrix_t * A=aleaMatrixBinaire(512,512);
     //matrix_t * B=identiterMatrix(64);
     //showMatrix(A);
     //printf("\n");
@@ -19,9 +19,16 @@ int main(int argc, char * argv[]) {
     clock_t t = clock();
     matrix_t * C=matrusseIntrin(A,A,8);
     clock_t t2 = clock();
-    printf("exec time = %d\n",(t2-t)/CLOCKS_PER_SEC);
+    //matrix_t * C=createTableIntrin(A,8);
+    //fillTableIntrin(C,getBloc(A,0,7),8,8);
+    /*__m256i test=_mm256_loadu_si256(&A->value[4]);
+    printf("%16"PRIx64" %16"PRIx64" %16"PRIx64" %16"PRIx64"",test[0],test[1],test[2],test[3]);
+    matrix_t * C=nullMatrix(512,512);
+    _mm256_storeu_si256(&C->value[4],test);*/
+    showMatrix(C);
+    //printf("exec time = %d\n",(t2-t)/CLOCKS_PER_SEC);
     //showMatrix(B);
-    //showMatrix(C);
+    showMatrix(C);
     freeMatrix(A);
     //freeMatrix(B);
     freeMatrix(C);
