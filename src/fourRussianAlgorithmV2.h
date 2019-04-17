@@ -20,4 +20,15 @@
 
 matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k);
 
+/**
+ * ONLY FOR TESTING BEST VALUE FOR BLOCKSIZE
+ * @param A Matrix A
+ * @param B Matrix B
+ * @param k k
+ * @param blocksize
+ * @return result of the product A*B
+ */
+matrix_t * matrusseV2TestBloc(matrix_t * A, matrix_t * B, int k, uint32_t blocksize);
+
+
 #endif //MATRUSSE_FOURRUSSIANALGORITHMV2_H
