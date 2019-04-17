@@ -78,8 +78,9 @@ matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
                     }
             }
         }
-        freeBloc(B_);
+        free(B_->value);
     }
+    free(T->value);
     int k_=A->n%k;
     if(k_!=0)
     {
@@ -104,8 +105,10 @@ matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
                     }
             }
         }
-        freeBloc(B_);
+        free(B_->value);
+        free(T->value);
     }
-    freeMatrix(T);
+    free(B_);
+    free(T);
     return result;
 }
