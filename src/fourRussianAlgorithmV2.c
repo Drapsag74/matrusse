@@ -6,7 +6,7 @@
 #include "utils.h"
 
 matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k) {
-    printf("matruse opti cache :\n");
+
     uint32_t m = A->m;
     uint32_t blocksize = TAILLE_BLOC;
     uint32_t l = A->n;
@@ -55,7 +55,9 @@ matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k) {
     }
     uint64_t blocksizeReste = m%blocksize;
     if(blocksizeReste != 0) {
-        int start = m/blocksize;
+
+        int start = m - blocksizeReste;
+
         for (int i = 0; i < l/k; ++i) {
             //alocating table of 2^k * B->nbColonneInt
             uint64_t * T = malloc((n*sizeof(uint64_t))<<k);
@@ -97,7 +99,7 @@ matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k) {
 }
 
 matrix_t * matrusseV2TestBloc(matrix_t * A, matrix_t * B, int k, uint32_t blocksize) {
-    printf("matruse opti cache :\n");
+
     uint32_t m = A->m;
     uint32_t l = A->n;
     uint32_t n = B->nbColonneInt;
@@ -186,7 +188,7 @@ matrix_t * matrusseV2TestBloc(matrix_t * A, matrix_t * B, int k, uint32_t blocks
 }
 
 matrix_t * matrusseV2_2(matrix_t * A, matrix_t * B, int k) {
-    printf("matruse opti cache :\n");
+
     uint32_t m = A->m;
     uint32_t blocksize = TAILLE_BLOC;
     uint32_t l = A->n;
