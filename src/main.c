@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
     int64_t m = 0;
     int64_t bloc = 8;
     int64_t algo = 2;
+    int64_t blocksize = 1024;
     int64_t fonction = 2;
 
     if (argc == 2) {
@@ -85,6 +86,7 @@ int main(int argc, char *argv[]) {
                             break;
                         case '2' :
                             algo = 2;
+                            blocksize = atoi(argv[5]);
                             break;
                         case '3' :
                             algo = 3;
@@ -109,19 +111,19 @@ int main(int argc, char *argv[]) {
         }else if (algo == 1 & fonction == 2) {
             printf("exec algo matrusse V1\n");
             clock_t t = clock();
-            matrusseV1(A, B, bloc);
+            matrusseV1(A, B, k);
             clock_t t2 = clock();
             printf("Temps d'exec : %d", (t2 - t));
         } else if (algo == 2 & fonction == 2) {
             printf("exec algo matrusse V2\n");
             clock_t t = clock();
-            matrusseV2(A, B, bloc);
+            matrusseV2TestBloc(A, B, k, blocksize);
             clock_t t2 = clock();
             printf("Temps d'exec : %d", (t2 - t));
         } else if (algo == 3 & fonction == 2) {
             printf("exec algo matrusse V3 Intrin\n");
             clock_t t = clock();
-            matrusseIntrin(A, B, bloc);
+            matrusseIntrin(A, B, k);
             clock_t t2 = clock();
             printf("Temps d'exec : %d", (t2 - t));
         }
