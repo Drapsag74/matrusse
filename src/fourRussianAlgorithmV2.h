@@ -18,6 +18,14 @@
 
 #include "utils.h"
 
+/**
+ * product of matrix using 4RussianAlgo
+ * @param A Matrix A
+ * @param B Matrix B
+ * @param k k
+ * @param blocksize
+ * @return result of the product A*B
+ */
 matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k);
 
 /**
@@ -30,5 +38,14 @@ matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k);
  */
 matrix_t * matrusseV2TestBloc(matrix_t * A, matrix_t * B, int k, uint32_t blocksize);
 
+/**
+ * Version with fillTable2
+ * @param A Matrix A
+ * @param B Matrix B
+ * @param k k
+ * @param blocksize
+ * @return result of the product A*B
+ */
+matrix_t * matrusseV2_2(matrix_t * A, matrix_t * B, int k);
 
 #endif //MATRUSSE_FOURRUSSIANALGORITHMV2_H
