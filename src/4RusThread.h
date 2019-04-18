@@ -27,13 +27,13 @@ matrix_t * matrusseThread(matrix_t * A, matrix_t * B, int k,int nbCoeur);
 
 static void * worker (void * p_data);
 
-matrix_t * matrusseThreadV2(matrix_t * A, matrix_t * B, int k);
+matrix_t * matrusseThreadV2(matrix_t * A, matrix_t * B, int k,int nbCoeur);
 
 static void * workerV2 (void * p_data2);
 
 void matrusseTestCoeur(matrix_t * A, matrix_t * B,matrix_t * C, int k);
 
-void matrusseTestCoeurV2(matrix_t * A, matrix_t * B,matrix_t * C, int k,int nbCoeur);
+void matrusseTestCoeurV2(matrix_t * A, matrix_t * B,matrix_t * C, int k);
 
 
 #endif //MATRUSSE_4RUSTHREAD_H
