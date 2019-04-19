@@ -9,6 +9,8 @@
 
 extern "C" {
     #include "../matrix.h"
+    #include "../fourRussianAlgorithm.h"
+    #include "../testVerification.h"
 }
 
 using namespace std;
@@ -58,7 +60,7 @@ TEST_CASE("read/write Int","[matrice]"){
 TEST_CASE("nbrow/column","[matrice]"){
     matrix_t * M = aleaMatrixBinaire(512, 512);
     matrix_t * N = nullMatrix(66, 66);
-    int64_t *c = getRow(M,2);
+    uint64_t *c = getRow(M,2);
     CHECK(getNbRow(M)==512);
     CHECK(getNbColumn(M)==(512/64));
     CHECK(getNbRow(N)==66);
@@ -71,11 +73,76 @@ TEST_CASE("Getblock","[matrice]"){
     matrix_t * N = getBloc(M,10,20);
     REQUIRE(getNbRow(N)==11);
     for(int i = 0; i<getNbRow(N);i++){
-        int64_t *a = getRow(M,10+i);
-        int64_t *b = getRow(N,i);
+        uint64_t *a = getRow(M,10+i);
+        uint64_t *b = getRow(N,i);
         CHECK(a[0]==b[0]);
     }
 }
 
+TEST_CASE("extract","[matrice]"){
+    matrix_t * M = nullMatrix(15, 128);
+    writeInt64_t(M,3,0,0x7530000000000000);
+    writeInt64_t(M,5,0,4);
+    writeInt64_t(M,7,0,5);
+    writeInt64_t(M,9,0,6);
+    writeInt64_t(M,11,0,7);
+    writeInt64_t(M,13,0,8);
+    writeInt64_t(M,3,1,13);
+    writeInt64_t(M,5,1,14);
+    writeInt64_t(M,7,1,15);
+    writeInt64_t(M,9,1,16);
+    writeInt64_t(M,11,1,17);
+    writeInt64_t(M,13,1,18);
+    showMatrix(M);
+    REQUIRE(extract(M,3,64,64)==13);
+    REQUIRE(extract(M,3,0,16)==0x7530);
+    REQUIRE(extract(M,5,64,64)==14);
+    REQUIRE(extract(M,5,0,64)==4);
+    REQUIRE(extract(M,7,64,64)==15);
+    REQUIRE(extract(M,7,0,64)==5);
+}
 
+TEST_CASE("TEST montecarlo","[matrice]"){
+    matrix_t * A = aleaMatrixBinaire(1024,1024);
+    matrix_t * C = aleaMatrixBinaire(1024,1024);
+    matrix_t * B = identiterMatrix(1024);
+    matrix_t * M = matrusseV1(A,B,1);
+    matrix_t * N = matrusseV1(A,C,5);
+    int64_t r = testMonteCarlo(A,B,M,20);
+    int64_t r2 = testMonteCarlo(A,C,N,20);
+    REQUIRE(r==1);
+    REQUIRE(r2==1);
+
+}
+
+
+TEST_CASE("test du testMonteCarlo","[matrice]"){
+    matrix_t * A = nullMatrix(3,3);
+    matrix_t * B = nullMatrix(3,3);
+    writeInt64_t(A,0,0,0xa000000000000000);
+    writeInt64_t(A,1,0,0xc000000000000000);
+    writeInt64_t(A,2,0,0x2000000000000000);
+    writeInt64_t(B,0,0,0xc000000000000000);
+    writeInt64_t(B,1,0,0x4000000000000000);
+    writeInt64_t(B,2,0,0xa000000000000000);
+    showMatrixBits(A);
+    printf("\n");
+    showMatrixBits(B);
+    matrix_t * M = matrusseV1(A,B,1);
+    for(int64_t i = 0; i<5; i++){
+        int s = 0;
+        int sb = 0;
+        int64_t r1 = rand()%(A->m);
+        int64_t r2 = rand()%(A->m);
+        for(int64_t j = 0; j<(A->n); j++){
+            uint64_t a = extract(B,j,r2,1);
+            uint64_t b = extract(A,r1,j,1);
+            s +=  a*b;
+        }
+        sb=s%2;
+        printf("%d \n",sb);
+        printf("en (%d;%d) %d \n",r1,r2,sb);
+    }
+    showMatrixBits(M);
+}
 
