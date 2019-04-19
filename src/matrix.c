@@ -85,7 +85,7 @@ void showMatrix(matrix_t * m) {
     for (int i = 0; i < m->m*m->nbColonneInt; i++) {
         printf("%16"PRIx64" ",m->value[i]);
         if((i+1)%(m->nbColonneInt)==0){
-            printf("]\n");
+            printf("]\n %d",(i+1)/m->nbColonneInt);
             if(i < m->m*m->nbColonneInt-1){
                 printf("[");
             }
@@ -277,16 +277,16 @@ uint64_t random_64() {
 }
 
 void freeBloc(matrix_t * m){
-    m=NULL;
     free(m);
+    m=NULL;
 
 }
 
 void freeMatrix(matrix_t * m){
-    m->value=NULL;
     free(m->value);
+    m->value=NULL;
 
-    m=NULL;
     free(m);
+    m=NULL;
 
 }
