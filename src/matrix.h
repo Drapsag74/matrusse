@@ -139,9 +139,10 @@ matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow);
  */
 uint64_t random_64();
 
+
 /**
  *
- * @param m - The Bloc who need to be free
+ * @param m - The Bloc who need to be free, this is not working don't use
  */
 void freeBloc(matrix_t * m);
 
