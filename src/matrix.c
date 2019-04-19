@@ -204,7 +204,7 @@ uint64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits
     uint64_t ret=0;
     uint64_t mask=0;
     long int debut=indexColumn/64;
-    if(debut==(indexColumn+nbBits)/64){//if the number of column is a multiple of 64
+    if(debut==(indexColumn+nbBits-1)/64){//if the number of column is a multiple of 64
         ret =readInt64_t(m,indexRow,debut);
         int emplacement=indexColumn%64;
         for(int i=emplacement;i<emplacement+nbBits;i++){
