@@ -68,7 +68,7 @@ matrix_t * matrusseThreadV2TestBloc(matrix_t * A, matrix_t * B, int k,int nbCoeu
 void matrusseThreadV2(matrix_t * A, matrix_t * B,matrix_t * C, int k,int nbCoeur){
 
     pthread_t threads [nbCoeur];
-     struct p_data ** p= malloc(sizeof(struct p_data*));
+     struct p_data ** p= malloc(sizeof(struct p_data*)*nbCoeur);
 
     for(int i = 0; i<nbCoeur;i++){
         p[i]= malloc(sizeof(struct p_data));
@@ -83,9 +83,10 @@ void matrusseThreadV2(matrix_t * A, matrix_t * B,matrix_t * C, int k,int nbCoeur
     for (int i = 0; i < nbCoeur; i++)
     {
         pthread_join (threads[i], NULL);
+        free(p[i]->A);
+        free(p[i]->C);
         free(p[i]);
     }
-
     return;
 
 }
