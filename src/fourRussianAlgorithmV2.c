@@ -23,15 +23,13 @@ void calculResteK(matrix_t * A, matrix_t * B, matrix_t * C, uint32_t kReste, uin
 }
 
 
-matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k) {
+void matrusseV2(matrix_t * A, matrix_t * B, matrix_t * C, int k) {
 
     uint32_t m = A->m;
     uint32_t blocksize = TAILLE_BLOC;
     uint32_t l = A->n;
     uint32_t n = B->nbColonneInt;
     uint32_t nbits = B->n;
-
-    matrix_t * C = nullMatrix(m, nbits);
 
     for (int start = 0; start < m/blocksize; ++start) {
         //progressBar(start,m/blocksize-1);
@@ -86,19 +84,14 @@ matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k) {
             calculResteK(A, B, C, kReste, n, l, blocksizeReste, start);
         }
     }
-
-
-    return C;
 }
 
-matrix_t * matrusseV2TestBloc(matrix_t * A, matrix_t * B, int k, uint32_t blocksize) {
+void matrusseV2TestBloc(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint32_t blocksize) {
 
     uint32_t m = A->m;
     uint32_t l = A->n;
     uint32_t n = B->nbColonneInt;
     uint32_t nbits = B->n;
-
-    matrix_t * C = nullMatrix(m, nbits);
 
     for (int start = 0; start < m/blocksize; ++start) {
         //progressBar(start,m/blocksize-1);
@@ -152,19 +145,15 @@ matrix_t * matrusseV2TestBloc(matrix_t * A, matrix_t * B, int k, uint32_t blocks
             calculResteK(A, B, C, kReste, n, l, blocksizeReste, start/blocksize);
         }
     }
-
-    return C;
 }
 
-matrix_t * matrusseV2_2(matrix_t * A, matrix_t * B, int k) {
+void matrusseV2_2(matrix_t * A, matrix_t * B, matrix_t * C, int k) {
 
     uint32_t m = A->m;
     uint32_t blocksize = TAILLE_BLOC;
     uint32_t l = A->n;
     uint32_t n = B->nbColonneInt;
     uint32_t nbits = B->n;
-
-    matrix_t * C = nullMatrix(m, nbits);
 
     for (int start = 0; start < m/blocksize; ++start) {
         //progressBar(start,m/blocksize-1);
@@ -191,5 +180,31 @@ matrix_t * matrusseV2_2(matrix_t * A, matrix_t * B, int k) {
         }
     }
 
-    return C;
+    uint32_t blocksizeReste = m%blocksize;
+    if(blocksizeReste != 0) {
+
+        int start = m - blocksizeReste;
+
+        for (int i = 0; i < l/k; ++i) {
+            //alocating table of 2^k * B->nbColonneInt
+            uint64_t * T = malloc((n*sizeof(uint64_t))<<k);
+            matrix_t * Bbloc = getBloc(B, i*k, i+k);
+            fillTable(T, Bbloc, k);
+            for (int s = 0; s < blocksizeReste; ++s) { //scanning throught the last block
+                uint64_t j = start + s;
+                int64_t id = extract(A,j, k*i, k);
+                uint64_t * Tline = T+id*n;
+                xorMatrixRow(C, j, Tline);
+            }
+            free(Bbloc);
+            Bbloc = NULL;
+            free(T);
+            T = NULL;
+        }
+        uint32_t kReste = l%k;
+        if (kReste != 0) {
+            //divided start by blocksize to fit calculReste
+            calculResteK(A, B, C, kReste, n, l, blocksizeReste, start/blocksize);
+        }
+    }
 }
