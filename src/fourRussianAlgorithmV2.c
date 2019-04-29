@@ -83,7 +83,7 @@ matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k) {
 
         uint32_t kReste = l%k;
         if (kReste != 0) {
-            calculResteK(A, B, C, kReste, n, l, blocksize, start);
+            calculResteK(A, B, C, kReste, n, l, blocksizeReste, start);
         }
     }
 
@@ -149,7 +149,7 @@ matrix_t * matrusseV2TestBloc(matrix_t * A, matrix_t * B, int k, uint32_t blocks
         uint32_t kReste = l%k;
         if (kReste != 0) {
             //divided start by blocksize to fit calculReste
-            calculResteK(A, B, C, kReste, n, l, blocksize, start/blocksize);
+            calculResteK(A, B, C, kReste, n, l, blocksizeReste, start/blocksize);
         }
     }
 
