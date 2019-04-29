@@ -134,19 +134,14 @@ __m256i readInt256i(matrix_t * m,long int indexRow,long int indexColumn){
     if(indexColumn*4+3<m->nbColonneInt){
         return _mm256_loadu_si256(&m->value[indexRow*m->nbColonneInt+indexColumn*4]);
     }else if(indexColumn*4+2<m->nbColonneInt){
-        __m256i ret=_mm256_loadu_si256(&m->value[indexRow*m->nbColonneInt+indexColumn*4]);
-        ret[3]=0;
+        __m256i ret=_mm256_setr_epi64x(m->value[indexRow*m->nbColonneInt+indexColumn*4],m->value[indexRow*m->nbColonneInt+indexColumn*4+1],m->value[indexRow*m->nbColonneInt+indexColumn*4+2],0);
         return ret;
     }else if(indexColumn*4+1<m->nbColonneInt){
-        __m256i ret=_mm256_loadu_si256(&m->value[indexRow*m->nbColonneInt+indexColumn*4]);
-        ret[3]=0;
-        ret[2]=0;
+        __m256i ret=_mm256_setr_epi64x(m->value[indexRow*m->nbColonneInt+indexColumn*4],m->value[indexRow*m->nbColonneInt+indexColumn*4+1],0,0);
+
         return ret;
     }else if(indexColumn*4<m->nbColonneInt){
-        __m256i ret=_mm256_loadu_si256(&m->value[indexRow*m->nbColonneInt+indexColumn*4]);
-        ret[3]=0;
-        ret[2]=0;
-        ret[1]=0;
+        __m256i ret=_mm256_setr_epi64x(m->value[indexRow*m->nbColonneInt+indexColumn*4],0,0,0);
         return ret;
     }
     printf("problem");
