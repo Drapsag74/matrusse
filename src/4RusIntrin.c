@@ -50,9 +50,8 @@ void fillTableIntrin(matrix_t * T, matrix_t * B, int k, int k_){
     }
 }
 
-matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
+void matrusseIntrin(matrix_t * A, matrix_t * B, matrix_t * result, int k)
 {
-    matrix_t * result=nullMatrix(A->m,B->n);
     matrix_t * T=createTable2(B,k);
     matrix_t * B_;
     for(int i=0;i<A->n/k;i++)
@@ -78,14 +77,18 @@ matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
                     }
             }
         }
-        freeBloc(B_);
+        //freeBloc(B_);
+        //free(B_->value);
+        free(B_);
     }
+    free(T->value);
+    free(T);
     int k_=A->n%k;
     if(k_!=0)
     {
-        T=createTable2(B,k_);
+        matrix_t * T_=createTable2(B,k_);
         B_=getBloc(B,B->m-k_,B->m-1);
-        fillTableIntrin(T,B_,k_,k_);
+        fillTableIntrin(T_,B_,k_,k_);
         for(int j=0;j<A->m;j++)
         {
             uint64_t index=extract(A,j,A->n-k_,k_);
@@ -94,7 +97,7 @@ matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
                 lim--;
             for(int l=0;l<=lim;l++)
             {
-                __m256i coeffs=_mm256_xor_si256(readInt256i(result,j,l),readInt256i(T,index,l));
+                __m256i coeffs=_mm256_xor_si256(readInt256i(result,j,l),readInt256i(T_,index,l));
                 if(l!=B->nbColonneInt/4)
                     _mm256_storeu_si256(&result->value[j*(result->nbColonneInt)+4*l],coeffs);
                 else
@@ -104,9 +107,11 @@ matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
                     }
             }
         }
-        freeBloc(B_);
+        //freeBloc(B_);
+        //free(B_->value);
+        free(B_);
+        free(T_->value);
+        free(T_);
     }
-    free(T->value);
-    free(T);
-    return result;
+    return ;
 }

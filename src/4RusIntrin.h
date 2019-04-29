@@ -10,6 +10,6 @@
 
 matrix_t * createTable2(matrix_t * B, int k);
 void fillTableIntrin(matrix_t * T, matrix_t * B, int k, int k_);
-matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k);
+void matrusseIntrin(matrix_t * A, matrix_t * B,matrix_t * result, int k);
 
 #endif //MATRUSSE_4RUSINTRIN_H

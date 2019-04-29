@@ -25,7 +25,7 @@
  * @param blocksize
  * @return result of the product A*B
  */
-matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k);
+void matrusseV2(matrix_t * A, matrix_t * B, matrix_t * C, int k);
 
 /**
  * ONLY FOR TESTING BEST VALUE FOR BLOCKSIZE
@@ -35,7 +35,7 @@ matrix_t * matrusseV2(matrix_t * A, matrix_t * B, int k);
  * @param blocksize
  * @return result of the product A*B
  */
-matrix_t * matrusseV2TestBloc(matrix_t * A, matrix_t * B, int k, uint32_t blocksize);
+void matrusseV2TestBloc(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint32_t blocksize);
 
 /**
  * Version with fillTable2
@@ -45,6 +45,6 @@ matrix_t * matrusseV2TestBloc(matrix_t * A, matrix_t * B, int k, uint32_t blocks
  * @param blocksize
  * @return result of the product A*B
  */
-matrix_t * matrusseV2_2(matrix_t * A, matrix_t * B, int k);
+void matrusseV2_2(matrix_t * A, matrix_t * B, matrix_t * C, int k);
 
 #endif //MATRUSSE_FOURRUSSIANALGORITHMV2_H
