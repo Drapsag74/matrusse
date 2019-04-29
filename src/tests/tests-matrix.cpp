@@ -11,6 +11,7 @@ extern "C" {
     #include "../matrix.h"
     #include "../fourRussianAlgorithm.h"
     #include "../testVerification.h"
+    #include "../fourRussianAlgorithmV2.h"
 }
 
 using namespace std;
@@ -93,7 +94,6 @@ TEST_CASE("extract","[matrice]"){
     writeInt64_t(M,9,1,16);
     writeInt64_t(M,11,1,17);
     writeInt64_t(M,13,1,18);
-    showMatrix(M);
     REQUIRE(extract(M,3,64,64)==13);
     REQUIRE(extract(M,3,0,16)==0x7530);
     REQUIRE(extract(M,5,64,64)==14);
@@ -102,7 +102,7 @@ TEST_CASE("extract","[matrice]"){
     REQUIRE(extract(M,7,0,64)==5);
 }
 
-TEST_CASE("TEST montecarlo","[matrice]"){
+TEST_CASE("TEST montecarlo matrusseV1","[matrice]"){
     matrix_t * A = aleaMatrixBinaire(1024,1024);
     matrix_t * C = aleaMatrixBinaire(1024,1024);
     matrix_t * B = identiterMatrix(1024);
@@ -115,6 +115,18 @@ TEST_CASE("TEST montecarlo","[matrice]"){
 
 }
 
+TEST_CASE("TEST montecarlo matrusseV2","[matrice]"){
+    matrix_t * A = aleaMatrixBinaire(2048,2048);
+    matrix_t * C = aleaMatrixBinaire(2048,2048);
+    matrix_t * B = identiterMatrix(2048);
+    matrix_t * M = matrusseV2(A,B,1);
+    matrix_t * N = matrusseV2(A,C,5);
+    int64_t r = testMonteCarlo(A,B,M,20);
+    int64_t r2 = testMonteCarlo(A,C,N,20);
+    REQUIRE(r==1);
+    REQUIRE(r2==1);
+
+}
 
 TEST_CASE("test du testMonteCarlo","[matrice]"){
     matrix_t * A = nullMatrix(3,3);
@@ -125,24 +137,18 @@ TEST_CASE("test du testMonteCarlo","[matrice]"){
     writeInt64_t(B,0,0,0xc000000000000000);
     writeInt64_t(B,1,0,0x4000000000000000);
     writeInt64_t(B,2,0,0xa000000000000000);
-    showMatrixBits(A);
-    printf("\n");
-    showMatrixBits(B);
     matrix_t * M = matrusseV1(A,B,1);
-    for(int64_t i = 0; i<5; i++){
+    for(int64_t i = 0; i<5; i++) {
         int s = 0;
         int sb = 0;
-        int64_t r1 = rand()%(A->m);
-        int64_t r2 = rand()%(A->m);
-        for(int64_t j = 0; j<(A->n); j++){
-            uint64_t a = extract(B,j,r2,1);
-            uint64_t b = extract(A,r1,j,1);
-            s +=  a*b;
+        int64_t r1 = rand() % (A->m);
+        int64_t r2 = rand() % (A->m);
+        for (int64_t j = 0; j < (A->n); j++) {
+            uint64_t a = extract(B, j, r2, 1);
+            uint64_t b = extract(A, r1, j, 1);
+            s += a * b;
         }
-        sb=s%2;
-        printf("%d \n",sb);
-        printf("en (%d;%d) %d \n",r1,r2,sb);
+        sb = s % 2;
     }
-    showMatrixBits(M);
 }
 

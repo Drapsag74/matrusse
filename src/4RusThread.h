@@ -8,6 +8,7 @@
 #include "matrix.h"
 #include "utils.h"
 #include <pthread.h>
+#include <windows.h>
 
 #define TAILLE_BLOC 4096
 
