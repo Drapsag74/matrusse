@@ -86,10 +86,15 @@ int main(int argc, char *argv[]) {
                             break;
                         case '2' :
                             algo = 2;
-                            blocksize = atoi(argv[5]);
+                            if (argc>5){
+                              blocksize = atoi(argv[5]);
+                            }
                             break;
                         case '3' :
                             algo = 3;
+                            break;
+                        case '4' :
+                            algo = 4;
                             break;
                     }
             }
@@ -126,6 +131,12 @@ int main(int argc, char *argv[]) {
             matrusseIntrin(A, B, k);
             clock_t t2 = clock();
             printf("Temps d'exec : %d", (t2 - t));
+        } else if (algo == 4 & fonction ==2) {
+          printf("exec algo matrusse V2_2\n");
+          clock_t t = clock();
+          matrusseV2_2(A, B, k);
+          clock_t t2 = clock();
+          printf("Temps d'exec : %d", (t2-t));
         }
         //showT(T, A->nbColonneInt, k);
         return 0;
