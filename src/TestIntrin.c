@@ -11,14 +11,17 @@
 #include <time.h>
 
 int main(int argc, char * argv[]) {
-    matrix_t * A=aleaMatrixBinaire(32000,32000);
+    matrix_t * A=aleaMatrixBinaire(4096,4096);
+    matrix_t * C=nullMatrix(4096,4096);
+
     //matrix_t * B=identiterMatrix(64);
     //showMatrix(A);
     //printf("\n");
     //printf("\n");
     clock_t t = clock();
-    matrix_t * C=matrusseIntrin(A,A,11);
+    matrusseIntrin(A,A,C,11);
     clock_t t2 = clock();
+    showMatrix(C);
     //matrix_t * C=createTableIntrin(A,8);
     //fillTableIntrin(C,getBloc(A,0,7),8,8);
     /*__m256i test=_mm256_loadu_si256(&A->value[4]);
@@ -29,8 +32,10 @@ int main(int argc, char * argv[]) {
     printf("exec time = %d\n",(t2-t)/CLOCKS_PER_SEC);
     //showMatrix(B);
     //showMatrix(C);
-    freeMatrix(A);
+    free(A->value);
+    free(A);
     //freeMatrix(B);
-    freeMatrix(C);
+    free(C->value);
+    free(C);
     return 0;
 }
