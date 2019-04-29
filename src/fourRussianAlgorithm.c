@@ -4,10 +4,9 @@
 
 #include "fourRussianAlgorithm.h"
 
-matrix_t * matrusseV1(matrix_t * A, matrix_t * B, int k)
+void matrusseV1(matrix_t * A, matrix_t * B,matrix_t * result, int k)
 {
     printf("matruse classique :\n");
-    matrix_t * result=nullMatrix(A->m,B->n);
     int64_t * T=createTable(B,k);
     matrix_t * B_;
     for(int i=0;i<A->n/k;i++)
@@ -42,5 +41,5 @@ matrix_t * matrusseV1(matrix_t * A, matrix_t * B, int k)
         freeBloc(B_);
         free(T);
     }
-    return result;
+    return ;
 }

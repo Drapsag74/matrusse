@@ -2,6 +2,7 @@
 // Created by etien on 17/04/2019.
 //
 #include "4RusThread.h"
+#include "fourRussianAlgorithm.h"
 
 
 matrix_t * matrusseThread(matrix_t * A, matrix_t * B, int k,int nbCoeur){
@@ -58,14 +59,16 @@ static void * worker (void * p_data){
 
 
 }
+/*
+matrix_t * matrusseThreadV2TestBloc(matrix_t * A, matrix_t * B, int k,int nbCoeur,int64_t blocSize){
+    return
+}*/
 
-matrix_t * matrusseThreadV2(matrix_t * A, matrix_t * B, int k,int nbCoeur){
+void matrusseThreadV2(matrix_t * A, matrix_t * B,matrix_t * C, int k,int nbCoeur){
 
     pthread_t threads [nbCoeur];
-    struct matrix_t * m;
-    matrix_t * C = nullMatrix(A->m, A->n);
     for(int i = 0; i<nbCoeur;i++){
-        struct p_data *args = malloc(sizeof(matrix_t));
+        struct p_data *args = malloc(sizeof(struct p_data));
         args->A=getBloc(A,i*A->m/nbCoeur,(i+1)*A->m/nbCoeur);
         args->B=B;
         args->C=getBloc(C,i*A->m/nbCoeur,(i+1)*A->m/nbCoeur);
@@ -78,15 +81,16 @@ matrix_t * matrusseThreadV2(matrix_t * A, matrix_t * B, int k,int nbCoeur){
     {
         pthread_join (threads[i], NULL);
     }
-    return C;
+    return ;
 }
 
 static void * workerV2 (void * p_data){
     struct p_data *args = (struct p_data *) p_data;
-    matrusseTestCoeurV2(args->A,args->B,args->C,8);
+    printf("matrice A(%d,%d) et B(%d,%d)",args->A->m,args->A->n,args->B->m,args->B->n);
+    matrusseV1(args->A,args->B,args->C,8);
 }
 
-
+/*
 void  matrusseTestCoeur(matrix_t * A, matrix_t * B,matrix_t * result, int k)
 {
     printf("matruse classique : \n");
@@ -213,11 +217,9 @@ void matrusseTestCoeurV2(matrix_t * A, matrix_t * B,matrix_t * C, int k) {
             T = NULL;
         }
     }
-
-
     return ;
 }
-
+*/
 
 
 

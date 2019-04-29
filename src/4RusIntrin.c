@@ -50,9 +50,8 @@ void fillTableIntrin(matrix_t * T, matrix_t * B, int k, int k_){
     }
 }
 
-matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
+void matrusseIntrin(matrix_t * A, matrix_t * B, matrix_t * result, int k)
 {
-    matrix_t * result=nullMatrix(A->m,B->n);
     matrix_t * T=createTable2(B,k);
     matrix_t * B_;
     for(int i=0;i<A->n/k;i++)
@@ -108,5 +107,5 @@ matrix_t * matrusseIntrin(matrix_t * A, matrix_t * B, int k)
     }
     free(T->value);
     free(T);
-    return result;
+    return ;
 }

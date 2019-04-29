@@ -12,7 +12,7 @@
 
 #define LOG2(X) ((unsigned) (8*sizeof (unsigned long long) - __builtin_clzll((X)) - 1))
 
-matrix_t * matrusseV1(matrix_t * A, matrix_t * B, int k);
+void matrusseV1(matrix_t * A, matrix_t * B, matrix_t * C, int k);
 
 
 
