@@ -2,6 +2,7 @@
 // Created by etien on 17/04/2019.
 //
 #include "4RusThread.h"
+#include "fourRussianAlgorithmV2.h"
 #include "fourRussianAlgorithm.h"
 
 
@@ -67,21 +68,26 @@ matrix_t * matrusseThreadV2TestBloc(matrix_t * A, matrix_t * B, int k,int nbCoeu
 void matrusseThreadV2(matrix_t * A, matrix_t * B,matrix_t * C, int k,int nbCoeur){
 
     pthread_t threads [nbCoeur];
+     struct p_data ** p= malloc(sizeof(struct p_data*));
+
     for(int i = 0; i<nbCoeur;i++){
-        struct p_data *args = malloc(sizeof(struct p_data));
-        args->A=getBloc(A,i*A->m/nbCoeur,(i+1)*A->m/nbCoeur);
-        args->B=B;
-        args->C=getBloc(C,i*A->m/nbCoeur,(i+1)*A->m/nbCoeur);
-        args->k=k;
+        p[i]= malloc(sizeof(struct p_data));
+        p[i]->A=getBloc(A,i*A->m/nbCoeur,(i+1)*A->m/nbCoeur);
+        p[i]->B=B;
+        p[i]->C=getBloc(C,i*A->m/nbCoeur,(i+1)*A->m/nbCoeur);
+        p[i]->k=k;
         //m=getBloc(A,i*A->m/2,(i+1)*A->m/2);
-        pthread_create (&threads, NULL, workerV2, args);
+        pthread_create (&threads, NULL, workerV2, p[i]);
 
     }
     for (int i = 0; i < nbCoeur; i++)
     {
         pthread_join (threads[i], NULL);
+        free(p[i]);
     }
-    return ;
+
+    return;
+
 }
 
 static void * workerV2 (void * p_data){
