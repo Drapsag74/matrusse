@@ -3,6 +3,8 @@
 //
 
 #include "utils.h"
+#include "xoshiro256starstar.h"
+#include <time.h>
 
 
 void fillTable(int64_t * T, matrix_t * B, int k){
@@ -79,4 +81,22 @@ void progressBar(int k, int n)
     printf("]");
     if(k==n)
         printf(" DONE\n");
+}
+
+uint64_t random_64()
+{
+    if(!__my_little_init_was_done)
+    {
+        srand(time(NULL));
+        uint64_t seed[4];
+        seed[0]=rand();
+        seed[1]=rand();
+        seed[2]=rand();
+        seed[3]=rand();
+        __my_little_xoshiro256starstar_initialization(seed);
+        __my_little_init_was_done=1;
+        for(int i=0;i<100;i++)
+            __my_little_xoshiro256starstar__next();
+    }
+    return __my_little_xoshiro256starstar__next();
 }

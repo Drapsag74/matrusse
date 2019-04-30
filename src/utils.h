@@ -19,6 +19,6 @@ void fillTable2(uint64_t * T, matrix_t * B, int k, int k_);
 void showT(uint64_t * T, uint64_t size, uint64_t k);
 int64_t * createTable(matrix_t * B, int k);
 void progressBar(int k, int n);
-
+uint64_t random_64();
 
 #endif //MATRUSSE_UTILS_H

@@ -133,12 +133,6 @@ void writeInt256i(matrix_t * m,long int indexRow,long int indexColumn, __m256i v
  */
 matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow);
 
-/**
- *
- * @return a random uint64_t
- */
-uint64_t random_64();
-
 
 /**
  *

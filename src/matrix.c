@@ -1,6 +1,7 @@
 #include "matrix.h"
 #include "time.h"
 #include <limits.h>
+#include "utils.h"
 
 matrix_t * aleaMatrixBinaire(long int m,long int n) {
     printf("Creating a matrix of size %dx%d\n", m,n);
@@ -263,15 +264,6 @@ matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow){
     return matrice;
 }
 
-uint64_t random_64() {
-    /*uint64_t random=rand();
-    random=random<<32;
-    return  random+rand();*/
-    uint64_t random1=(int) ((double)UINT_MAX*((double)rand()/RAND_MAX));
-    uint64_t random2=(int) ((double)UINT_MAX*((double)rand()/RAND_MAX));
-    random1=random1<<32;
-    return random1+random2;
-}
 
 void freeBloc(matrix_t * m){
     free(m);

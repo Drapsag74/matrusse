@@ -36,9 +36,9 @@ static uint64_t __my_little_xoshiro256starstar__s[4];
 void __my_little_xoshiro256starstar_initialization(uint64_t iv[4])
 {
 	__my_little_xoshiro256starstar__s[0] = iv[0];
-	__my_little_xoshiro256starstar__s[1] = iv[1];
-	__my_little_xoshiro256starstar__s[2] = iv[2];
-	__my_little_xoshiro256starstar__s[3] = iv[3];
+    __my_little_xoshiro256starstar__s[1] = iv[1];
+    __my_little_xoshiro256starstar__s[2] = iv[2];
+    __my_little_xoshiro256starstar__s[3] = iv[3];
 
 	return;
 }
