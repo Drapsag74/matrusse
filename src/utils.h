@@ -9,7 +9,6 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <string.h>
-#include <pthread.h>
 
 #include "matrix.h"
 
