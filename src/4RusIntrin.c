@@ -36,7 +36,7 @@ void fillTableIntrin(matrix_t * T, matrix_t * B, int k, int k_){
             for(int j=0;j<=lim;j++)
             {
                 __m256i coeffs=_mm256_xor_si256(readInt256i(T,i,j),readInt256i(B,k_-k,j));
-                    if(j!=B->nbColonneInt/4)
+                if(j!=B->nbColonneInt/4)
                     _mm256_storeu_si256(&T->value[(temp+i)*(T->nbColonneInt)+4*j],coeffs);
                 else
                 {
@@ -77,8 +77,6 @@ void matrusseIntrin(matrix_t * A, matrix_t * B, matrix_t * result, int k)
                     }
             }
         }
-        //freeBloc(B_);
-        //free(B_->value);
         free(B_);
     }
     free(T->value);
@@ -107,8 +105,6 @@ void matrusseIntrin(matrix_t * A, matrix_t * B, matrix_t * result, int k)
                     }
             }
         }
-        //freeBloc(B_);
-        //free(B_->value);
         free(B_);
         free(T_->value);
         free(T_);

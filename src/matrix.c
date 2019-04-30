@@ -62,6 +62,8 @@ matrix_t * matrixVide(long int m,long int n) {
     matrice->nbColonneInt=n / (sizeof(uint64_t) * 8);
     matrice->m = m;
     matrice->n = n ;
+    if(matrice->nbColonneInt*(sizeof(uint64_t) * 8)<n)
+        matrice->nbColonneInt++;
     return matrice;
 }
 
