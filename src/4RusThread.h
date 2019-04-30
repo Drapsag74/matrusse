@@ -9,6 +9,8 @@
 #include "utils.h"
 #include <pthread.h>
 #include "fourRussianAlgorithmV2.h"
+#include "fourRussianAlgorithm.h"
+#include "4RusIntrin.h"
 
 #define TAILLE_BLOC 4096
 
@@ -17,20 +19,17 @@ struct p_data{
     matrix_t * B;
     matrix_t * C;
     int k;
-    int start;
 };
 
 
+void matrusseThread(matrix_t * A, matrix_t * B, matrix_t * C, int k,int nbCoeur,int version);
 
-
-
-matrix_t * matrusseThread(matrix_t * A, matrix_t * B, int k,int nbCoeur);
-
-static void * worker (void * p_data);
-
-void matrusseThreadV2(matrix_t * A, matrix_t * B,matrix_t * C, int k,int nbCoeur);
+static void * workerV1 (void * p_data);
 
 static void * workerV2 (void * p_data2);
+
+static void * workerIntrin (void * p_data);
+
 /*
 void matrusseTestCoeur(matrix_t * A, matrix_t * B,matrix_t * C, int k);
 
