@@ -169,7 +169,8 @@ void matrusseV2_1TestBloc(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint3
 
     //allocating 2^k * B->nbColonneInt * l/k for the table of all subdivision of the matrix
     // add 2^(l%k) * B->nbColonneInt for the reminder
-    uint64_t * Ttable = malloc(((n*sizeof(uint64_t))<<k)*(l/k) + ((n*sizeof(uint64_t))<<(l%k)));
+    uint64_t sizeOfATable = ((n*sizeof(uint64_t))<<k);
+    uint64_t * Ttable = malloc(sizeOfATable*(l/k) + ((n*sizeof(uint64_t))<<(l%k)));
 
     for (int start = 0; start < m/blocksize; ++start) {
         //progressBar(start,m/blocksize-1);
@@ -177,10 +178,10 @@ void matrusseV2_1TestBloc(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint3
         for (int i = 0; i < l/k; ++i) {
 
             matrix_t * Bbloc = getBloc(B, i*k, i+k);
+            uint64_t * T = Ttable + i*sizeOfATable/8;
             if(start == 0) {
-                fillTable(Ttable+i, Bbloc, k);
+                fillTable(T, Bbloc, k);
             }
-            uint64_t * T = Ttable + i;
             for (int s = 0; s < blocksize; ++s) {
                 uint64_t j = start*blocksize + s;
                 int64_t id = extract(A,j, k*i, k);
@@ -194,7 +195,8 @@ void matrusseV2_1TestBloc(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint3
 
         uint32_t kReste = l%k;
         if (kReste != 0) {
-            calculResteK2_1(A, B, C, kReste, n, l, blocksize, start, Ttable + (l - kReste));
+            uint64_t * TReste = Ttable + (l - kReste)*sizeOfATable/8;
+            calculResteK2_1(A, B, C, kReste, n, l, blocksize, start, TReste);
         }
     }
 
@@ -206,7 +208,7 @@ void matrusseV2_1TestBloc(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint3
         for (int i = 0; i < l/k; ++i) {
             //alocating table of 2^k * B->nbColonneInt
             matrix_t * Bbloc = getBloc(B, i*k, i+k);
-            uint64_t * T = Ttable + i;
+            uint64_t * T = Ttable + i*sizeOfATable/8;
 
             for (int s = 0; s < blocksizeReste; ++s) { //scanning throught the last block
                 uint64_t j = start + s;
@@ -220,8 +222,9 @@ void matrusseV2_1TestBloc(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint3
         }
         uint32_t kReste = l%k;
         if (kReste != 0) {
+            uint64_t * TReste = Ttable + (l - kReste)*sizeOfATable/8;
             //divided start by blocksize to fit calculReste
-            calculResteK2_1(A, B, C, kReste, n, l, blocksizeReste, start/blocksize, Ttable + (l-kReste));
+            calculResteK2_1(A, B, C, kReste, n, l, blocksizeReste, start/blocksize, TReste);
         }
     }
     free(Ttable);
