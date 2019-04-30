@@ -77,7 +77,7 @@ void matrusseThreadV2(matrix_t * A, matrix_t * B,matrix_t * C, int k,int nbCoeur
         p[i]->C=getBloc(C,i*C->m/nbCoeur,(i+1)*C->m/nbCoeur-1);
         p[i]->k=k;
         //m=getBloc(A,i*A->m/2,(i+1)*A->m/2);
-        pthread_create (&threads, NULL, workerV2, p[i]);
+        pthread_create (&threads[i], NULL, workerV2, p[i]);
 
     }
     for (int i = 0; i < nbCoeur; i++)
