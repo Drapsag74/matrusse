@@ -49,7 +49,7 @@ static void * workerV1 (void * p_data){
 static void * workerV2 (void * p_data){
     struct p_data *args = (struct p_data *) p_data;
     //printf("matrice A(%d,%d) et B(%d,%d)",args->A->m,args->A->n,args->B->m,args->B->n);
-    matrusseV2(args->A,args->B,args->C,8);
+    matrusseV2TestBloc(args->A,args->B,args->C,8,args->sizeBloc);
 }
 
 static void * workerIntrin (void * p_data){
@@ -61,7 +61,7 @@ static void * workerIntrin (void * p_data){
 static void * workerTest (void * p_data){
     struct p_data *args = (struct p_data *) p_data;
     //printf("matrice A(%d,%d) et B(%d,%d)",args->A->m,args->A->n,args->B->m,args->B->n);
-    matrusseV2_1TestBloc(args->A,args->B,args->C,8,128);
+    matrusseV2_1TestBloc(args->A,args->B,args->C,8,args->sizeBloc);
 }
 
 

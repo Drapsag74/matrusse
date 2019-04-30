@@ -22,7 +22,16 @@ struct p_data{
     int sizeBloc;
 };
 
-
+/**
+ *
+ * @param A
+ * @param B
+ * @param C - Matrix result
+ * @param k -
+ * @param nbCoeur - nb coeur du pc
+ * @param sizeBloc - taille de decoupe des bloc si version = 4 ou 2
+ * @param version - version de l'algo utiliser
+ */
 void matrusseThread(matrix_t * A, matrix_t * B, matrix_t * C, int k,int nbCoeur,int sizeBloc,int version);
 
 static void * workerV1 (void * p_data);
