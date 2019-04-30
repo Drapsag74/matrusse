@@ -56,7 +56,7 @@ void matrusseIntrin(matrix_t * A, matrix_t * B, matrix_t * result, int k)
     matrix_t * B_;
     for(int i=0;i<A->n/k;i++)
     {
-        progressBar(i,A->n/k-1);
+        //progressBar(i,A->n/k-1);
         B_=getBloc(B,i*k,(i+1)*k-1);
         fillTableIntrin(T,B_,k,k);
         for(int j=0;j<A->m;j++)
