@@ -147,6 +147,127 @@ TEST_CASE("TEST montecarlo matrusseIntrin","[matrice]"){
     CHECK(r2==1);
 }
 
+TEST_CASE("TEST montecarlo matrusseV2 test blocsize","[matrice]"){
+    matrix_t * A = aleaMatrixBinaire(4096,4096);
+    matrix_t * C = aleaMatrixBinaire(10000,10000);
+    matrix_t * B = identiterMatrix(10000);
+    matrix_t * M = nullMatrix(4096,4096);
+    matrix_t * N = nullMatrix(10000,10000);
+    matrix_t * D = aleaMatrixBinaire(10000,5000);
+    matrix_t * E = aleaMatrixBinaire(10000, 5000);
+    matrix_t * F = nullMatrix(10000,10000);
+
+    SECTION( "Matrix of size 4096x4096, k = 8, size of bloc = 1024 : " ) {
+        matrusseV2TestBloc(A,B,M,8,1024);
+        int64_t r = testMonteCarlo(A,B,M,7000);
+        CHECK(r==1);
+    }
+
+    SECTION("Matrix of size 10000x10000, k = 8, size of bloc = 1000") {
+        matrusseV2TestBloc(A,C,N,8,1000);
+        int64_t r = testMonteCarlo(A,C,N,7000);
+        CHECK(r==1);
+    }
+
+    SECTION("Matrix of size 10000x10000, k = 11, size of bloc = 1000") {
+        matrusseV2TestBloc(A,C,N,11,1000);
+        int64_t r = testMonteCarlo(A,C,N,7000);
+        CHECK(r==1);
+    }
+
+    SECTION("Matrix of size 10000x10000, k = 8, size of bloc = 1024") {
+        matrusseV2TestBloc(A,C,N,8,1024);
+        int64_t r = testMonteCarlo(A,C,N,7000);
+        CHECK(r==1);
+    }
+
+    SECTION("Matrix of size 10000x10000, k = 11, size of bloc = 1024") {
+        matrusseV2TestBloc(A,C,N,11,1000);
+        int64_t r = testMonteCarlo(A,C,N,7000);
+        CHECK(r==1);
+    }
+
+    SECTION("Matrix of size 10000x5000 and 5000x10000, k = 11, size of bloc = 120") {
+        matrusseV2TestBloc(D,E,F,11,120);
+        int64_t r = testMonteCarlo(D,E,F,7000);
+        CHECK(r==1);
+    }
+
+    free(A->value);
+    free(A);
+    free(B->value);
+    free(B);
+    free(C->value);
+    free(C);
+    free(D->value);
+    free(D);
+    free(E->value);
+    free(E);
+    free(F->value);
+    free(F);
+}
+
+
+TEST_CASE("TEST montecarlo matrusseV2.1","[matrice]"){
+    matrix_t * A = aleaMatrixBinaire(4096,4096);
+    matrix_t * C = aleaMatrixBinaire(10000,10000);
+    matrix_t * B = identiterMatrix(10000);
+    matrix_t * M = nullMatrix(4096,4096);
+    matrix_t * N = nullMatrix(10000,10000);
+    matrix_t * D = aleaMatrixBinaire(10000,5000);
+    matrix_t * E = aleaMatrixBinaire(10000, 5000);
+    matrix_t * F = nullMatrix(10000,10000);
+
+    SECTION( "Matrix of size 4096x4096, k = 8, size of bloc = 128 : " ) {
+        matrusseV2_1TestBloc(A,B,M,8,128);
+        int64_t r = testMonteCarlo(A,B,M,7000);
+        CHECK(r==1);
+    }
+
+    SECTION("Matrix of size 10000x10000, k = 8, size of bloc = 128") {
+        matrusseV2_1TestBloc(A,C,N,8,128);
+        int64_t r = testMonteCarlo(A,C,N,7000);
+        CHECK(r==1);
+    }
+
+    SECTION("Matrix of size 10000x10000, k = 11, size of bloc = 128") {
+        matrusseV2_1TestBloc(A,C,N,11,128);
+        int64_t r = testMonteCarlo(A,C,N,7000);
+        CHECK(r==1);
+    }
+
+    SECTION("Matrix of size 10000x10000, k = 8, size of bloc = 120") {
+        matrusseV2_1TestBloc(A,C,N,8,120);
+        int64_t r = testMonteCarlo(A,C,N,7000);
+        CHECK(r==1);
+    }
+
+    SECTION("Matrix of size 10000x10000, k = 11, size of bloc = 120") {
+        matrusseV2_1TestBloc(A,C,N,11,120);
+        int64_t r = testMonteCarlo(A,C,N,7000);
+        CHECK(r==1);
+    }
+
+    SECTION("Matrix of size 10000x5000 and 5000x10000, k = 11, size of bloc = 120") {
+        matrusseV2_1TestBloc(D,E,F,11,120);
+        int64_t r = testMonteCarlo(D,E,F,7000);
+        CHECK(r==1);
+    }
+
+    free(A->value);
+    free(A);
+    free(B->value);
+    free(B);
+    free(C->value);
+    free(C);
+    free(D->value);
+    free(D);
+    free(E->value);
+    free(E);
+    free(F->value);
+    free(F);
+}
+
 
 TEST_CASE("test du testMonteCarlo","[matrice]"){
     matrix_t * A = aleaMatrixBinaire(2048,2048);
