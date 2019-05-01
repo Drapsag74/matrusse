@@ -11,7 +11,7 @@ void calculResteK(matrix_t * A, matrix_t * B, matrix_t * C, uint32_t kReste, uin
     matrix_t * Bbloc = getBloc(B, l - kReste, kReste);
     fillTable(T, Bbloc, kReste);
     for (int s = 0; s < blocksize; ++s) {
-        uint64_t j = start*blocksize + s;
+        uint64_t j = start + s;
         int64_t id = extract(A,j, l - kReste, kReste);
         uint64_t * Tline = T+id*n;
         xorMatrixRow(C, j, Tline);
@@ -27,7 +27,7 @@ void calculResteK2_1(matrix_t * A, matrix_t * B, matrix_t * C, uint32_t kReste, 
     matrix_t * Bbloc = getBloc(B, l - kReste, kReste);
     fillTable(T, Bbloc, kReste);
     for (int s = 0; s < blocksize; ++s) {
-        uint64_t j = start*blocksize + s;
+        uint64_t j = start + s;
         int64_t id = extract(A,j, l - kReste, kReste);
         uint64_t * Tline = T+id*n;
         xorMatrixRow(C, j, Tline);
@@ -66,8 +66,7 @@ void matrusseV2(matrix_t * A, matrix_t * B, matrix_t * C, int k) {
 
         uint32_t kReste = l%k;
         if (kReste != 0) {
-            //divided start by blocksize to fit calculReste
-            calculResteK(A, B, C, kReste, n, l, blocksize, start/blocksize);
+            calculResteK(A, B, C, kReste, n, l, blocksize, start*blocksize);
         }
     }
     uint32_t blocksizeReste = m%blocksize;
@@ -94,6 +93,7 @@ void matrusseV2(matrix_t * A, matrix_t * B, matrix_t * C, int k) {
 
         uint32_t kReste = l%k;
         if (kReste != 0) {
+            //not multiplying by blocksize because start is already the beginning of the last bloc
             calculResteK(A, B, C, kReste, n, l, blocksizeReste, start);
         }
     }
@@ -128,7 +128,7 @@ void matrusseV2TestBloc(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint32_
 
         uint32_t kReste = l%k;
         if (kReste != 0) {
-            calculResteK(A, B, C, kReste, n, l, blocksize, start);
+            calculResteK(A, B, C, kReste, n, l, blocksize, start*blocksize);
         }
     }
     uint32_t blocksizeReste = m%blocksize;
@@ -154,8 +154,8 @@ void matrusseV2TestBloc(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint32_
         }
         uint32_t kReste = l%k;
         if (kReste != 0) {
-            //divided start by blocksize to fit calculReste
-            calculResteK(A, B, C, kReste, n, l, blocksizeReste, start/blocksize);
+            //not multiplying by blocksize because start is already the beginning of the last bloc
+            calculResteK(A, B, C, kReste, n, l, blocksizeReste, start);
         }
     }
 }
@@ -197,7 +197,7 @@ void matrusseV2_1TestBloc(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint3
         if (kReste != 0) {
             //divided by 8 because of size of uint64_t in bytes
             uint64_t * TReste = Ttable + (l/k)*sizeOfATable/8;
-            calculResteK2_1(A, B, C, kReste, n, l, blocksize, start, TReste);
+            calculResteK2_1(A, B, C, kReste, n, l, blocksize, start*blocksize, TReste);
         }
     }
 
@@ -224,8 +224,8 @@ void matrusseV2_1TestBloc(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint3
         uint32_t kReste = l%k;
         if (kReste != 0) {
             uint64_t * TReste = Ttable + (l/k)*sizeOfATable/8;
-            //divided start by blocksize to fit calculReste
-            calculResteK2_1(A, B, C, kReste, n, l, blocksizeReste, start/blocksize, TReste);
+            //not multiplying by blocksize because start is already the beginning of the last bloc
+            calculResteK2_1(A, B, C, kReste, n, l, blocksizeReste, start, TReste);
         }
     }
     free(Ttable);
@@ -261,8 +261,7 @@ void matrusseV2_2(matrix_t * A, matrix_t * B, matrix_t * C, int k) {
 
         int kReste = l%k;
         if (kReste != 0) {
-            //divided start by blocksize to fit calculReste
-            calculResteK(A, B, C, kReste, n, l, blocksize, start/blocksize);
+            calculResteK(A, B, C, kReste, n, l, blocksize, start*blocksize);
         }
     }
 
@@ -289,8 +288,8 @@ void matrusseV2_2(matrix_t * A, matrix_t * B, matrix_t * C, int k) {
         }
         uint32_t kReste = l%k;
         if (kReste != 0) {
-            //divided start by blocksize to fit calculReste
-            calculResteK(A, B, C, kReste, n, l, blocksizeReste, start/blocksize);
+            //not multiplying by blocksize because start is already the beginning of the last bloc
+            calculResteK(A, B, C, kReste, n, l, blocksizeReste, start);
         }
     }
 }
