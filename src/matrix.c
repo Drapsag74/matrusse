@@ -168,6 +168,18 @@ void xorMatrixRow(matrix_t * m1, long int row1,uint64_t * row){
 
 }
 
+void xorMatrixMatrix256i(matrix_t * m1, long int row1,matrix_t * m2,long int  row2){
+
+    uint64_t * a=getRow(m1,row1);
+    uint64_t reste = m1->nbColonneInt%4;
+    for(long int i=0; i<m1->nbColonneInt/4; i+=1){
+        __m256i coeffs =_mm256_xor_si256(readInt256i(m1,row1, i) ,readInt256i(m2, row2, i));
+        _mm256_storeu_si256(a + i*4, coeffs);
+    }
+    for(uint32_t k = m1->nbColonneInt - reste; k < m1->nbColonneInt; k++ ) {
+        writeInt64_t(m1, row1, k, readInt64_t(m1, row1, k)^readInt64_t(m2, row2, k));
+    }
+}
 
 void writeInt64_t(matrix_t * m,long int indexRow,long int indexColumn, uint64_t val){
     m->value[indexRow*m->nbColonneInt+indexColumn]=val;

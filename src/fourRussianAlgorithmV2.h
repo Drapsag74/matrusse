@@ -49,4 +49,6 @@ void matrusseV2_2(matrix_t * A, matrix_t * B, matrix_t * C, int k);
 
 void matrusseV2_1TestBloc(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint32_t blocksize);
 
+void matrusseV2SpeedOfLight(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint32_t blocksize);
+
 #endif //MATRUSSE_FOURRUSSIANALGORITHMV2_H

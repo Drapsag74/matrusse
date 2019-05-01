@@ -294,32 +294,41 @@ void matrusseV2_2(matrix_t * A, matrix_t * B, matrix_t * C, int k) {
     }
 }
 
+//We'll assume that we are only multiplying matrix with bloc and k multiple of the matrix size
+void matrusseV2SpeedOfLight(matrix_t * A, matrix_t * B, matrix_t * C, int k, uint32_t blocksize) {
 
-/*void matrusseV2_256(matrix_t * A, matrix_t * B, matrix_t * C, int k) {
     uint32_t m = A->m;
-    uint32_t blocksize = TAILLE_BLOC;
     uint32_t l = A->n;
-    uint32_t n = B->nbColonneInt/4;
+    uint32_t n = B->nbColonneInt;
     uint32_t nbits = B->n;
 
-    for (int start = 0; start < m/blocksize; ++start) {
+    //allocating 2^k * B->nbColonneInt * l/k for the table of all subdivision of the matrix
+    uint64_t sizeOfATable = ((n * sizeof(uint64_t)) << k);
+    uint64_t *Ttable = malloc(sizeOfATable * (l / k));
+
+    for (int start = 0; start < m / blocksize; ++start) {
         //progressBar(start,m/blocksize-1);
 
         for (int i = 0; i < l/k; ++i) {
-            //alocating table of 2^k * B->nbColonneInt
-            uint64_t * T = malloc((n*sizeof(__m256i))<<k);
-            matrix_t * Bbloc = getBloc(B, i*k, i+k);
-            fillTable(T, Bbloc, k);
+
+            matrix_t *Bbloc = getBloc(B, i * k, i + k);
+            uint64_t *T = Ttable + i * sizeOfATable / 8;
+            if (start == 0) {
+                fillTable(T, Bbloc, k);
+            }
             for (int s = 0; s < blocksize; ++s) {
-                uint64_t j = start*blocksize + s;
-                int64_t id = extract(A,j, k*i, k);
-                uint64_t * Tline = T+id*n;
-                xorMatrixRow(C, j, Tline);
+                uint64_t j = start * blocksize + s;
+                int64_t id = extract(A, j, k * i, k);
+                //create a dummy table matrix to use existing functions
+                matrix_t Tline = {.value=T + id*n, .nbColonneInt=n };
+                xorMatrixMatrix256i(C,j, &Tline, 0);
             }
             free(Bbloc);
             Bbloc = NULL;
-            free(T);
-            T = NULL;
+
         }
     }
-}*/
+
+    free(Ttable);
+    Ttable = NULL;
+}

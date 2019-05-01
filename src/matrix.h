@@ -46,6 +46,9 @@ void xorMatrixMatrix(matrix_t * m1, long int row1,matrix_t * m2,long int  row2);
 
 void xorMatrixRow(matrix_t * m1, long int row1,uint64_t * row);
 
+void xorMatrixMatrix256i(matrix_t * m1, long int row1,matrix_t * m2,long int  row2);
+
+
 /**
  *
  * @param m
