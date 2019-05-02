@@ -2,6 +2,8 @@
 #include "matrix.h"
 #include "unistd.h"
 #include "time.h"
+#include "testVerification.h"
+#include "utils.h"
 
 /**
  * /
@@ -36,17 +38,15 @@ int64_t testDiag(matrix_t * A, matrix_t * B, matrix_t * M){
  */
 int64_t testMonteCarlo(matrix_t * A, matrix_t * B, matrix_t * M,int64_t a) {
     int64_t b = 1;
-    time_t t;
-    srand((unsigned) time(&t));
     for(int64_t i = 0; i<a; i++){
         int64_t s = 0;
-        int64_t r1 = rand()%(A->m);
-        int64_t r2 = rand()%(A->m);
+        int64_t r1 = random_64()%(A->m);
+        int64_t r2 = random_64()%(A->m);
         for(int64_t j = 0; j<(A->n); j++){
-            s = s + (readInt64_t(A,r1,j)*readInt64_t(B,j,r2));
+            s += (extract(A,r1,j,1)*extract(B,j,r2,1));
         }
         s=s%2;
-        if(s!=readInt64_t(M,r1,r2)){
+        if(s!=extract(M,r1,r2,1)){
             b = 0;
             break;
         }

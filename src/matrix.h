@@ -4,13 +4,15 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <inttypes.h>
+#include <emmintrin.h>
+#include <immintrin.h>
 
 typedef struct matrix_t matrix_t;
 struct matrix_t{
-  int64_t * value;
-  int nbColonneInt;
-  int m; //number of row
-  int n; //number of columns
+  uint64_t * value;
+  unsigned int nbColonneInt;
+  unsigned int m; //number of row
+  unsigned int n; //number of columns
 };
 
 //...
@@ -30,7 +32,22 @@ matrix_t * aleaMatrixBinaire(long int m,long int n);
  */
 matrix_t * nullMatrix(long int m,long int n);
 
+/**
+ *
+ * @param m - The size of the matrix
+ * @return
+ */
+
 matrix_t * identiterMatrix(long int m);
+
+matrix_t * matrixVide(long int m,long int n);
+
+void xorMatrixMatrix(matrix_t * m1, long int row1,matrix_t * m2,long int  row2);
+
+void xorMatrixRow(matrix_t * m1, long int row1,uint64_t * row);
+
+void xorMatrixMatrix256i(matrix_t * m1, long int row1,matrix_t * m2,long int  row2);
+
 
 /**
  *
@@ -40,15 +57,37 @@ matrix_t * identiterMatrix(long int m);
 void showMatrix(matrix_t * m);
 
 /**
+ * Show the matrix whise 1 or 0
+ * @param m - The matrix
+ */
+void showMatrixBits(matrix_t * m);
+
+/**
  *
  * @param m -The matrix
  * @param indexRow - The index of the row
- * @param indexColumn - The index of the column (in int64_t not in bits)
- * @return The int64_t in position (indexRow,indexColumn)
+ * @param indexColumn - The index of the column (in uint64_t not in bits)
+ * @return The uint64_t in position (indexRow,indexColumn)
  */
-int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumn);
+uint64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumn);
 
-//int64_t readInt128i(matrix_t * m,long int indexRow,long int indexColumn);
+/**
+ *
+ * @param m - The matrix
+ * @param indexRow - The index of the row
+ * @param indexColumn - The index of the column
+ * @return
+ */
+__m128i readInt128i(matrix_t * m,long int indexRow,long int indexColumn);
+
+/**
+ *
+ * @param m - The matrix
+ * @param indexRow - The index of the row
+ * @param indexColumn - The index of the column
+ * @return
+ */
+__m256i readInt256i(matrix_t * m,long int indexRow,long int indexColumn);
 
 /**
  *
@@ -58,7 +97,7 @@ int64_t readInt64_t(matrix_t * m,long int indexRow,long int indexColumn);
  * @param nbBits - The numbers of bits who need to take
  * @return int64_t - the nbBits selected
  */
-int64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits);
+uint64_t extract(matrix_t * m,long int indexRow,long int indexColumn, int nbBits);
 
 /**
  *
@@ -79,7 +118,14 @@ long int getNbColumn(matrix_t * m);
  * @param indexRow - The index of the row return
  * @return return a pointer of the first element of row
  */
-int64_t * getRow(matrix_t * m,long int indexRow);
+uint64_t * getRow(matrix_t * m,long int indexRow);
+
+void writeInt64_t(matrix_t * m,long int indexRow,long int indexColumn, uint64_t val);
+
+void writeInt128i(matrix_t * m,long int indexRow,long int indexColumn, __m128i val);
+
+void writeInt256i(matrix_t * m,long int indexRow,long int indexColumn, __m256i val);
+
 
 /**
  *
@@ -90,15 +136,10 @@ int64_t * getRow(matrix_t * m,long int indexRow);
  */
 matrix_t * getBloc(matrix_t * m,long int indexFirstRow,long int indexLastRow);
 
-/**
- *
- * @return a random int64_t
- */
-int64_t random_64();
 
 /**
  *
- * @param m - The Bloc who need to be free
+ * @param m - The Bloc who need to be free, this is not working don't use
  */
 void freeBloc(matrix_t * m);
 
