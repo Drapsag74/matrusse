@@ -100,3 +100,18 @@ uint64_t random_64()
     }
     return __my_little_xoshiro256starstar__next();
 }
+
+void stupidMul(matrix_t * A, matrix_t * B, matrix_t * C)
+{
+    for(int i=0;i<A->m;i++)
+    {
+        for(int j=0;j<B->nbColonneInt;j++)
+        {
+            int64_t s=0;
+            for(int64_t k = 0; k<(A->n); k++){
+                s += (extract(A,i,k,1)*extract(B,k,j,1));
+            }
+            writeInt64_t(C,i,j,s);
+        }
+    }
+}

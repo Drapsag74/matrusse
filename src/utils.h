@@ -20,5 +20,6 @@ void showT(uint64_t * T, uint64_t size, uint64_t k);
 int64_t * createTable(matrix_t * B, int k);
 void progressBar(int k, int n);
 uint64_t random_64();
+void stupidMul(matrix_t * A, matrix_t * B, matrix_t * C);
 
 #endif //MATRUSSE_UTILS_H
