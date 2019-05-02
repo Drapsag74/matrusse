@@ -81,6 +81,7 @@ int main(int argc, char *argv[]) {
                             algo = 2;
                             break;
                     }
+                break;
                 case 'm' :
                     switch (argv[i][2]) {
                         case '1' :
@@ -97,18 +98,37 @@ int main(int argc, char *argv[]) {
                             break;
                         case '4' :
                             algo = 4;
+                            if (argc>5){
+                              blocksize = atoi(argv[5]);
+                            }
                             break;
                         case '5' :
                             algo = 5;
                             if (argc>5){
-                              coeur = atoi(argv[5]);
+                              blocksize = atoi(argv[5]);
                             }
+                    }
+                break;
+                case 't' :
+                    fonction = 3;
+                    if(argc>5){
+                        coeur = atoi(argv[5]);
+                    }
+                    switch (argv[i][2]) {
+                        case '1' :
+                            algo = 1;
+                            break;
+                        case '2' :
+                            algo = 2;
+                            break;
+                        case '3' :
+                            algo = 3;
                             break;
                     }
+                break;
             }
         }
     }
-
         if (algo == 1 & fonction == 1) {
             printf("exec algo 1\n");
             clock_t t = clock();
@@ -136,21 +156,27 @@ int main(int argc, char *argv[]) {
         } else if (algo == 3 & fonction == 2) {
             printf("exec algo matrusse V3 Intrin\n");
             clock_t t = clock();
-            matrusseIntrin(A ,B ,C , k);
+            matrusseIntrin(A,B,C,k);
             clock_t t2 = clock();
             printf("Temps d'exec : %d", (t2 - t));
         } else if (algo == 4 & fonction == 2) {
-            printf("exec algo matrusse V2_2\n");
+            printf("exec algo matrusse Speed of Light\n");
             clock_t t = clock();
-            matrusseV2_2(A,B ,C , k);
+            matrusseV2SpeedOfLight(A,B,C,k,blocksize);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2-t));
+            printf("Temps d'exec : %d", (t2 - t));
         } else if (algo == 5 & fonction == 2) {
-            printf("exec algo matrusse thread\n");
+            printf("exec algo matrusse mémoisation\n");
             clock_t t = clock();
-            matrusseThread(A,B ,C ,k , coeur);
+            matrusseV2_1TestBloc(A,B,C,k,blocksize);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2-t));
+            printf("Temps d'exec : %d", (t2 - t));
+        } else if (fonction == 3) {
+            printf("exec algo threaded\n");
+            clock_t t = clock();
+            matrusseThread(A,B,C,k,coeur,blocksize,algo);
+            clock_t t2 = clock();
+            printf("Temps d'exec : %d", (t2 - t)/coeur);
         }
         free(A->value);
         free(A);
