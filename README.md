@@ -17,7 +17,7 @@ Fast matrix multiplication other GF2 using 4-russians algorithm
 
 ## Execution
 
-* To run the main programm, you have to specify which algorithm you want to try. Then for every algorithm,
+* To run the main program, you have to specify which algorithm you want to try. Then for every algorithm,
 * you have to set the proper number of parameters.
 * -b to run the filltable algorithms
 * -m to run the matrusse algorithms
