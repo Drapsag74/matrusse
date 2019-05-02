@@ -134,49 +134,49 @@ int main(int argc, char *argv[]) {
             clock_t t = clock();
             fillTable(T, A, k);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t));
+            printf("Temps d'exec : %d", (t2 - t)/(CLOCKS_PER_SEC/1000));
         } else if (algo == 2 & fonction == 1) {
             printf("exec algo 2\n");
             clock_t t = clock();
             fillTable2(T, A, k, k);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t));
+            printf("Temps d'exec : %d", (t2 - t)/(CLOCKS_PER_SEC/1000));
         }else if (algo == 1 & fonction == 2) {
             printf("exec algo matrusse V1\n");
             clock_t t = clock();
             matrusseV1(A, B, C, k);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t));
+            printf("Temps d'exec : %d", (t2 - t)/(CLOCKS_PER_SEC/1000));
         } else if (algo == 2 & fonction == 2) {
             printf("exec algo matrusse V2\n");
             clock_t t = clock();
             matrusseV2TestBloc(A ,B ,C ,k ,blocksize);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t));
+            printf("Temps d'exec : %d", (t2 - t)/(CLOCKS_PER_SEC/1000));
         } else if (algo == 3 & fonction == 2) {
             printf("exec algo matrusse V3 Intrin\n");
             clock_t t = clock();
             matrusseIntrin(A,B,C,k);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t));
+            printf("Temps d'exec : %d", (t2 - t)/(CLOCKS_PER_SEC/1000));
         } else if (algo == 4 & fonction == 2) {
             printf("exec algo matrusse Speed of Light\n");
             clock_t t = clock();
             matrusseV2SpeedOfLight(A,B,C,k,blocksize);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t));
+            printf("Temps d'exec : %d", (t2 - t)/(CLOCKS_PER_SEC/1000));
         } else if (algo == 5 & fonction == 2) {
             printf("exec algo matrusse mémoisation\n");
             clock_t t = clock();
             matrusseV2_1TestBloc(A,B,C,k,blocksize);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t));
+            printf("Temps d'exec : %d", (t2 - t)/(CLOCKS_PER_SEC/1000));
         } else if (fonction == 3) {
             printf("exec algo threaded\n");
             clock_t t = clock();
             matrusseThread(A,B,C,k,coeur,blocksize,algo);
             clock_t t2 = clock();
-            printf("Temps d'exec : %d", (t2 - t)/coeur);
+            printf("Temps d'exec : %d", ((t2 - t)/(CLOCKS_PER_SEC/1000))/coeur);
         }
         free(A->value);
         free(A);
