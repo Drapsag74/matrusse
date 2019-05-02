@@ -18,7 +18,7 @@ Fast matrix multiplication other GF2 using 4-russians algorithm
 ## Execution
 
 * To run the main program, you have to specify which algorithm you want to try. Then for every algorithm, you have to set the proper number of parameters.
-* `-b` to run the filltable algorithms
-* `-m` to run the matrusse algorithms
+* `-b` to run the filltable algorithms (1 for 'fillTable', 2 for 'fillTable2')
+* `-m` to run the matrusse algorithms (1 for 'matrusseV1', 2 for 'matrusseV2TestBloc', 3 for 'matrusseIntrin', 4 for 'matrusseV2SpeedOfLight' and 5 for 'matrusseV2_1TestBloc')
 * `-t` to run the thread algorithm (not finished)
 * for example, if you want to do the multiplication of a matrix A (1000x500) with a matrix B (500x1000) with the algorithm "matrusseintrin" and a block of size 8 : `./Matrusse 1000 500 8 -m3`
